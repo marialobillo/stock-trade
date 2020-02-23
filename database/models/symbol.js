@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Symbol.associate = function(models) {
     // associations can be defined here
+    Symbol.hasMany(models.Holding, {
+      foreignKey: 'symbolId',
+      as: 'holdings',
+      onDelete: 'CASCADE',
+    })
   };
   return Symbol;
 };

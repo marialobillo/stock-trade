@@ -7,6 +7,23 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Holding.associate = function(models) {
     // associations can be defined here
+    Holding.hasMany(models.Transaction, {
+      foreignKey: 'holdingId',
+      as: 'transactions',
+      onDelete: 'CASCADE',
+    });
+
+    Holding.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'user',
+      onDelete: 'CASCADE',
+    });
+
+    Holding.belongsTo(models.Symbol, {
+      foreignKey: 'symbolId',
+      as: 'symbol',
+      onDelete: 'CASCADE',
+    })
   };
   return Holding;
 };
