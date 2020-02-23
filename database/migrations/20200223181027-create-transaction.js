@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       holdingId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       typeTransaction: {
         type: Sequelize.STRING
