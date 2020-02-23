@@ -33,10 +33,43 @@ const getUserById = async (req, res) => {
     } catch (error) {
       return res.status(500).send(error.message);
     }
-  }
+}
+
+const updateUser = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const [ updated ] = await models.User.update(req.body, {
+        where: { id: userId }
+      });
+      if (updated) {
+        const updatedUser = await models.User.findOne({ where: { id: userId } });
+        return res.status(200).json({ user: updatedUser });
+      }
+      throw new Error('User not found');
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+}
+
+const deleteUser = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const deleted = await models.User.destroy({
+        where: { id: userId }
+      });
+      if (deleted) {
+        return res.status(204).send("User deleted");
+      }
+      throw new Error("User not found");
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+}
 
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  updateUser,
+  deleteUser,
 }
