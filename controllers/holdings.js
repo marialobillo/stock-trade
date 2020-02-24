@@ -43,7 +43,7 @@ const updateHolding = async (req, res) => {
       });
       if (updated) {
         const updatedHolding = await models.Holding.findOne({ where: { id: holdingId } });
-        return res.status(200).json({ user: updatedHolding });
+        return res.status(200).json({ holding: updatedHolding });
       }
       throw new Error('Holding not found');
     } catch (error) {

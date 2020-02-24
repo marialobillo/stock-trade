@@ -43,7 +43,7 @@ const updateSymbol = async (req, res) => {
       });
       if (updated) {
         const updatedSymbol = await models.Symbol.findOne({ where: { id: symbolId } });
-        return res.status(200).json({ user: updatedSymbol });
+        return res.status(200).json({ symbol: updatedSymbol });
       }
       throw new Error('Symbol not found');
     } catch (error) {
