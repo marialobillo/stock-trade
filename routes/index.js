@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const UserController = require('../controllers/users');
 const SymbolController = require('../controllers/symbols');
+const HoldingController = require('../controllers/holdings');
 
 const router = Router();
 
@@ -17,5 +18,11 @@ router.post('/symbols', SymbolController.createSymbol);
 router.get('/symbols/:symbolId', SymbolController.getSymbolById);
 router.put('/symbols/:symbolId', SymbolController.updateSymbol);
 router.delete('/symbols/:symbolId', SymbolController.deleteSymbol);
+
+router.get('/holdings', HoldingController.getAllHoldings);
+router.post('/holdings', HoldingController.createHolding);
+router.get('/holdings/:holdingId', HoldingController.getHoldingById);
+router.put('/holdings/:holdingId', HoldingController.updateHolding);
+router.delete('/holdings/:holdingId', HoldingController.deleteHolding);
 
 module.exports = router;
