@@ -35,6 +35,21 @@ const getTransactionById = async (req, res) => {
     }
 }
 
+const getTransactionsByHoldingId = async (req, res) => {
+  try {
+    const { holdingId } = req.params;
+    const transactions = await models.Transaction.findAll({
+      where: { holdingId }
+    });
+    if(trasactions){
+      return res.status(200).json({ transactions });
+    }
+    return res.status(404).send('There are no transactions for That Holding Id');
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+}
+
 const updateTransaction = async (req, res) => {
     try {
       const { transactionId } = req.params;
@@ -72,4 +87,5 @@ module.exports = {
   getTransactionById,
   updateTransaction,
   deleteTransaction,
+  getTransactionsByHoldingId,
 }

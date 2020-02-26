@@ -38,5 +38,6 @@ router.post('/transactions', TransactionController.createTransaction);
 router.get('/transactions/:transactionId', TransactionController.getTransactionById);
 router.put('/transactions/:transactionId', TransactionController.updateTransaction);
 router.delete('/transactions/:transactionId', TransactionController.deleteTransaction);
+router.get('transactions/byHolding/:holdingId');
 
 module.exports = router;
