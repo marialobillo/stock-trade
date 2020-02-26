@@ -35,6 +35,22 @@ const getHoldingById = async (req, res) => {
     }
 }
 
+const getActiveHoldingsByUserId = async (req, res) => {
+  try{
+    const { userId } = req.params;
+    const holdings = await models.Holdings.findAll({
+      where: { userId, isActive: true }
+    });
+    if(holdings){
+      return res.status(200).json({holdings});
+    }
+    return res.status(404).send(`Holdings from user ${userId} doesnt exist.`);
+  } catch(error) {
+    return res.status(500).send(error.message);
+  }
+
+}
+
 const updateHolding = async (req, res) => {
     try {
       const { holdingId } = req.params;
@@ -72,4 +88,5 @@ module.exports = {
   getHoldingById,
   updateHolding,
   deleteHolding,
+  getActiveHoldingsByUserId,
 }
