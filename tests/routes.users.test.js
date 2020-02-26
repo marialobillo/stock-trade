@@ -4,7 +4,7 @@ const app = require('../server');
 describe('Users Endpoints', () => {
     it('should create a new user', async () => {
         const res = await request(app)
-            .post('/api/users')
+            .post('/api/users/register')
             .send({
                 name: "Jane",
                 email: 'jane@mail.com',

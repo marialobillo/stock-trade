@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Axios from 'axios';
 
 
 
@@ -6,7 +7,8 @@ export default function Register(){
     const [user, setUser] = useState({
         email: '',
         name: '',
-        password: ''
+        password: '',
+        balance: 10000
     });
 
 
@@ -16,6 +18,19 @@ export default function Register(){
             [event.target.name]: event.target.value
         });
     }
+
+    async function handleSubmit(event){
+        event.preventDefault();
+        const url = 'http://localhost:3300/api/users/register';
+
+        try {
+            console.log(user)
+            const { data } = await Axios.post(url, user);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <div className="register">
 
@@ -23,7 +38,7 @@ export default function Register(){
 
                 <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <h3 className="h3 mb-3 font-weight-normal">Please Register</h3>
-                <form className="form-signin">
+                <form className="form-signin" onSubmit={handleSubmit}>
                 
                     <label>Name</label>
                     <input type="text" 
