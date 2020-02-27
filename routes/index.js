@@ -16,6 +16,7 @@ router.put('/users/:userId', UserController.updateUser);
 router.delete('/users/:userId', UserController.deleteUser);
 
 router.post('/users/login', UserController.loginUser); // Login User
+router.post('/whoami', UserController.whoami); // Checking token exists on http headers
 
 // Symbol routes
 router.get('/symbols', SymbolController.getAllSymbols);
