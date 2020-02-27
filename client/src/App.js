@@ -28,7 +28,6 @@ export default function App() {
         }
         const {data: user} = await Axios.post('http://localhost:3300/api/whoami', datos);
         setUser(user);
-        console.log('Hello');
         setLoadingUser(false);
       } catch (error) {
         console.log(error);

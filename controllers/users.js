@@ -49,12 +49,16 @@ const whoami = async (req, res) => {
   try {
     if (token) {
       const decoded = jwt.verify(token, process.env.SECRET);
-      console.log('DECODED', decoded);
+      const userId = decoded.userId;
+      const user = await models.User.findOne({
+        where: { id: userId }
+      });
+      return res.status(200).json({
+        user,
+        token
+      })
     }
-    return res.status(200).json({
-      saludo: "hola"
-      //token: token//
-    })
+    return res.status(404).send('That User does not exists');
   } catch (error) {
     return res.status(500).send(error.message);
   }
