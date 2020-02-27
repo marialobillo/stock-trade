@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
 
-export default function Login() {
+export default function Login({ login }) {
 
     const [user, setUser] = useState({
         email: '',
@@ -17,13 +16,9 @@ export default function Login() {
 
     async function handleSubmit(event){
         event.preventDefault();
-        const url = 'http://localhost:3300/api/users/login';
 
         try {
-            
-            const { data } = await Axios.post(url, user);
-            let token = data.token;
-            let userLogged = data.user[0];
+            login(user.email, user.password)            
         } catch (error) {
             console.log(error);
         }

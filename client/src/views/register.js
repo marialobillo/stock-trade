@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import Axios from 'axios';
 
 
-
-export default function Register(){
+export default function Register({ register }){
     const [user, setUser] = useState({
         email: '',
         name: '',
@@ -21,18 +19,14 @@ export default function Register(){
 
     async function handleSubmit(event){
         event.preventDefault();
-        const url = 'http://localhost:3300/api/users/register';
 
         try {
-            
-            const { data } = await Axios.post(url, user);
-            let token = data.token;
-            let userLogged = data.user;
+            register(user);
         } catch (error) {
             console.log(error);
         }
     }
-    
+     
     return (
         <div className="register">
 
