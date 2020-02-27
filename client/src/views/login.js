@@ -22,8 +22,8 @@ export default function Login() {
         try {
             
             const { data } = await Axios.post(url, user);
-           // let token = data.token;
-           // let userLogged = data.user;
+            let token = data.token;
+            let userLogged = data.user[0];
         } catch (error) {
             console.log(error);
         }
