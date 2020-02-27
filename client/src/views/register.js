@@ -24,9 +24,10 @@ export default function Register(){
         const url = 'http://localhost:3300/api/users/register';
 
         try {
-            console.log(user)
+            
             const { data } = await Axios.post(url, user);
-            console.log(data);
+            let token = data.token;
+            let userLogged = data.user;
         } catch (error) {
             console.log(error);
         }

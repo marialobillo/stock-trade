@@ -1,10 +1,21 @@
 const models = require('../database/models');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+
 
 const createUser = async (req, res) => {
   try {
     const user = await models.User.create(req.body);
+    console.log('THE USER ID', user.id);
+    let token = jwt.sign({
+      exp: Math.floor(Date.now() / 100) + (60 * 60 * 24),
+      userId: user.id
+    }, process.env.SECRET);
+    console.log('TOKEN  ---> ', token);
     return res.status(201).json({
       user,
+      token
     });
   } catch (error) {
     return res.status(500).json({error: error.message})
