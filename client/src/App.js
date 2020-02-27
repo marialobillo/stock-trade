@@ -3,12 +3,16 @@ import './App.css';
 import Nav from './components/Nav';
 
 import Register from './views/register';
+import Login from './views/login';
+
 
 function App() {
   return (
     <div className="">
       <Nav />
-      <Register />
+
+      {/* <Register /> */}
+      <Login />
     </div>
   );
 }

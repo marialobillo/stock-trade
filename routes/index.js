@@ -9,7 +9,7 @@ const router = Router();
 router.get('/', (req, res) => res.send('Welcome'));
 
 // User routes
-router.post('/users/register', UserController.createUser); // Register User
+router.post('/users/register', UserController.registerUser); // Register User
 router.get('/users', UserController.getAllUsers);
 router.get('/users/:userId', UserController.getUserById);
 router.put('/users/:userId', UserController.updateUser);

@@ -32,6 +32,7 @@ export default function Register(){
             console.log(error);
         }
     }
+    
     return (
         <div className="register">
 

@@ -4,21 +4,34 @@ require('dotenv').config();
 
 
 
-const createUser = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const user = await models.User.create(req.body);
-    console.log('THE USER ID', user.id);
     let token = jwt.sign({
       exp: Math.floor(Date.now() / 100) + (60 * 60 * 24),
       userId: user.id
     }, process.env.SECRET);
-    console.log('TOKEN  ---> ', token);
     return res.status(201).json({
       user,
       token
     });
   } catch (error) {
     return res.status(500).json({error: error.message})
+  }
+}
+
+const getUserForLogin = async (req, res) => {
+  try {
+    const {email, password} = req.body;
+    const user = await models.User.findOne({
+      where: { email, password }
+    });
+    if(user){
+      return res.status(200).json({ user });
+    }
+    return res.status(404).send('Email or Password are incorrect.');
+  } catch (error) {
+    return res.status(500).send(error.message);
   }
 }
 
@@ -46,20 +59,7 @@ const getUserById = async (req, res) => {
     }
 }
 
-const getUserForLogin = async (req, res) => {
-  try {
-    const {email, password} = req.body;
-    const user = await models.User.findOne({
-      where: { email, password }
-    });
-    if(user){
-      return res.status(200).json({ user });
-    }
-    return res.status(404).send('Email or Password are incorrect.');
-  } catch (error) {
-    return res.status(500).send(error.message);
-  }
-}
+
 
 const updateUser = async (req, res) => {
     try {
@@ -93,7 +93,7 @@ const deleteUser = async (req, res) => {
 }
 
 module.exports = {
-  createUser,
+  registerUser,
   getAllUsers,
   getUserById,
   updateUser,
