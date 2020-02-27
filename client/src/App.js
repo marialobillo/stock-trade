@@ -6,6 +6,7 @@ import Axios from 'axios';
 import {setToken, deleteToken, getToken, initAxiosInterceptors} from './helpers/auth-helpers';
 import Register from './views/register';
 import Login from './views/login';
+import Loading from './components/loading';
 
 initAxiosInterceptors();
 
@@ -54,6 +55,14 @@ export default function App() {
   function logout(){
     setUser(null);
     deleteToken();
+  }
+
+  if(loadingUser){
+    return (
+      <div className="loading">
+        <Loading />
+      </div>
+    )
   }
 
   return (

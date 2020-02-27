@@ -7,6 +7,7 @@ export function setToken(token){
 }
 
 export function getToken(){
+    // verify token - TODO
     return localStorage.getItem(TOKEN_KEY);
 }
 
