@@ -17,11 +17,11 @@ export default function App() {
 
   useEffect(() => {
     async function loadUser() {
-      if (!getToken) {
+      if (!getToken !== null) {
         setLoadingUser(false);
         return;
       }
-
+      console.log(getToken())
       try {
         let token = getToken();
 
@@ -69,14 +69,21 @@ export default function App() {
   return (
     <Router>
       <Nav />
-      <LogoutRoutes login={login} register={register} />
-      <div>{JSON.stringify(user)}</div>
+      {user ? <LoginRoutes /> : <LogoutRoutes login={login} register={register} />}
     </Router>
   );
 }
 
 function LoginRoutes() {
-
+  return (
+    <Switch>
+      <Route
+        path="/"
+        component={() => <div><h1>I am the holding</h1></div>} 
+        default
+      />
+    </Switch>
+  );
 }
 
 function LogoutRoutes({ login, register }) {
