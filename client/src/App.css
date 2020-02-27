@@ -1,5 +1,5 @@
-.register{
-  padding-top: 50px;
+.register, .login{
+  padding: 90px 2%;
 }
 
 .loading{

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import {Link} from 'react-router-dom';
 export default function Login({ login }) {
 
     const [user, setUser] = useState({
@@ -51,7 +51,7 @@ export default function Login({ login }) {
                             Login</button>
                         <p className="mt-5 mb-3 text-muted">© 2020</p>
                         <p className="">
-                            <a href="/register">Create an account</a></p>
+                            <Link to="/register">Create an account</Link></p>
                     </form>
 
                 </div>

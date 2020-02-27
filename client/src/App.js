@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Nav from './components/Nav';
 import Axios from 'axios';
 
-import {setToken, deleteToken, getToken, initAxiosInterceptors} from './helpers/auth-helpers';
+import { setToken, deleteToken, getToken, initAxiosInterceptors } from './helpers/auth-helpers';
 import Register from './views/register';
 import Login from './views/login';
 import Loading from './components/loading';
@@ -15,19 +16,19 @@ export default function App() {
   const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
-    async function loadUser(){
-      if(!getToken){
+    async function loadUser() {
+      if (!getToken) {
         setLoadingUser(false);
         return;
       }
-  
+
       try {
         let token = getToken();
-        
+
         let datos = {
           token: token
         }
-        const {data: user} = await Axios.post('http://localhost:3300/api/whoami', datos);
+        const { data: user } = await Axios.post('http://localhost:3300/api/whoami', datos);
         setUser(user);
         setLoadingUser(false);
       } catch (error) {
@@ -38,26 +39,26 @@ export default function App() {
     loadUser();
   }, []);
 
-  async function login(email, password){
+  async function login(email, password) {
     const url = 'http://localhost:3300/api/users/login';
-    const { data } = await Axios.post(url, {email, password});
+    const { data } = await Axios.post(url, { email, password });
     setUser(data.user[0]);
     setToken(data.token);
   }
 
-  async function register(user){
+  async function register(user) {
     const url = 'http://localhost:3300/api/users/register';
     const { data } = await Axios.post(url, user);
     setUser(data.user);
     setToken(data.token);
   }
 
-  function logout(){
+  function logout() {
     setUser(null);
     deleteToken();
   }
 
-  if(loadingUser){
+  if (loadingUser) {
     return (
       <div className="loading">
         <Loading />
@@ -66,13 +67,30 @@ export default function App() {
   }
 
   return (
-    <div className="">
+    <Router>
       <Nav />
+      <LogoutRoutes login={login} register={register} />
+      <div>{JSON.stringify(user)}</div>
+    </Router>
+  );
+}
 
-      {/* <Register register={register} /> */}
-      <Login login={login} />
-  <div>{JSON.stringify(user)}</div>
-    </div>
+function LoginRoutes() {
+
+}
+
+function LogoutRoutes({ login, register }) {
+  return (
+    <Switch>
+      <Route
+        path="/login/"
+        render={(props) => <Login {...props} login={login} />}
+      />
+      <Route
+        default
+        render={(props) => <Register {...props} register={register} />}
+      />
+    </Switch>
   );
 }
 
