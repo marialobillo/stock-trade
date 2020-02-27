@@ -15,7 +15,7 @@ router.get('/users/:userId', UserController.getUserById);
 router.put('/users/:userId', UserController.updateUser);
 router.delete('/users/:userId', UserController.deleteUser);
 
-router.get('/users/login', UserController.getUserForLogin); // Login User
+router.post('/users/login', UserController.loginUser); // Login User
 
 // Symbol routes
 router.get('/symbols', SymbolController.getAllSymbols);
