@@ -7,8 +7,10 @@ import Axios from 'axios';
 import { setToken, deleteToken, getToken, initAxiosInterceptors } from './helpers/auth-helpers';
 import Register from './views/register';
 import Login from './views/login';
+import Dashboard from './views/dashboard';
 import Loading from './components/loading';
 import Error from './components/error';
+import dashboard from './views/dashboard';
 
 initAxiosInterceptors();
 
@@ -78,7 +80,7 @@ export default function App() {
 
   return (
     <Router>
-      <Nav />
+      <Nav logout={logout} />
       <Error message={error} hideError={hideError}/>
       {user ? <LoginRoutes /> : <LogoutRoutes login={login} register={register} showError={showError}/>}
     </Router>
@@ -90,7 +92,7 @@ function LoginRoutes() {
     <Switch>
       <Route
         path="/"
-        component={() => <div><h1>I am the holding</h1></div>} 
+        component={dashboard} 
         default
       />
     </Switch>
