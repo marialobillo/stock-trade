@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 
-export default function Login({ login }) {
+export default function Login({ login, showError }) {
 
     const [user, setUser] = useState({
         email: '',
@@ -19,8 +19,9 @@ export default function Login({ login }) {
         event.preventDefault();
 
         try {
-            login(user.email, user.password)            
+            await login(user.email, user.password)            
         } catch (error) {
+            showError(error.response.data);
             console.log(error);
         }
     }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Register({ register }) {
+export default function Register({ register, showError }) {
     const [user, setUser] = useState({
         email: '',
         name: '',
