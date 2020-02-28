@@ -10,7 +10,7 @@ import Login from './views/login';
 import Dashboard from './views/dashboard';
 import Loading from './components/loading';
 import Error from './components/error';
-import dashboard from './views/dashboard';
+
 
 initAxiosInterceptors();
 
@@ -82,19 +82,19 @@ export default function App() {
     <Router>
       <Nav logout={logout} />
       <Error message={error} hideError={hideError}/>
-      {user ? <LoginRoutes /> : <LogoutRoutes login={login} register={register} showError={showError}/>}
+      {user ? <LoginRoutes user={user}/> : <LogoutRoutes login={login} register={register} showError={showError}/>}
     </Router>
   );
 }
 
-function LoginRoutes() {
+function LoginRoutes({user}) {
   return (
     <Switch>
       <Route
-        path="/"
-        component={dashboard} 
+        render={(props) => <Dashboard {...props} user={user} />} 
         default
       />
+      
     </Switch>
   );
 }

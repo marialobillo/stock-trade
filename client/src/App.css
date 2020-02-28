@@ -5,3 +5,7 @@
 .loading{
   margin: 20%;
 }
+
+body{
+  background-image: url('./images/trading-3.jpeg');
+}

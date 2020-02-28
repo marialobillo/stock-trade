@@ -27,12 +27,12 @@ export default function Login({ login, showError }) {
     }
 
     return (
-        <div className="login">
+        <div className="card">
 
-            <div className="row">
+            <div className="card-body">
 
                 <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                    <h3 className="h3 mb-3 font-weight-normal">Please Login</h3>
+                    <h3 className="h3 mb-3 font-weight-normal card-title">Please Login</h3>
                     <form className="form-signin" onSubmit={handleSubmit}>
 
                         <label>Email</label>
