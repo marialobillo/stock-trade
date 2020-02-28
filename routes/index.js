@@ -28,10 +28,10 @@ router.delete('/symbols/:symbolId', SymbolController.deleteSymbol);
 // Holding routes
 router.get('/holdings', HoldingController.getAllHoldings);
 router.post('/holdings', HoldingController.createHolding); // Buy a Holding
-router.get('/holdings/:holdingId', HoldingController.getHoldingById);
+router.get('/holdings/:holdingId', HoldingController.getHoldingById);  
 router.put('/holdings/:holdingId', HoldingController.updateHolding);
 router.delete('/holdings/:holdingId', HoldingController.deleteHolding);
-router.get('/holdings/active/:userId', HoldingController.getActiveHoldingsByUserId);
+router.get('/holdings/active/:userId', HoldingController.getActiveHoldingsByUserId); // by userId
 
 // Transactions routes
 router.get('/transactions', TransactionController.getAllTransactions);

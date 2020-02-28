@@ -35,6 +35,7 @@ export default function App() {
         const { data: user } = await Axios.post('http://localhost:3300/api/whoami', datos);
         setUser(user);
         setLoadingUser(false);
+        getSymbols();
       } catch (error) {
         console.log(error);
       }
@@ -78,11 +79,25 @@ export default function App() {
     )
   }
 
+  async function getSymbols(){
+    if(true){
+      const url = 'http://localhost:3300/api/symbols';
+      try {
+        const data = await Axios.get(url);
+        console.log('Lo que llega de symbols', data);
+        //setSymbols(symbols);
+      } catch (error) {
+        console.log(error.message);
+      }        
+    }
+
+  }
+
   return (
     <Router>
       <Nav logout={logout} />
       <Error message={error} hideError={hideError}/>
-      {user ? <LoginRoutes user={user}/> : <LogoutRoutes login={login} register={register} showError={showError}/>}
+      {user ? <LoginRoutes user={user}/> : <LogoutRoutes login={login} register={register} showError={showError} />}
     </Router>
   );
 }
@@ -104,7 +119,7 @@ function LogoutRoutes({ login, register, showError }) {
     <Switch>
       <Route
         path="/login/"
-        render={(props) => <Login {...props} login={login} showError={showError}/>}
+        render={(props) => <Login {...props} login={login} showError={showError} />}
       />
       <Route
         default

@@ -38,8 +38,8 @@ const getHoldingById = async (req, res) => {
 const getActiveHoldingsByUserId = async (req, res) => {
   try{
     const { userId } = req.params;
-    const holdings = await models.Holdings.findAll({
-      where: { userId, isActive: true }
+    const holdings = await models.Holding.findAll({
+      where: { userId: userId, isActive: true }
     });
     if(holdings){
       return res.status(200).json({holdings});
