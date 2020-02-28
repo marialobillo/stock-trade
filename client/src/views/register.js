@@ -21,8 +21,9 @@ export default function Register({ register, showError }) {
         event.preventDefault();
 
         try {
-            register(user);
+            await register(user);
         } catch (error) {
+            showError(error.response.data);
             console.log(error);
         }
     }
