@@ -8,12 +8,14 @@ import { setToken, deleteToken, getToken, initAxiosInterceptors } from './helper
 import Register from './views/register';
 import Login from './views/login';
 import Loading from './components/loading';
+import Error from './components/error';
 
 initAxiosInterceptors();
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function loadUser() {
@@ -58,6 +60,14 @@ export default function App() {
     deleteToken();
   }
 
+  function showError(message){
+    setError(message);
+  }
+
+  function hideError(){
+    setError(null);
+  }
+
   if (loadingUser) {
     return (
       <div className="loading">
@@ -69,7 +79,8 @@ export default function App() {
   return (
     <Router>
       <Nav />
-      {user ? <LoginRoutes /> : <LogoutRoutes login={login} register={register} />}
+      <Error message={error} hideError={hideError}/>
+      {user ? <LoginRoutes /> : <LogoutRoutes login={login} register={register} showError={showError}/>}
     </Router>
   );
 }
@@ -86,16 +97,16 @@ function LoginRoutes() {
   );
 }
 
-function LogoutRoutes({ login, register }) {
+function LogoutRoutes({ login, register, showError }) {
   return (
     <Switch>
       <Route
         path="/login/"
-        render={(props) => <Login {...props} login={login} />}
+        render={(props) => <Login {...props} login={login} showError={showError}/>}
       />
       <Route
         default
-        render={(props) => <Register {...props} register={register} />}
+        render={(props) => <Register {...props} register={register} showError={showError}/>}
       />
     </Switch>
   );
