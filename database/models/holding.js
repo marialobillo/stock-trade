@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Holding.associate = function(models) {
     // associations can be defined here
+    Holding.belongsTo(models.User, {
+      foreignKey: 'userId',
+      as: 'User',
+      onDelete: 'CASCADE',
+    });
   };
   return Holding;
 };
