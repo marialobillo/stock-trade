@@ -29,9 +29,9 @@ export default function Register({ register, showError }) {
     }
 
     return (
-        <div className="register">
+        <div className="card">
 
-            <div className="row">
+            <div className="card-body">
 
                 <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
                     <h3 className="h3 mb-3 font-weight-normal">Please Register</h3>

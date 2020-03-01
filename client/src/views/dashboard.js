@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import Error from './../components/error';
+require('dotenv').config();
 
 export default function Dashboard({ user }) {
     const [holdings, setHoldings] = useState([]);
@@ -8,6 +9,12 @@ export default function Dashboard({ user }) {
 
 
     useEffect(() => {
+
+        // const sym = 'TSLA';
+        // const token = 'Tpk_0220e2de4b494482a13bb0309fe7449e';
+        console.log(process.env.TOKEN_IEX);
+        // let url = `https://sandbox.iexapis.com/stable/stock/${sym}/intraday-prices?token=${token}&chartLast=10`;
+        
         async function loadInfo() {
 
             const url_holdings = `http://localhost:3300/api/holdings/${user.id}`;
