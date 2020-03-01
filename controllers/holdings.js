@@ -33,6 +33,21 @@ const getHoldingsByUser = async (req, res) => {
     }
 }
 
+const getHoldingById = async (req, res) => {
+    try {
+        const { holdingId } = req.params;
+        const holding = await models.Holding.findOne({
+            where: { id: holdingId}
+        });
+        if(holding){
+            return res.status(200).json({ holding });
+        }
+        return res.status(404).send('Holding with the specified ID does not exists');
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
 const updateHolding = async (req, res) => {
     try {
         const { holdingId } = req.params;
@@ -41,7 +56,7 @@ const updateHolding = async (req, res) => {
         });
         if(updated){
             const updatedHolding = await models.Holding.findOne({ where: {id: holdingId }});
-            return res.status(200).json({ holding: updateHolding }); 
+            return res.status(200).json({ holding: updatedHolding }); 
         }
         throw new Error('Holding not found');
     } catch (error) {
@@ -69,5 +84,6 @@ module.exports = {
     updateHolding,
     getHoldingsByUser,
     getAllHoldings,
-    createHolding
+    createHolding,
+    getHoldingById
 }

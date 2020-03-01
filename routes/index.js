@@ -20,6 +20,7 @@ router.post('/whoami', UserController.whoami); // Checking token exists on http 
 router.post('/holdings', HoldingController.createHolding);
 router.get('/holdings', HoldingController.getAllHoldings);
 router.get('/holdings/:userId', HoldingController.getHoldingsByUser);
+router.get('/holdings/byId/:holdingId', HoldingController.getHoldingById);
 router.put('/holdings/:holdingId', HoldingController.updateHolding);
 router.delete('/holdings/:holdingId', HoldingController.deleteHolding);
 
