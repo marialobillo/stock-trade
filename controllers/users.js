@@ -5,6 +5,13 @@ require('dotenv').config();
 
 const registerUser = async (req, res) => {
   try {
+    const {email} = req.body;
+    const checkUser = await models.User.findOne({
+      where: { email }
+    });
+    if(checkUser !== ''){
+      return res.status(409).json({message: 'That email already exists.'});
+    }
     const user = await models.User.create(req.body);
     let token = jwt.sign({
       exp: Math.floor(Date.now() / 100) + (60 * 60 * 24),
