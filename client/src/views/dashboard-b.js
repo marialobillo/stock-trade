@@ -6,19 +6,30 @@ require('dotenv').config();
 export default function Dashboard({ user }) {
     const [holdings, setHoldings] = useState([]);
     const [error, setError] = useState(null);
+    const [symbols, setSymbols] = useState([]);
 
 
     useEffect(() => {
 
         // const sym = 'TSLA';
         // const token = 'Tpk_0220e2de4b494482a13bb0309fe7449e';
-        console.log(process.env.TOKEN_IEX);
+       // console.log(process.env.TOKEN_IEX);
         // let url = `https://sandbox.iexapis.com/stable/stock/${sym}/intraday-prices?token=${token}&chartLast=10`;
-        
+        // let url = `https://sandbox.iexapis.com/stable/stock/intraday-prices?token=Tpk_0220e2de4b494482a13bb0309fe7449e&symbols=fb,aapl&chartLast=5`;
+        //https://sandbox.iexapis.com/v1/stock/market/batch?types=chart,splits,news&symbols=aapl,goog,fb&range=5y%20&token=Tpk_0220e2de4b494482a13bb0309fe7449e
         async function loadInfo() {
 
             const url_holdings = `http://localhost:3300/api/holdings/${user.id}`;
             try {
+                // Get Symbols
+                // const symbols = 'aapl,fb,goog,tsla,amzn,nflx';
+                // const token = 'Tpk_0220e2de4b494482a13bb0309fe7449e';
+                // const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=quote&filter=latestPrice&token=${token}`
+                // const { data } = await Axios.get(iex_url)
+                // console.log(data);
+                // setSymbols(data);
+
+                // Get Holdings
                 const data_holdings = await Axios.get(url_holdings);
                 const loadedHoldings = data_holdings.data.holdings;
                 setHoldings(loadedHoldings);
@@ -31,9 +42,6 @@ export default function Dashboard({ user }) {
         loadInfo();
     }, []);
 
-    function showError(message) {
-        setError(message);
-    }
 
     function hideError() {
         setError(null);
@@ -56,8 +64,8 @@ export default function Dashboard({ user }) {
     return (
         <div className="container">
             <Error message={error} hideError={hideError} />
-            <div className="card">
-                <span>Welcome {user.name} to your DashBoard!!!</span>
+            <div className="card jumbotron">
+                <h3>Welcome {user.name} to your DashBoard!!!</h3>
             </div>
 
             <div className="row">
