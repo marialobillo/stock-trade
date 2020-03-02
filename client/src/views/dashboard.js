@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import Axios from 'axios';
-//import Error from './../components/error';
 
 require('dotenv').config();
 
@@ -9,7 +8,8 @@ class Dashboard extends PureComponent{
     constructor(props){
         super(props);
         this.state = {
-            holdings: []
+            holdings: [],
+            symbols: []
         }
     }
 
@@ -18,6 +18,8 @@ class Dashboard extends PureComponent{
     }
 
     loadInfo = async (user) => {
+
+        console.log('------LOAD INFO FUNCTION ----', process.env.TOKEN_IEX);
 
         const url_holdings = `http://localhost:3300/api/holdings/${user.id}`;
         try {
@@ -35,10 +37,13 @@ class Dashboard extends PureComponent{
     }
 
 
-    handleUpdate = async (holding) => {
+
+    async updateHolding(holding){
+        console.log('--------ESTAMOS EN EL UPDATE HOLDING  -------');
+        // get the priceSell
 
         holding['priceSell'] = null;
-        holding['isActive'] = true;
+        holding['isActive'] = false;
         holding['dateSell'] = new Date().toISOString().slice(0, 10);
 
         try {
@@ -47,9 +52,11 @@ class Dashboard extends PureComponent{
         } catch (error) {
             console.log(error.message)
         }
-
     }
 
+    handleUpdate = holding => {
+        this.updateHolding(holding);
+    }
 
     render(){
         const {user} = this.props;
@@ -80,9 +87,11 @@ class Dashboard extends PureComponent{
                                 <td>{holding.priceBuy}</td>
                                 <td>{holding.dateBuy}</td>
                                 <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
-                                <td><span className="btn btn-danger" onClick={() => handleUpdate(holding)}>Sell</span></td>
-                            </tr>))}
-                    </tbody>
+                                <td><span className="btn btn-danger" onClick={() => this.handleUpdate(holding)}>Sell</span></td>
+                            </tr>
+                           
+                            ))}
+                        </tbody>
                 </table>
             </div>
         </div>
