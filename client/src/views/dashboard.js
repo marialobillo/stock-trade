@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import Axios from 'axios';
 
 
 
-class Dashboard extends PureComponent{
+class Dashboard extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -20,24 +20,23 @@ class Dashboard extends PureComponent{
 
         const symbols_url = 'http://localhost:3300/api/symbols';
         const holdings_url = `http://localhost:3300/api/holdings/${user.id}`;
-        const symbolLoaded = [];
+        const LoadedSymbols = [];
 
         try {
             const {data} = await Axios.get(symbols_url);
-            console.log('BEFORE ---->',data);
             
-            symbolLoaded['AAPL'] = data.AAPL.quote.latestPrice;
-            symbolLoaded['FB'] = data.FB.quote.latestPrice;
-            symbolLoaded['TSLA'] = data.TSLA.latestPrice;
-            symbolLoaded['NFLX'] = data.NFLX.latestPrice;
+            LoadedSymbols['AAPL'] = data.AAPL.quote.latestPrice;
+            LoadedSymbols['FB'] = data.FB.quote.latestPrice;
+            LoadedSymbols['TSLA'] = data.TSLA.latestPrice;
+            LoadedSymbols['NFLX'] = data.NFLX.latestPrice;
 
             this.setState({
-                symbols: symbolLoaded
+                symbols: LoadedSymbols
             })
         } catch (error) {
             console.log(error.message);
         }
-        
+
         try {
            
             // Get Holdings
@@ -64,6 +63,7 @@ class Dashboard extends PureComponent{
         try {
             const url = `http://localhost:3300/api/holdings/${holding.id}`;
             const { data } = await Axios.put(url, holding);
+           
         } catch (error) {
             console.log(error.message)
         }
@@ -102,7 +102,8 @@ class Dashboard extends PureComponent{
                                 <td>{holding.priceBuy}</td>
                                 <td>{holding.dateBuy}</td>
                                 <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
-                                <td><span className="btn btn-danger" onClick={() => this.handleUpdate(holding)}>Sell</span></td>
+                                <td><span className="btn btn-info" 
+                                onClick={() => this.handleUpdate(holding)}>Sell Holding</span></td>
                             </tr>
                            
                             ))}
