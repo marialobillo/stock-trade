@@ -3,16 +3,17 @@ import Axios from 'axios';
 
 
 
-class Dashboard extends Component{
-    constructor(props){
+class Dashboard extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             holdings: [],
-            symbols: []
+            symbols: [],
+            showPopup: false
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.loadInfo(this.props.user);
     }
 
@@ -23,12 +24,19 @@ class Dashboard extends Component{
         const LoadedSymbols = [];
 
         try {
-            const {data} = await Axios.get(symbols_url);
-            
-            LoadedSymbols['AAPL'] = data.AAPL.quote.latestPrice;
-            LoadedSymbols['FB'] = data.FB.quote.latestPrice;
-            LoadedSymbols['TSLA'] = data.TSLA.latestPrice;
-            LoadedSymbols['NFLX'] = data.NFLX.latestPrice;
+            const { data } = await Axios.get(symbols_url);
+
+            LoadedSymbols[0].symbol = 'AAPL';
+            LoadedSymbols[0].latestPrice = data.AAPL.quote.latestPrice;
+
+            LoadedSymbols[1].symbol = 'FB';
+            LoadedSymbols[1].latestPrice = data.FB.quote.latestPrice;
+
+            LoadedSymbols[2].symbol = 'TSLA';
+            LoadedSymbols[2].latestPrice = data.TSLA.quote.latestPrice;
+
+            LoadedSymbols[0].symbol = 'NFLX';
+            LoadedSymbols[0].latestPrice = data.NFLX.quote.latestPrice;
 
             this.setState({
                 symbols: LoadedSymbols
@@ -38,7 +46,7 @@ class Dashboard extends Component{
         }
 
         try {
-           
+
             // Get Holdings
             const data_holdings = await Axios.get(holdings_url);
             const loadedHoldings = data_holdings.data.holdings;
@@ -53,7 +61,7 @@ class Dashboard extends Component{
 
 
 
-    async updateHolding(holding){
+    async updateHolding(holding) {
         // get the priceSell
 
         holding['priceSell'] = null;
@@ -63,7 +71,7 @@ class Dashboard extends Component{
         try {
             const url = `http://localhost:3300/api/holdings/${holding.id}`;
             const { data } = await Axios.put(url, holding);
-           
+
         } catch (error) {
             console.log(error.message)
         }
@@ -73,44 +81,61 @@ class Dashboard extends Component{
         this.updateHolding(holding);
     }
 
-    render(){
-        const {user} = this.props;
+    togglePopup() {
+        this.setState({
+            showPopup: !this.state.showPopup
+        });
+    }
+
+
+    render() {
+        const { user } = this.props;
         return (
             <div className="container">
-            
-            <div className="card jumbotron">
-                <h3>Welcome {user.name} to your DashBoard!!!</h3>
-            </div>
 
-            <div className="row">
-                <table className="table table-dark">
-                    <thead className="thead-dark">
-                        <tr>
-                            <th>Company</th>
-                            <th>Shares</th>
-                            <th>Price Buy</th>
-                            <th>Date Buy</th>
-                            <th>Is Active</th>
-                            <th>Options</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.holdings.map(holding => (
-                            <tr key={holding.id}>
-                                <td>{holding.company}</td>
-                                <td>{holding.shares}</td>
-                                <td>{holding.priceBuy}</td>
-                                <td>{holding.dateBuy}</td>
-                                <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
-                                <td><span className="btn btn-info" 
-                                onClick={() => this.handleUpdate(holding)}>Sell Holding</span></td>
+                <div className="card jumbotron">
+                    <h3>Welcome {user.name} to your DashBoard!!!</h3>
+
+                </div>
+
+                <div className="row">
+                    <h4>Buy a new Holding</h4>
+                   <form className="form">
+                        <select name="symbol">
+
+                        </select>
+                    </form>
+                </div>
+
+                <div className="row">
+                    <table className="table table-dark">
+                        <thead className="thead-dark">
+                            <tr>
+                                <th>Company</th>
+                                <th>Shares</th>
+                                <th>Price Buy</th>
+                                <th>Date Buy</th>
+                                <th>Is Active</th>
+                                <th>Options</th>
                             </tr>
-                           
+                        </thead>
+                        <tbody>
+                            {this.state.holdings.map(holding => (
+                                <tr key={holding.id}>
+                                    <td>{holding.company}</td>
+                                    <td>{holding.shares}</td>
+                                    <td>{holding.priceBuy}</td>
+                                    <td>{holding.dateBuy}</td>
+                                    <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
+                                    <td><span className="btn btn-info"
+                                        onClick={() => this.handleUpdate(holding)}>Sell Holding</span></td>
+                                </tr>
+
                             ))}
                         </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
-        </div>
         );
     }
 }
