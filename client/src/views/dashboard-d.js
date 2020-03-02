@@ -8,7 +8,7 @@ export default function Dashboard({ user }) {
     const [error, setError] = useState(null);
     const [symbols, setSymbols] = useState([]);
 
-
+   
     useEffect(() => {
 
         // const sym = 'TSLA';
@@ -21,14 +21,7 @@ export default function Dashboard({ user }) {
 
             const url_holdings = `http://localhost:3300/api/holdings/${user.id}`;
             try {
-                // Get Symbols
-                // const symbols = 'aapl,fb,goog,tsla,amzn,nflx';
-                // const token = 'Tpk_0220e2de4b494482a13bb0309fe7449e';
-                // const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=quote&filter=latestPrice&token=${token}`
-                // const { data } = await Axios.get(iex_url)
-                // console.log(data);
-                // setSymbols(data);
-
+                
                 // Get Holdings
                 const data_holdings = await Axios.get(url_holdings);
                 const loadedHoldings = data_holdings.data.holdings;
@@ -49,8 +42,8 @@ export default function Dashboard({ user }) {
 
     async function handleUpdate(holding) {
 
-        holding['priceSell'] = 340.55;
-        holding['isActive'] = false;
+        holding['priceSell'] = null;
+        holding['isActive'] = true;
         holding['dateSell'] = new Date().toISOString().slice(0, 10);
 
         try {

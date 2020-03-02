@@ -21,7 +21,7 @@ export default function Login({ login, showError , getSymbols}) {
         try {
             await login(user.email, user.password)            
         } catch (error) {
-            showError(error.response.data);
+            //showError(error.response.data);
             console.log(error);
         }
     }
