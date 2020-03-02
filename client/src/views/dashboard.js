@@ -20,17 +20,24 @@ class Dashboard extends PureComponent{
 
         const symbols_url = 'http://localhost:3300/api/symbols';
         const holdings_url = `http://localhost:3300/api/holdings/${user.id}`;
+        const symbolLoaded = [];
 
         try {
             const {data} = await Axios.get(symbols_url);
             console.log('BEFORE ---->',data);
+            
+            symbolLoaded['AAPL'] = data.AAPL.quote.latestPrice;
+            symbolLoaded['FB'] = data.FB.quote.latestPrice;
+            symbolLoaded['TSLA'] = data.TSLA.latestPrice;
+            symbolLoaded['NFLX'] = data.NFLX.latestPrice;
+
             this.setState({
-                symbols: data
+                symbols: symbolLoaded
             })
         } catch (error) {
             console.log(error.message);
         }
-        console.log('------EN ES STATE------',this.state.symbols.AAPL.quote.latestPrice);
+        
         try {
            
             // Get Holdings
