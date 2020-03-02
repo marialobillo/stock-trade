@@ -18,16 +18,23 @@ class Dashboard extends PureComponent{
 
     loadInfo = async (user) => {
 
-        const iex_token = 'Tpk_0220e2de4b494482a13bb0309fe7449e';
-        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,msft&types=quote&filter=latestPrice&token=${iex_token}`;
-        const url_holdings = `http://localhost:3300/api/holdings/${user.id}`;
+        const symbols_url = 'http://localhost:3300/api/symbols';
+        const holdings_url = `http://localhost:3300/api/holdings/${user.id}`;
 
-        
-
+        try {
+            const {data} = await Axios.get(symbols_url);
+            console.log('BEFORE ---->',data);
+            this.setState({
+                symbols: data
+            })
+        } catch (error) {
+            console.log(error.message);
+        }
+        console.log('------EN ES STATE------',this.state.symbols.AAPL.quote.latestPrice);
         try {
            
             // Get Holdings
-            const data_holdings = await Axios.get(url_holdings);
+            const data_holdings = await Axios.get(holdings_url);
             const loadedHoldings = data_holdings.data.holdings;
             this.setState({
                 holdings: loadedHoldings
