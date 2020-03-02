@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import Axios from 'axios';
 
-require('dotenv').config();
 
 
 class Dashboard extends PureComponent{
@@ -19,11 +18,14 @@ class Dashboard extends PureComponent{
 
     loadInfo = async (user) => {
 
-        console.log('------LOAD INFO FUNCTION ----', process.env.TOKEN_IEX);
-
+        const iex_token = 'Tpk_0220e2de4b494482a13bb0309fe7449e';
+        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,msft&types=quote&filter=latestPrice&token=${iex_token}`;
         const url_holdings = `http://localhost:3300/api/holdings/${user.id}`;
+
+        
+
         try {
-            
+           
             // Get Holdings
             const data_holdings = await Axios.get(url_holdings);
             const loadedHoldings = data_holdings.data.holdings;
@@ -39,7 +41,6 @@ class Dashboard extends PureComponent{
 
 
     async updateHolding(holding){
-        console.log('--------ESTAMOS EN EL UPDATE HOLDING  -------');
         // get the priceSell
 
         holding['priceSell'] = null;

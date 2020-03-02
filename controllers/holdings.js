@@ -1,5 +1,6 @@
 const models = require('../database/models');
 require('dotenv').config();
+const Axios = require('axios');
 
 const createHolding = async (req, res) => {
     try {
@@ -79,11 +80,25 @@ const deleteHolding = async (req, res) => {
     }
 }
 
+const getSymbols = async (req, res) => {
+    try {
+        const iex_token = process.env.iex_token;
+        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,fb,tsla,nflx&types=quote&filter=latestPrice&token=${iex_token}`;
+        //https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,ebay,fb&types=quote&filter=latestPrice&token=Tpk_0220e2de4b494482a13bb0309fe7449e
+        const {data} = await Axios.get(iex_url);
+        console.log('----- Ahi van los quoetes ',data);
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
 module.exports = {
     deleteHolding,
     updateHolding,
     getHoldingsByUser,
     getAllHoldings,
     createHolding,
-    getHoldingById
+    getHoldingById,
+    getSymbols
 }

@@ -16,7 +16,8 @@ export default function Dashboard({ user }) {
        // console.log(process.env.TOKEN_IEX);
         // let url = `https://sandbox.iexapis.com/stable/stock/${sym}/intraday-prices?token=${token}&chartLast=10`;
         // let url = `https://sandbox.iexapis.com/stable/stock/intraday-prices?token=Tpk_0220e2de4b494482a13bb0309fe7449e&symbols=fb,aapl&chartLast=5`;
-        //https://sandbox.iexapis.com/v1/stock/market/batch?types=chart,splits,news&symbols=aapl,goog,fb&range=5y%20&token=Tpk_0220e2de4b494482a13bb0309fe7449e
+        //https://sandbox.iexapis.com/v1/stock/market/batch?types=quote&symbols=aapl,goog,fb&range=5y%20&token=Tpk_0220e2de4b494482a13bb0309fe7449e
+        https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,msft&types=quote&filter=latestPrice&token=Tpk_0220e2de4b494482a13bb0309fe7449e
         async function loadInfo() {
 
             const url_holdings = `http://localhost:3300/api/holdings/${user.id}`;

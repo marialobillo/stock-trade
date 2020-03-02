@@ -24,4 +24,6 @@ router.get('/holdings/byId/:holdingId', HoldingController.getHoldingById);
 router.put('/holdings/:holdingId', HoldingController.updateHolding);
 router.delete('/holdings/:holdingId', HoldingController.deleteHolding);
 
+router.get('/symbols', HoldingController.getSymbols);
+
 module.exports = router;
