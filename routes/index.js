@@ -17,12 +17,14 @@ router.post('/login', UserController.loginUser); // Login User
 router.post('/whoami', UserController.whoami); // Checking token exists on http headers
 
 // Holdings routes
-router.post('/holdings', HoldingController.createHolding);
+router.post('/holdings', HoldingController.createHolding);  // New Holding (shares, symbol)
 router.get('/holdings', HoldingController.getAllHoldings);
 router.get('/holdings/:userId', HoldingController.getHoldingsByUser);
 router.get('/holdings/byId/:holdingId', HoldingController.getHoldingById);
 router.put('/holdings/:holdingId', HoldingController.updateHolding);
 router.delete('/holdings/:holdingId', HoldingController.deleteHolding);
+
+router.get('/price/:symbol', HoldingController.getStockPrice);
 
 router.get('/symbols', HoldingController.getSymbols);
 
