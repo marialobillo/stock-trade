@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import HoldingForm from './../components/holdingForm';
 
 
 
@@ -21,22 +22,25 @@ class Dashboard extends Component {
 
         const symbols_url = 'http://localhost:3300/api/symbols';
         const holdings_url = `http://localhost:3300/api/holdings/${user.id}`;
-        const LoadedSymbols = [];
+        let LoadedSymbols = [];
+        let newSymbol = {};
 
         try {
             const { data } = await Axios.get(symbols_url);
 
-            LoadedSymbols[0].symbol = 'AAPL';
-            LoadedSymbols[0].latestPrice = data.AAPL.quote.latestPrice;
+            newSymbol['symbol'] = 'AAPL';
+            newSymbol['latestPrice'] = data.AAPL.quote.latestPrice;
+            newSymbol['id'] = 1;
 
-            LoadedSymbols[1].symbol = 'FB';
-            LoadedSymbols[1].latestPrice = data.FB.quote.latestPrice;
+            LoadedSymbols.push(newSymbol);
 
-            LoadedSymbols[2].symbol = 'TSLA';
-            LoadedSymbols[2].latestPrice = data.TSLA.quote.latestPrice;
+            newSymbol['symbol'] = 'FB';
+            newSymbol['latestPrice'] = data.FB.quote.latestPrice;
+            newSymbol['id'] = 2;
 
-            LoadedSymbols[0].symbol = 'NFLX';
-            LoadedSymbols[0].latestPrice = data.NFLX.quote.latestPrice;
+            LoadedSymbols.push(newSymbol);
+            
+
 
             this.setState({
                 symbols: LoadedSymbols
@@ -90,28 +94,24 @@ class Dashboard extends Component {
 
     render() {
         const { user } = this.props;
+        
         return (
             <div className="container">
 
                 <div className="card jumbotron">
                     <h3>Welcome {user.name} to your DashBoard!!!</h3>
-
                 </div>
 
                 <div className="row">
-                    <h4>Buy a new Holding</h4>
-                   <form className="form">
-                        <select name="symbol">
-
-                        </select>
-                    </form>
+                    <HoldingForm user={user} />
                 </div>
 
+                
                 <div className="row">
                     <table className="table table-dark">
                         <thead className="thead-dark">
                             <tr>
-                                <th>Company</th>
+                                <th>Company Symbol</th>
                                 <th>Shares</th>
                                 <th>Price Buy</th>
                                 <th>Date Buy</th>
@@ -122,7 +122,7 @@ class Dashboard extends Component {
                         <tbody>
                             {this.state.holdings.map(holding => (
                                 <tr key={holding.id}>
-                                    <td>{holding.company}</td>
+                                    <td>{holding.symbol}</td>
                                     <td>{holding.shares}</td>
                                     <td>{holding.priceBuy}</td>
                                     <td>{holding.dateBuy}</td>

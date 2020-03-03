@@ -92,6 +92,18 @@ const getSymbols = async (req, res) => {
     }
 }
 
+const getStockPrice = async (symbol) => {
+    try {
+        const iex_token = process.env.iex_token;
+        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbol}&types=quote&filter=latestPrice&token=${iex_token}`;
+        const { data } = await Axios.get(iex_url);
+
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+}
+
 module.exports = {
     deleteHolding,
     updateHolding,
@@ -99,5 +111,6 @@ module.exports = {
     getAllHoldings,
     createHolding,
     getHoldingById,
-    getSymbols
+    getSymbols,
+    getStockPrice,
 }
