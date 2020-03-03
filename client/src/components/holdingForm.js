@@ -7,7 +7,7 @@ class HoldingForm extends Component {
 
         const { user } = this.props;
         const symbols = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
-        
+
         this.state = {
             allSymbols: [],
             holding: {
@@ -18,23 +18,23 @@ class HoldingForm extends Component {
     }
     componentDidMount() {
         this.getPriceForSymbols();
-        
+
     }
 
     getPriceForSymbols = async () => {
         try {
-           
+
             const url = 'http://localhost:3300/api/prices';
             const { data } = await Axios.get(url);
 
-            
+
             let symbols = data.data;
-           
-           
-           this.handleData(symbols);
-            // this.setState({
-            //     allSymbols: data
-            // })
+
+
+            const loadedSymbols = this.handleData(symbols);
+            this.setState({
+                allSymbols: loadedSymbols
+            })
         } catch (error) {
             console.log(error.message);
         }
@@ -43,16 +43,15 @@ class HoldingForm extends Component {
     handleData = (symbols) => {
 
         let result = [];
-        console.log(symbols);
         const reference = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
-        for(let i = 0; i < 5; i++){
-            let symbol = new Object();
+        for (let i = 0; i < 5; i++) {
+            let symbol = {};
             symbol['id'] = i + 1;
             symbol['name'] = reference[i];
             symbol['price'] = symbols[reference[i]].quote.latestPrice;
             result.push(symbol);
         }
-        console.log(result);
+        return result;
     }
 
     handleChange = event => {
@@ -79,32 +78,32 @@ class HoldingForm extends Component {
         newHolding.userId = user.id;
         newHolding.dateBuy = Date.now();
 
-        
-        this.createNewHolding(newHolding);
+        console.log(newHolding);
+        //this.createNewHolding(newHolding);
     }
 
     createNewHolding = async (holding) => {
         try {
             const url = 'http://localhost:3300/api/holdings';
             const { data } = await Axios.post(url, holding);
+            console.log(data);
         } catch (error) {
             console.log(error.message);
         }
     }
 
     render() {
-        
         return (
             <div className="col-md-8">
-                {this.state.allSymbols}
                 <form className="form-inline" onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <input
-                            className="form-control"
-                            placeholder="Company Symbol...."
-                            name="symbol"
-                            onChange={this.handleChange}
-                        />
+                        <select name="symbol" className="form-control" onChange={this.handleChange}>
+                            <option>Please Select a Company</option>
+                            {this.state.allSymbols.map(item => (
+                                <option key={item.id} value={item.name}>{item.name} - ${item.price}</option>
+                            ))}
+
+                        </select>
                     </div>
                     <div className="form-group">
                         <input
