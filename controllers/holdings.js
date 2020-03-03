@@ -25,14 +25,16 @@ const createHolding = async (req, res) => {
 
 }
 
-const getStockPrice = async (symbol) => {
+const getStockPrice = async (req, res) => {
 
     try {
         const iex_token = process.env.iex_token;
-        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbol}&types=quote&filter=latestPrice&token=${iex_token}`;
+        const symbols = 'aapl,fb,nflx,tsla,goog';
+        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=quote&filter=latestPrice&token=${iex_token}`;
         const { data } = await Axios.get(iex_url);
 
-        return data[symbol].quote.lastestPrice;
+        //console.log(data);
+        return res.status(200).json({ data });
     } catch (error) {
         console.log(error.message);
     }
