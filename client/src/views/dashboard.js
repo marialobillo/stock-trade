@@ -39,7 +39,7 @@ class Dashboard extends Component {
             newSymbol['id'] = 2;
 
             LoadedSymbols.push(newSymbol);
-            
+
 
 
             this.setState({
@@ -94,51 +94,52 @@ class Dashboard extends Component {
 
     render() {
         const { user } = this.props;
-        
+
         return (
             <div className="container">
 
                 <div className="card jumbotron">
                     <h3>Welcome {user.name} to your DashBoard!!!</h3>
+                    <p><span>Your balance is ${user.balance}</span></p>
                 </div>
 
-                <div className="row">
-                    <HoldingForm user={user} />
-                </div>
+                    <div className="row">
+                        <HoldingForm user={user} />
+                    </div>
 
-                
-                <div className="row">
-                    <table className="table table-dark">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th>Company Symbol</th>
-                                <th>Shares</th>
-                                <th>Price Buy</th>
-                                <th>Date Buy</th>
-                                <th>Is Active</th>
-                                <th>Options</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.holdings.map(holding => (
-                                <tr key={holding.id}>
-                                    <td>{holding.symbol}</td>
-                                    <td>{holding.shares}</td>
-                                    <td>{holding.priceBuy}</td>
-                                    <td>{holding.dateBuy}</td>
-                                    <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
-                                    <td><span className="btn btn-info"
-                                        onClick={() => this.handleUpdate(holding)}>Sell Holding</span></td>
+
+                    <div className="row">
+                        <table className="table table-dark">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th>Company Symbol</th>
+                                    <th>Shares</th>
+                                    <th>Price Buy</th>
+                                    <th>Date Buy</th>
+                                    <th>Is Active</th>
+                                    <th>Options</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.holdings.map(holding => (
+                                    <tr key={holding.id}>
+                                        <td>{holding.symbol}</td>
+                                        <td>{holding.shares}</td>
+                                        <td>{holding.priceBuy}</td>
+                                        <td>{holding.dateBuy}</td>
+                                        <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
+                                        <td><span className="btn btn-info"
+                                            onClick={() => this.handleUpdate(holding)}>Sell Holding</span></td>
+                                    </tr>
 
-                            ))}
-                        </tbody>
-                    </table>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        );
-    }
-}
-
-
+                );
+            }
+        }
+        
+        
 export default Dashboard;

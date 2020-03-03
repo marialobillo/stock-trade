@@ -77,9 +77,19 @@ class HoldingForm extends Component {
         const newHolding = { ...this.state.holding };
         newHolding.userId = user.id;
         newHolding.dateBuy = Date.now();
+        newHolding.isActive = true;
 
-        console.log(newHolding);
-        //this.createNewHolding(newHolding);
+        
+        const allSymbols = this.state.allSymbols;
+
+        for (let i = 0; i < 5; i++) {
+            if(allSymbols[i].name === newHolding.symbol){
+                newHolding.priceBuy = allSymbols[i].price;
+                console.log('LO QUE TENEMOS DEL NEW HOLDING --->',newHolding.priceBuy);
+            }
+            
+        }
+        this.createNewHolding(newHolding);
     }
 
     createNewHolding = async (holding) => {
