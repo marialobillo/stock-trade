@@ -19,39 +19,8 @@ class Dashboard extends Component {
     }
 
     loadInfo = async (user) => {
-
-        const symbols_url = 'http://localhost:3300/api/symbols';
-        const holdings_url = `http://localhost:3300/api/holdings/${user.id}`;
-        let LoadedSymbols = [];
-        let newSymbol = {};
-
         try {
-            const { data } = await Axios.get(symbols_url);
-
-            newSymbol['symbol'] = 'AAPL';
-            newSymbol['latestPrice'] = data.AAPL.quote.latestPrice;
-            newSymbol['id'] = 1;
-
-            LoadedSymbols.push(newSymbol);
-
-            newSymbol['symbol'] = 'FB';
-            newSymbol['latestPrice'] = data.FB.quote.latestPrice;
-            newSymbol['id'] = 2;
-
-            LoadedSymbols.push(newSymbol);
-
-
-
-            this.setState({
-                symbols: LoadedSymbols
-            })
-        } catch (error) {
-            console.log(error.message);
-        }
-
-        try {
-
-            // Get Holdings
+            const holdings_url = `http://localhost:3300/api/holdings/${user.id}`;
             const data_holdings = await Axios.get(holdings_url);
             const loadedHoldings = data_holdings.data.holdings;
             this.setState({

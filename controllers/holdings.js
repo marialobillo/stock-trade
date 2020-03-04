@@ -4,17 +4,17 @@ const Axios = require('axios');
 
 const createHolding = async (req, res) => {
     const newHolding = req.body;
-    const iex_token = process.env.iex_token;
+    // const iex_token = process.env.iex_token;
 
-    try {
+    // try {
 
-        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${newHolding.symbol}&types=quote&filter=latestPrice&token=${iex_token}`;
-        const { data } = await Axios.get(iex_url);
-        newHolding['priceBuy'] = data[newHolding.symbol].quote.lastestPrice;
+    //     const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${newHolding.symbol}&types=quote&filter=latestPrice&token=${iex_token}`;
+    //     const { data } = await Axios.get(iex_url);
+    //     newHolding['priceBuy'] = data[newHolding.symbol].quote.lastestPrice;
         
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
+    // } catch (error) {
+    //     return res.status(500).json({ error: error.message });
+    // }
 
     try {
         const holding = await models.Holding.create(newHolding);

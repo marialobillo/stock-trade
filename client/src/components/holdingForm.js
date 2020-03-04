@@ -89,6 +89,7 @@ class HoldingForm extends Component {
             }
             
         }
+        console.log('new Holding ---> ',newHolding);
         this.createNewHolding(newHolding);
     }
 
