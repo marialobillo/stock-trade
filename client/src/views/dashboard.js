@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import HoldingForm from './../components/holdingForm';
+import Balance from './../components/balance';
 
 
 
@@ -69,7 +70,7 @@ class Dashboard extends Component {
 
                 <div className="card jumbotron">
                     <h3>Welcome {user.name} to your DashBoard!!!</h3>
-                    <p><span>Your balance is ${user.balance}</span></p>
+                    <Balance user={user} />
                 </div>
 
                     <div className="row">
