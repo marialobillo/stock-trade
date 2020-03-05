@@ -12,12 +12,18 @@ class Dashboard extends Component {
         this.state = {
             holdings: [],
             symbols: [],
-            showPopup: false
+            showPopup: false,
+            user: this.props.user
         }
+        
+        
     }
 
+   
+
     componentDidMount() {
-        this.loadInfo(this.props.user);
+        this.loadInfo(this.state.user);
+        console.log(this.state.user);
     }
 
     loadInfo = async (user) => {
@@ -36,25 +42,6 @@ class Dashboard extends Component {
 
 
 
-    async updateHolding(holding) {
-        // get the priceSell
-
-        holding['priceSell'] = null;
-        holding['isActive'] = false;
-        holding['dateSell'] = new Date().toISOString().slice(0, 10);
-
-        try {
-            const url = `http://localhost:3300/api/holdings/${holding.id}`;
-            const { data } = await Axios.put(url, holding);
-
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-
-    handleUpdate = holding => {
-        this.updateHolding(holding);
-    }
 
     togglePopup() {
         this.setState({
@@ -62,9 +49,43 @@ class Dashboard extends Component {
         });
     }
 
+    // For Table Holdings
+    async sellHolding(holding, user, symbols) {
+        // get the priceSell
+        
+        try {
+            
+            holding['sellPrice'] = 0;
+            holding['isActive'] = false;
+            holding['dateSell'] = new Date().toISOString().slice(0, 10);
+    
+            const url = `http://localhost:3300/api/holdings/${holding.id}`;
+            const { data } = await Axios.put(url, holding);
+
+        } catch (error) {
+            console.log(error.message)
+        }
+
+        console.log(user);
+        try {
+            this.loadInfo(user);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    updateUserBalance = async (user, holding) => {
+
+        try {
+
+        } catch (error) {
+
+        }
+    }
+
 
     render() {
-        const { user } = this.props;
+        const { user } = this.state;
 
         return (
             <div className="container">
@@ -74,32 +95,22 @@ class Dashboard extends Component {
                     <Balance user={user} />
                 </div>
 
-                    <div className="row">
-                        <HoldingForm user={user} />
-                    </div>
-
-
-                    <div className="row">
-                        <table className="table table-dark">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th>Company Symbol</th>
-                                    <th>Shares</th>
-                                    <th>Price Buy</th>
-                                    <th>Date Buy</th>
-                                    <th>Is Active</th>
-                                    <th>Options</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <HoldingTable holdings={this.state.holdings} />
-                            </tbody>
-                        </table>
-                    </div>
+                <div className="row">
+                    <HoldingForm user={user} />
                 </div>
-                );
-            }
-        }
-        
-        
+
+
+                <div className="row">
+                    <HoldingTable
+                        holdings={this.state.holdings}
+                        sellHolding={this.sellHolding}
+                        user={user}
+                        symbols={this.state.symbols} />
+                </div>
+            </div>
+        );
+    }
+}
+
+
 export default Dashboard;

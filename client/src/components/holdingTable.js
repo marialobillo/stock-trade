@@ -1,34 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class HoldingTable extends Component {
-    constructor(props) {
-        super(props);
+import HoldingRow from './holdingRow';
 
-        const holdings = this.props;
-    }
+const HoldingTable = ({ holdings, sellHolding, user, symbols }) => {
 
-    handleClick = () => {
-
-        this.props.handleSelling()
-    }
-
-    render() {
-        return (
-            <div>
-                {this.holdings.map(holding => (
-                    <tr key={holding.id}>
-                        <td>{holding.symbol}</td>
-                        <td>{holding.shares}</td>
-                        <td>{holding.priceBuy}</td>
-                        <td>{holding.dateBuy}</td>
-                        <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
-                        <td><span className="btn btn-info"
-                            onClick={() => this.handleUpdate(holding)}>Sell Holding</span></td>
-                    </tr>
+    return (
+        <table className="table table-dark">
+            <thead className="thead-dark">
+                <tr>
+                    <th>Company Symbol</th>
+                    <th>Shares</th>
+                    <th>Price Buy</th>
+                    <th>Date Buy</th>
+                    <th>Is Active</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {holdings.map(holding => (
+                    <HoldingRow
+                        key={holding.id}
+                        holding={holding}
+                        sellHolding={sellHolding}
+                        user={user}
+                        symbols={symbols}
+                    />
                 ))}
-            </div>
-        );
-    }
+
+            </tbody>
+        </table>
+    );
+
 }
 
 export default HoldingTable;
