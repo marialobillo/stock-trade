@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import HoldingForm from './../components/holdingForm';
 import Balance from './../components/balance';
+import HoldingTable from './../components/holdingTable';
 
 
 
@@ -91,18 +92,7 @@ class Dashboard extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.holdings.map(holding => (
-                                    <tr key={holding.id}>
-                                        <td>{holding.symbol}</td>
-                                        <td>{holding.shares}</td>
-                                        <td>{holding.priceBuy}</td>
-                                        <td>{holding.dateBuy}</td>
-                                        <td>{holding.isActive ? 'YES' : 'SOLD'}</td>
-                                        <td><span className="btn btn-info"
-                                            onClick={() => this.handleUpdate(holding)}>Sell Holding</span></td>
-                                    </tr>
-
-                                ))}
+                                <HoldingTable holdings={this.state.holdings} />
                             </tbody>
                         </table>
                     </div>
