@@ -3,26 +3,13 @@ require('dotenv').config();
 const Axios = require('axios');
 
 const createHolding = async (req, res) => {
-    const newHolding = req.body;
-    // const iex_token = process.env.iex_token;
-
-    // try {
-
-    //     const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${newHolding.symbol}&types=quote&filter=latestPrice&token=${iex_token}`;
-    //     const { data } = await Axios.get(iex_url);
-    //     newHolding['priceBuy'] = data[newHolding.symbol].quote.lastestPrice;
-        
-    // } catch (error) {
-    //     return res.status(500).json({ error: error.message });
-    // }
-
     try {
+        const newHolding = req.body;
         const holding = await models.Holding.create(newHolding);
         return res.status(201).json({holding})
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
-
 }
 
 const getStockPrice = async (req, res) => {
