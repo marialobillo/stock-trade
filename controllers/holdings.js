@@ -119,7 +119,10 @@ const buyHolding = async (req, res) => {
         const userUpdated = await models.User.update(user, {
             where: { id: holding.userId }
         });
-        return res.status(201).json({holding, user})
+        const holdings = await models.Holding.findAll({
+            where: { userId: holding.userId, isActive: true }
+        });
+        return res.status(201).json({holdings, user})
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
@@ -140,7 +143,10 @@ const sellHolding = async (req, res) => {
         const userUpdated = await models.User.update(user, {
             where: { id: holding.userId }
         });
-        return res.status(201).json({holding, user})
+        const holdings = await models.Holding.findAll({
+            where: { userId: holding.userId, isActive: true }
+        });
+        return res.status(201).json({holdings, user})
     } catch (error) {
         return res.status(500).json({ error: error.message })
     }
