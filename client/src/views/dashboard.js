@@ -15,11 +15,9 @@ class Dashboard extends Component {
             showPopup: false,
             user: this.props.user
         }
-        
-        
-    }
 
-   
+
+    }
 
     componentDidMount() {
         this.loadInfo(this.state.user);
@@ -40,9 +38,6 @@ class Dashboard extends Component {
         }
     }
 
-
-
-
     togglePopup() {
         this.setState({
             showPopup: !this.state.showPopup
@@ -52,13 +47,13 @@ class Dashboard extends Component {
     // For Table Holdings
     async sellHolding(holding, user, symbols) {
         // get the priceSell
-        
+
         try {
-            
+
             holding['sellPrice'] = 0;
             holding['isActive'] = false;
             holding['dateSell'] = new Date().toISOString().slice(0, 10);
-    
+
             const url = `http://localhost:3300/api/holdings/${holding.id}`;
             const { data } = await Axios.put(url, holding);
 
@@ -74,14 +69,45 @@ class Dashboard extends Component {
         }
     }
 
-    updateUserBalance = async (user, holding) => {
+    handleChange = event => {
+        this.setState({
+            holding: {
+                ...this.state.holding,
+                [event.target.name]: event.target.value
+            }
+        });
 
-        try {
-
-        } catch (error) {
-
-        }
     }
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        const { symbol, shares } = this.state.holding;
+        const { user } = this.props;
+
+        if (symbol === '' || shares === '') {
+            return;
+        }
+
+        const newHolding = { ...this.state.holding };
+        newHolding.userId = user.id;
+        newHolding.dateBuy = Date.now();
+        newHolding.isActive = true;
+
+        
+        const allSymbols = this.state.allSymbols;
+
+        for (let i = 0; i < 5; i++) {
+            if(allSymbols[i].name === newHolding.symbol){
+                newHolding.priceBuy = allSymbols[i].price;
+                console.log('LO QUE TENEMOS DEL NEW HOLDING --->',newHolding.priceBuy);
+            }
+            
+        }
+        console.log('new Holding ---> ',newHolding);
+        this.createNewHolding(newHolding);
+    }
+
 
 
     render() {
@@ -96,7 +122,11 @@ class Dashboard extends Component {
                 </div>
 
                 <div className="row">
-                    <HoldingForm user={user} />
+                    <HoldingForm 
+                        user={user} 
+                        handleChange={this.handleChange}
+                        handleSubmit={this.handleSubmit}    
+                    />
                 </div>
 
 

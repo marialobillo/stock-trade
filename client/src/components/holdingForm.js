@@ -54,45 +54,9 @@ class HoldingForm extends Component {
         return result;
     }
 
-    handleChange = event => {
-        this.setState({
-            holding: {
-                ...this.state.holding,
-                [event.target.name]: event.target.value
-            }
-        });
+  
 
-    }
-
-    handleSubmit = event => {
-        event.preventDefault();
-
-        const { symbol, shares } = this.state.holding;
-        const { user } = this.props;
-
-        if (symbol === '' || shares === '') {
-            return;
-        }
-
-        const newHolding = { ...this.state.holding };
-        newHolding.userId = user.id;
-        newHolding.dateBuy = Date.now();
-        newHolding.isActive = true;
-
-        
-        const allSymbols = this.state.allSymbols;
-
-        for (let i = 0; i < 5; i++) {
-            if(allSymbols[i].name === newHolding.symbol){
-                newHolding.priceBuy = allSymbols[i].price;
-                console.log('LO QUE TENEMOS DEL NEW HOLDING --->',newHolding.priceBuy);
-            }
-            
-        }
-        console.log('new Holding ---> ',newHolding);
-        this.createNewHolding(newHolding);
-    }
-
+    
     createNewHolding = async (holding) => {
         try {
             const url = 'http://localhost:3300/api/holdings';
@@ -106,9 +70,9 @@ class HoldingForm extends Component {
     render() {
         return (
             <div className="col-md-8">
-                <form className="form-inline" onSubmit={this.handleSubmit}>
+                <form className="form-inline" onSubmit={this.props.handleSubmit}>
                     <div className="form-group">
-                        <select name="symbol" className="form-control" onChange={this.handleChange}>
+                        <select name="symbol" className="form-control" onChange={this.props.handleChange}>
                             <option>Please Select a Company</option>
                             {this.state.allSymbols.map(item => (
                                 <option key={item.id} value={item.name}>{item.name} - ${item.price}</option>
@@ -121,7 +85,7 @@ class HoldingForm extends Component {
                             className="form-control"
                             placeholder="Shares...."
                             name="shares"
-                            onChange={this.handleChange}
+                            onChange={this.props.handleChange}
                         />
                     </div>
 
