@@ -24,6 +24,9 @@ router.get('/holdings/byId/:holdingId', HoldingController.getHoldingById);
 router.put('/holdings/:holdingId', HoldingController.updateHolding);
 router.delete('/holdings/:holdingId', HoldingController.deleteHolding);
 
+router.post('/buyholding', HoldingController.buyHolding);
+router.post('/sellholding', HoldingController.sellHolding)
+
 router.get('/prices', HoldingController.getStockPrice);
 
 router.get('/symbols', HoldingController.getSymbols);

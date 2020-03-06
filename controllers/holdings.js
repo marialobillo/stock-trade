@@ -106,6 +106,46 @@ const getSymbols = async (req, res) => {
     }
 }
 
+const buyHolding = async (req, res) => {
+
+    try {
+        const newHolding = req.body;
+        const holding = await models.Holding.create(newHolding);
+
+        // get the user
+        const user = await models.User.findOne({ where: { id: holding.userId } })
+        user.balance -= holding.shares * holding.priceBuy;
+        // update the balance on user table
+        const userUpdated = await models.User.update(user, {
+            where: { id: holding.userId }
+        });
+        return res.status(201).json({holding, user})
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+   
+}
+
+const sellHolding = async (req, res) => {
+    try {
+        const { holdingId } = req.body.holding.id;
+        const [updated] = await models.Holding.update(req.body, {
+            where: { id: holdingId }
+        });;
+
+        // get the user
+        const user = await models.User.findOne({ where: { id: holding.userId } })
+        user.balance += holding.shares * holding.priceSell;
+        // update the balance on user table
+        const userUpdated = await models.User.update(user, {
+            where: { id: holding.userId }
+        });
+        return res.status(201).json({holding, user})
+    } catch (error) {
+        return res.status(500).json({ error: error.message })
+    }
+}
+
 
 
 module.exports = {
@@ -117,4 +157,6 @@ module.exports = {
     getHoldingById,
     getSymbols,
     getStockPrice,
+    buyHolding,
+    sellHolding
 }
