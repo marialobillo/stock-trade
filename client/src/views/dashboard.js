@@ -142,18 +142,23 @@ class Dashboard extends Component {
     createNewHolding = async (holding) => {
         const currentUser = this.state.user;
         try {
+            // create/buy a holding
             const url = 'http://localhost:3300/api/holdings';
             const { data } = await Axios.post(url, holding);
             console.log('el holding creado',data);
 
+            // update user balance
             const url_for_user = `http://localhost:3300/api/users/${currentUser.id}`;
             const { user } = this.props;
-            user.balance -= holding.shares * holding.priceBuy;
+            user.balance -= (holding.shares * holding.priceBuy).toFixed(2);
             const userData = await Axios.put(url_for_user, user );
             console.log('User update con balance', userData.data.user);
             this.setState({
                 user: userData.data.user
             })
+
+            // ask for holdings
+            this.loadInfo(this.state.user);
         } catch (error) {
             console.log(error.message);
         }
