@@ -12,6 +12,7 @@ class Dashboard extends Component {
         this.state = {
             holdings: [],
             symbols: [],
+            allSymbols: [],
             showPopup: false,
             user: this.props.user
         }
@@ -23,7 +24,9 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.loadInfo(this.state.user);
-        console.log(this.state.user);
+        this.getPriceForSymbols();
+
+        console.log('los symbols en el dashboard ---> ', this.state.allSymbols);
     }
 
     loadInfo = async (user) => {
@@ -38,6 +41,36 @@ class Dashboard extends Component {
         } catch (error) {
             console.log(error.message);
         }
+    }
+
+    getPriceForSymbols = async () => {
+        try {
+            const url = 'http://localhost:3300/api/prices';
+            Axios.get(url)
+                .then(response => {
+                    const symbols = response.data.data;
+                    const loadedSymbols = this.handleData(symbols);
+                    this.setState({
+                        allSymbols: loadedSymbols
+                    })
+                });
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    handleData = (symbols) => {
+
+        let result = [];
+        const reference = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
+        for (let i = 0; i < 5; i++) {
+            let symbol = {};
+            symbol['id'] = i + 1;
+            symbol['name'] = reference[i];
+            symbol['price'] = symbols[reference[i]].quote.latestPrice;
+            result.push(symbol);
+        }
+        return result;
     }
 
     
@@ -114,7 +147,6 @@ class Dashboard extends Component {
 
     render() {
         const { user } = this.state;
-
         return (
             <div className="container">
 
@@ -125,9 +157,10 @@ class Dashboard extends Component {
 
                 <div className="row">
                     <HoldingForm 
-                        user={user} 
+                        user={user}
+                        loadedSymbols={this.state.allSymbols} 
                         handleChange={this.handleChange}
-                        handleSubmit={this.handleSubmit}    
+                        handleSubmit={this.handleSubmit}
                     />
                 </div>
 

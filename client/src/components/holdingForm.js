@@ -7,6 +7,8 @@ class HoldingForm extends Component {
 
         const { user } = this.props;
         const symbols = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
+        const {loadedSymbols} = this.props;
+
 
         this.state = {
             allSymbols: [],
@@ -16,50 +18,7 @@ class HoldingForm extends Component {
             }
         }
     }
-    componentDidMount() {
-        this.getPriceForSymbols();
 
-    }
-
-    getPriceForSymbols = async () => {
-        try {
-
-            const url = 'http://localhost:3300/api/prices';
-            const { data } = await Axios.get(url);
-
-
-            let symbols = data.data;
-
-
-            const loadedSymbols = this.handleData(symbols);
-            this.setState({
-                allSymbols: loadedSymbols
-            })
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
-    handleData = (symbols) => {
-
-        let result = [];
-        const reference = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
-        for (let i = 0; i < 5; i++) {
-            let symbol = {};
-            symbol['id'] = i + 1;
-            symbol['name'] = reference[i];
-            symbol['price'] = symbols[reference[i]].quote.latestPrice;
-            result.push(symbol);
-        }
-        return result;
-    }
-
-
-  
-
-  
-
-    
     createNewHolding = async (holding) => {
         try {
             const url = 'http://localhost:3300/api/holdings';
@@ -70,14 +29,20 @@ class HoldingForm extends Component {
         }
     }
 
+   
     render() {
+
+        if(this.props.loadedSymbols.length === 0){
+            return null;
+        }
+        console.log('ahi vamos!!--->', this.props.loadedSymbols);
         return (
             <div className="col-md-8">
                 <form className="form-inline" onSubmit={this.props.handleSubmit}>
                     <div className="form-group">
                         <select name="symbol" className="form-control" onChange={this.props.handleChange}>
                             <option>Please Select a Company Symbol</option>
-                            {this.state.allSymbols.map(item => (
+                            {this.props.loadedSymbols.map(item => (
                                 <option 
                                     key={item.id} 
                                     value={item.name}>
