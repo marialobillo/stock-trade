@@ -19,23 +19,12 @@ class HoldingForm extends Component {
         }
     }
 
-    createNewHolding = async (holding) => {
-        try {
-            const url = 'http://localhost:3300/api/holdings';
-            const { data } = await Axios.post(url, holding);
-            console.log(data);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
    
     render() {
 
         if(this.props.loadedSymbols.length === 0){
             return null;
         }
-        console.log('ahi vamos!!--->', this.props.loadedSymbols);
         return (
             <div className="col-md-8">
                 <form className="form-inline" onSubmit={this.props.handleSubmit}>

@@ -25,8 +25,6 @@ class Dashboard extends Component {
     componentDidMount() {
         this.loadInfo(this.state.user);
         this.getPriceForSymbols();
-
-        console.log('los symbols en el dashboard ---> ', this.state.allSymbols);
     }
 
     loadInfo = async (user) => {
@@ -136,11 +134,31 @@ class Dashboard extends Component {
         for (let i = 0; i < 5; i++) {
             if(allSymbols[i].name === newHolding.symbol){
                 newHolding.priceBuy = allSymbols[i].price;
-                console.log('LO QUE TENEMOS DEL NEW HOLDING --->',newHolding.priceBuy);
             }
         }
-        console.log('new Holding ---> ',newHolding);
         this.createNewHolding(newHolding);
+    }
+
+    createNewHolding = async (holding) => {
+        const currentUser = this.state.user;
+        try {
+            const url = 'http://localhost:3300/api/holdings';
+            const { data } = await Axios.post(url, holding);
+            console.log('el holding creado',data);
+
+            const url_for_user = `http://localhost:3300/api/users/${currentUser.id}`;
+            const { user } = this.props;
+            user.balance -= holding.shares * holding.priceBuy;
+            const userData = await Axios.put(url_for_user, user );
+            console.log('User update con balance', userData.data.user);
+            this.setState({
+                user: userData.data.user
+            })
+        } catch (error) {
+            console.log(error.message);
+        }
+
+      
     }
 
 
