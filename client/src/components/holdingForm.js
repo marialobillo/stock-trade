@@ -54,6 +54,9 @@ class HoldingForm extends Component {
         return result;
     }
 
+
+  
+
   
 
     
@@ -73,9 +76,13 @@ class HoldingForm extends Component {
                 <form className="form-inline" onSubmit={this.props.handleSubmit}>
                     <div className="form-group">
                         <select name="symbol" className="form-control" onChange={this.props.handleChange}>
-                            <option>Please Select a Company</option>
+                            <option>Please Select a Company Symbol</option>
                             {this.state.allSymbols.map(item => (
-                                <option key={item.id} value={item.name}>{item.name} - ${item.price}</option>
+                                <option 
+                                    key={item.id} 
+                                    value={item.name}>
+                                        {item.name} -------------> ${item.price}
+                                </option>
                             ))}
 
                         </select>

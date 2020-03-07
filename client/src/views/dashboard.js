@@ -16,6 +16,8 @@ class Dashboard extends Component {
             user: this.props.user
         }
 
+        const symbolNames = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
+
 
     }
 
@@ -38,6 +40,7 @@ class Dashboard extends Component {
         }
     }
 
+    
     togglePopup() {
         this.setState({
             showPopup: !this.state.showPopup
@@ -102,7 +105,6 @@ class Dashboard extends Component {
                 newHolding.priceBuy = allSymbols[i].price;
                 console.log('LO QUE TENEMOS DEL NEW HOLDING --->',newHolding.priceBuy);
             }
-            
         }
         console.log('new Holding ---> ',newHolding);
         this.createNewHolding(newHolding);
