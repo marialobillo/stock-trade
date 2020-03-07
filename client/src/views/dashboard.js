@@ -81,25 +81,39 @@ class Dashboard extends Component {
     // For Table Holdings
     async sellHolding(holding, user, symbols) {
         // get the priceSell
-
+        const currentSymbol = holding['symbol'];
+        let sellPrice = 0;
+        //this.getPriceForSymbols();
+        
+        symbols.map((symbol) => {
+            if(symbol.name === holding['symbol']){
+                sellPrice = symbol.price;
+            }
+        })
+        
         try {
-
-            holding['sellPrice'] = 0;
+            // Selling Holding
+            holding['sellPrice'] = sellPrice;
             holding['isActive'] = false;
             holding['dateSell'] = new Date().toISOString().slice(0, 10);
-
             const url = `http://localhost:3300/api/holdings/${holding.id}`;
             const { data } = await Axios.put(url, holding);
 
-        } catch (error) {
-            console.log(error.message)
-        }
+            // updata the user balance
+            const url_for_user = `http://localhost:3300/api/users/${user.id}`;
+            let money_from_selling = Number(holding.shares) * Number(holding.priceBuy);
+            user.balance = (Number(user.balance) + Number(money_from_selling)).toFixed(2)
+            console.log(user.balance);
+            const userData = await Axios.put(url_for_user, user );
+            console.log('EL USUARIO ----> ',userData.data.user)
+            // this.setState({
+            //     user: userData.data.user
+            // })
 
-        console.log(user);
-        try {
+            // // ask for holdings
             this.loadInfo(user);
         } catch (error) {
-            console.log(error.message);
+            console.log(error.message)
         }
     }
 
@@ -152,7 +166,6 @@ class Dashboard extends Component {
             const { user } = this.props;
             user.balance -= (holding.shares * holding.priceBuy).toFixed(2);
             const userData = await Axios.put(url_for_user, user );
-            console.log('User update con balance', userData.data.user);
             this.setState({
                 user: userData.data.user
             })
@@ -162,8 +175,6 @@ class Dashboard extends Component {
         } catch (error) {
             console.log(error.message);
         }
-
-      
     }
 
 
@@ -192,8 +203,9 @@ class Dashboard extends Component {
                     <HoldingTable
                         holdings={this.state.holdings}
                         sellHolding={this.sellHolding}
+                        symbols={this.state.allSymbols}
                         user={user}
-                        symbols={this.state.symbols} />
+                    />
                 </div>
             </div>
         );
