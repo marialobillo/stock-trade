@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HoldingRow = ({ holding, sellHolding, user, symbols }) => (
+const HoldingRow = ({ holding, handleOnClick, user, symbols }) => (
     <tr>
         <td>{holding.symbol}</td>
         <td>{holding.shares}</td>
@@ -10,7 +10,7 @@ const HoldingRow = ({ holding, sellHolding, user, symbols }) => (
         <td>
             <button
                 className="btn btn-info"
-                onClick={() => sellHolding(holding, user, symbols)}
+                onClick={() => handleOnClick(holding, user, symbols)}
             >
                 Sell Holding
             </button>

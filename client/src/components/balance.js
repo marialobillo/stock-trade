@@ -2,7 +2,9 @@ import React from 'react';
 
 const Balance = ({ user }) => (
     <div>
-        <p><span>Your balance is ${user.balance}</span></p>
+        <div>
+            <h3>Your balance is <span className="balance">${user.balance}</span></h3>
+        </div>
     </div>
 );
 

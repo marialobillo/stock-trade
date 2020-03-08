@@ -2,7 +2,7 @@ import React from 'react';
 
 import HoldingRow from './holdingRow';
 
-const HoldingTable = ({ holdings, sellHolding, user, symbols }) => {
+const HoldingTable = ({ holdings, handleOnClick, user, symbols }) => {
 
     return (
         <table className="table table-dark">
@@ -21,7 +21,7 @@ const HoldingTable = ({ holdings, sellHolding, user, symbols }) => {
                     <HoldingRow
                         key={holding.id}
                         holding={holding}
-                        sellHolding={sellHolding}
+                        handleOnClick={handleOnClick}
                         user={user}
                         symbols={symbols}
                     />

@@ -71,7 +71,7 @@ class Dashboard extends Component {
         return result;
     }
 
-    
+
     togglePopup() {
         this.setState({
             showPopup: !this.state.showPopup
@@ -79,18 +79,21 @@ class Dashboard extends Component {
     }
 
     // For Table Holdings
+    handleOnClick = (holding, user, symbols) => {
+        this.sellHolding(holding, user, symbols);
+    }
     async sellHolding(holding, user, symbols) {
         // get the priceSell
         const currentSymbol = holding['symbol'];
         let sellPrice = 0;
         //this.getPriceForSymbols();
-        
+
         symbols.map((symbol) => {
-            if(symbol.name === holding['symbol']){
+            if (symbol.name === holding['symbol']) {
                 sellPrice = symbol.price;
             }
         })
-        
+
         try {
             // Selling Holding
             holding['sellPrice'] = sellPrice;
@@ -104,8 +107,8 @@ class Dashboard extends Component {
             let money_from_selling = Number(holding.shares) * Number(holding.priceBuy);
             user.balance = (Number(user.balance) + Number(money_from_selling)).toFixed(2)
             console.log(user.balance);
-            const userData = await Axios.put(url_for_user, user );
-            console.log('EL USUARIO ----> ',userData.data.user)
+            const userData = await Axios.put(url_for_user, user);
+            console.log('EL USUARIO ----> ', userData.data.user)
             // this.setState({
             //     user: userData.data.user
             // })
@@ -142,11 +145,11 @@ class Dashboard extends Component {
         newHolding.dateBuy = Date.now();
         newHolding.isActive = true;
 
-        
+
         const allSymbols = this.state.allSymbols;
 
         for (let i = 0; i < 5; i++) {
-            if(allSymbols[i].name === newHolding.symbol){
+            if (allSymbols[i].name === newHolding.symbol) {
                 newHolding.priceBuy = allSymbols[i].price;
             }
         }
@@ -159,13 +162,13 @@ class Dashboard extends Component {
             // create/buy a holding
             const url = 'http://localhost:3300/api/holdings';
             const { data } = await Axios.post(url, holding);
-            console.log('el holding creado',data);
 
             // update user balance
             const url_for_user = `http://localhost:3300/api/users/${currentUser.id}`;
             const { user } = this.props;
-            user.balance -= (holding.shares * holding.priceBuy).toFixed(2);
-            const userData = await Axios.put(url_for_user, user );
+            user.balance -= holding.shares * holding.priceBuy;
+            user.balance = (user.balance).toFixed(2);
+            const userData = await Axios.put(url_for_user, user);
             this.setState({
                 user: userData.data.user
             })
@@ -182,30 +185,33 @@ class Dashboard extends Component {
     render() {
         const { user } = this.state;
         return (
-            <div className="container">
+            <div className="">
 
                 <div className="card jumbotron">
                     <h3>Welcome {user.name} to your DashBoard!!!</h3>
                     <Balance user={user} />
                 </div>
 
-                <div className="row">
-                    <HoldingForm 
-                        user={user}
-                        loadedSymbols={this.state.allSymbols} 
-                        handleChange={this.handleChange}
-                        handleSubmit={this.handleSubmit}
-                    />
-                </div>
+                <div className="container">
+
+                    <div className="row">
+                        <HoldingForm
+                            user={user}
+                            loadedSymbols={this.state.allSymbols}
+                            handleChange={this.handleChange}
+                            handleSubmit={this.handleSubmit}
+                        />
+                    </div>
 
 
-                <div className="row">
-                    <HoldingTable
-                        holdings={this.state.holdings}
-                        sellHolding={this.sellHolding}
-                        symbols={this.state.allSymbols}
-                        user={user}
-                    />
+                    <div className="row">
+                        <HoldingTable
+                            holdings={this.state.holdings}
+                            handleOnClick={this.handleOnClick}
+                            symbols={this.state.allSymbols}
+                            user={user}
+                        />
+                    </div>
                 </div>
             </div>
         );
