@@ -106,14 +106,12 @@ class Dashboard extends Component {
             const url_for_user = `http://localhost:3300/api/users/${user.id}`;
             let money_from_selling = Number(holding.shares) * Number(holding.priceBuy);
             user.balance = (Number(user.balance) + Number(money_from_selling)).toFixed(2)
-            console.log(user.balance);
             const userData = await Axios.put(url_for_user, user);
-            console.log('EL USUARIO ----> ', userData.data.user)
-            // this.setState({
-            //     user: userData.data.user
-            // })
+            this.setState({
+                user: userData.data.user
+            })
 
-            // // ask for holdings
+            // ask for holdings
             this.loadInfo(user);
         } catch (error) {
             console.log(error.message)
