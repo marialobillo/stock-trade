@@ -3,10 +3,6 @@ import React, { Component } from 'react';
 class HoldingForm extends Component {
     constructor(props) {
         super(props);
-
-        const { user } = this.props;
-
-
         this.state = {
             allSymbols: [],
             holding: {
@@ -16,7 +12,6 @@ class HoldingForm extends Component {
         }
     }
 
-   
     render() {
 
         if(this.props.loadedSymbols.length === 0){
