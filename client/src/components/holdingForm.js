@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 
 class HoldingForm extends Component {
     constructor(props) {
         super(props);
 
         const { user } = this.props;
-        const symbols = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
-        const {loadedSymbols} = this.props;
 
 
         this.state = {
@@ -30,7 +27,12 @@ class HoldingForm extends Component {
                 <form className="form-inline" onSubmit={this.props.handleSubmit}>
                     <div className="form-group">
                         <select name="symbol" className="form-control" onChange={this.props.handleChange}>
-                            <option>Please Select a Company Symbol</option>
+                            <option 
+                                key={0} 
+                                value="nosymbol"
+                                selected>
+                                Please Select a Company Symbol
+                            </option>
                             {this.props.loadedSymbols.map(item => (
                                 <option 
                                     key={item.id} 
@@ -47,6 +49,7 @@ class HoldingForm extends Component {
                             placeholder="Shares...."
                             name="shares"
                             onChange={this.props.handleChange}
+                            value={this.state.shares}
                         />
                     </div>
 

@@ -10,15 +10,16 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            holding: {
+                symbol: '',
+                shares: '',
+            },
             holdings: [],
             symbols: [],
             allSymbols: [],
             showPopup: false,
             user: this.props.user
         }
-
-        const symbolNames = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
-
 
     }
 
@@ -131,10 +132,12 @@ class Dashboard extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
+        console.log('holding  -->', this.state.holding);
+
         const { symbol, shares } = this.state.holding;
         const { user } = this.props;
 
-        if (symbol === '' || shares === '') {
+        if (symbol === "nosymbol" || shares === '') {
             return;
         }
 
