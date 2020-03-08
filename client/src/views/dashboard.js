@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import Moment from 'moment';
 import HoldingForm from './../components/holdingForm';
 import Balance from './../components/balance';
 import HoldingTable from './../components/holdingTable';
@@ -97,7 +96,7 @@ class Dashboard extends Component {
             // Selling Holding
             holding['sellPrice'] = sellPrice;
             holding['isActive'] = false;
-            holding['dateSell'] = Moment().format('MMMM Do YYYY');
+            holding['dateSell'] = new Date().toISOString().slice(0,10);
             const url = `http://localhost:3300/api/holdings/${holding.id}`;
             const { data } = await Axios.put(url, holding);
 
@@ -139,7 +138,7 @@ class Dashboard extends Component {
 
         const newHolding = { ...this.state.holding };
         newHolding.userId = user.id;
-        newHolding.dateBuy = Moment().format('MMMM Do YYYY');
+        newHolding.dateBuy = new Date().toISOString().slice(0,10);
         newHolding.isActive = true;
 
 
