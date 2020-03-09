@@ -73,7 +73,7 @@ class Dashboard extends Component {
     }
 
 
-    togglePopup() {
+    togglePopup = () => {
         this.setState({
             showPopup: !this.state.showPopup
         });
@@ -96,7 +96,7 @@ class Dashboard extends Component {
             // Selling Holding
             holding['sellPrice'] = sellPrice;
             holding['isActive'] = false;
-            holding['dateSell'] = new Date().toISOString().slice(0,10);
+            holding['dateSell'] = new Date().toISOString().slice(0, 10);
             const url = `http://localhost:3300/api/holdings/${holding.id}`;
             const { data } = await Axios.put(url, holding);
 
@@ -138,7 +138,7 @@ class Dashboard extends Component {
 
         const newHolding = { ...this.state.holding };
         newHolding.userId = user.id;
-        newHolding.dateBuy = new Date().toISOString().slice(0,10);
+        newHolding.dateBuy = new Date().toISOString().slice(0, 10);
         newHolding.isActive = true;
 
 
@@ -191,12 +191,26 @@ class Dashboard extends Component {
                 <div className="container">
 
                     <div className="row">
-                        <HoldingForm
+                        <button onClick={this.togglePopup}>Buy A New Holding</button>
+                        {/* <HoldingForm
                             user={user}
                             loadedSymbols={this.state.allSymbols}
                             handleChange={this.handleChange}
                             handleSubmit={this.handleSubmit}
-                        />
+                        /> */}
+                    </div>
+
+                    <div className="row">
+                        {this.state.showPopup ?
+                            <HoldingForm
+                                user={user}
+                                loadedSymbols={this.state.allSymbols}
+                                handleChange={this.handleChange}
+                                handleSubmit={this.handleSubmit}
+                                closePopup={this.togglePopup}
+                            /> 
+                            : null   
+                    }
                     </div>
 
 
