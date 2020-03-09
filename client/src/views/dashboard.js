@@ -150,6 +150,10 @@ class Dashboard extends Component {
             }
         }
         this.createNewHolding(newHolding);
+
+        this.setState({
+            showPopup: false
+        })
     }
 
     createNewHolding = async (holding) => {
@@ -191,7 +195,10 @@ class Dashboard extends Component {
                 <div className="container">
 
                     <div className="row">
-                        <button onClick={this.togglePopup}>Buy A New Holding</button>
+                        <button 
+                            onClick={this.togglePopup}
+                            className="btn btn-info"
+                        >Buy A New Holding</button>
                         {/* <HoldingForm
                             user={user}
                             loadedSymbols={this.state.allSymbols}
