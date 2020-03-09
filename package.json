@@ -43,5 +43,9 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
+  },
+  "engines":{
+    "node": "13.0.1",
+    "npm": "6.14.1"
   }
 }
