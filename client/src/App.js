@@ -4,7 +4,7 @@ import './App.css';
 import Nav from './components/Nav';
 import Axios from 'axios';
 
-import { setToken, deleteToken, getToken, initAxiosInterceptors } from './helpers/auth-helpers';
+import { setToken, deleteToken, getToken} from './helpers/auth-helpers';
 import Register from './views/register';
 import Login from './views/login';
 import Dashboard from './views/dashboard';
@@ -12,7 +12,7 @@ import Loading from './components/loading';
 import Error from './components/error';
 
 
-initAxiosInterceptors();
+//initAxiosInterceptors();
 
 export default function App() {
   const [user, setUser] = useState(null);
