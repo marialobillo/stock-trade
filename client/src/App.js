@@ -84,8 +84,6 @@ export default function App() {
       const url = 'http://localhost:3300/api/symbols';
       try {
         const data = await Axios.get(url);
-        console.log('Lo que llega de symbols', data);
-        //setSymbols(symbols);
       } catch (error) {
         console.log(error.message);
       }        

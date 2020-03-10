@@ -5,7 +5,6 @@ import Balance from './../components/balance';
 import HoldingTable from './../components/holdingTable';
 
 
-
 class Dashboard extends Component {
     constructor(props) {
         super(props);
