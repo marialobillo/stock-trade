@@ -23,7 +23,7 @@ export default function Register({ register, showError }) {
         try {
             await register(user);
         } catch (error) {
-            showError(error.response.data);
+            // showError(error.response.data);
             console.log(error);
         }
     }
