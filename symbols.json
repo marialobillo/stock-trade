@@ -1,0 +1,27 @@
+{
+    "AAPL": {
+        "quote": {
+            "latestPrice": 506.59
+        }
+    },
+    "FB": {
+        "quote": {
+            "latestPrice": 306.59
+        }
+    },
+    "TSLA": {
+        "quote": {
+            "latestPrice": 2336.65
+        }
+    },
+    "NFLX": {
+        "quote": {
+            "latestPrice": 534.02
+        }
+    },
+    "GOOG": {
+        "quote": {
+            "latestPrice": 1687.041
+        }
+    }
+}

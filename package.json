@@ -46,7 +46,7 @@
       "/node_modules/"
     ]
   },
-  "engines":{
+  "engines": {
     "node": "13.x",
     "npm": "6.x"
   },

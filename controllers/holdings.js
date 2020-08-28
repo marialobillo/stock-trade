@@ -1,6 +1,7 @@
 const models = require('../database/models');
 require('dotenv').config();
 const Axios = require('axios');
+const fs = require('fs');
 
 const createHolding = async (req, res) => {
     try {
@@ -15,15 +16,23 @@ const createHolding = async (req, res) => {
 const getStockPrice = async (req, res) => {
 
     try {
-        const iex_token = process.env.iex_token;
-        const symbols = 'aapl,fb,nflx,tsla,goog';
-        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=${symbols}&types=quote&filter=latestPrice&token=${iex_token}`;
-        const { data } = await Axios.get(iex_url);
+        // old version using the api
+        // const iex_token = process.env.iex_token;
+        // const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,fb,tsla,nflx&types=quote&filter=latestPrice&token=${iex_token}`;
+        // const { data } = await Axios.get(iex_url);
+       
 
-        //console.log(data);
-        return res.status(200).json({ data });
+        fs.readFile('symbols.json', (err, data) => {
+            if(err) throw err;
+            let symbols = JSON.parse(data);
+            console.log('symbols on backend', symbols);
+            return res.status(200).json(symbols);
+        })
+
+        // return res.status(200).json(symbols);
     } catch (error) {
-        console.log(error.message);
+        console.log('Tenemos un error');
+        return res.status(500).send(error.message);
     }
 }
 
@@ -96,12 +105,22 @@ const deleteHolding = async (req, res) => {
 
 const getSymbols = async (req, res) => {
     try {
-        const iex_token = process.env.iex_token;
-        const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,fb,tsla,nflx&types=quote&filter=latestPrice&token=${iex_token}`;
-        const { data } = await Axios.get(iex_url);
+        // old version using the api
+        // const iex_token = process.env.iex_token;
+        // const iex_url = `https://sandbox.iexapis.com/stable/stock/market/batch?symbols=aapl,fb,tsla,nflx&types=quote&filter=latestPrice&token=${iex_token}`;
+        // const { data } = await Axios.get(iex_url);
+       
 
-        return res.status(200).json(data);
+        fs.readFile('symbols.json', (err, data) => {
+            if(err) throw err;
+            let symbols = JSON.parse(data);
+            // console.log(symbols);
+            return res.status(200).json(symbols);
+        })
+
+        // return res.status(200).json(symbols);
     } catch (error) {
+        console.log('Tenemos un error');
         return res.status(500).send(error.message);
     }
 }

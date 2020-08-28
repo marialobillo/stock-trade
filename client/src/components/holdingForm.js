@@ -13,7 +13,6 @@ class HoldingForm extends Component {
     }
 
     render() {
-
         if (this.props.loadedSymbols.length === 0) {
             return null;
         }
@@ -31,7 +30,7 @@ class HoldingForm extends Component {
                                     <option
                                         key={0}
                                         value="nosymbol"
-                                        selected>
+                                        defaultValue>
                                         Please Select a Company Symbol
                                     </option>
                                     {this.props.loadedSymbols.map(item => (
@@ -55,7 +54,7 @@ class HoldingForm extends Component {
                                 />
                             </div>
 
-                            <div class="footer">
+                            <div className="footer">
 
                                 <button className="btn btn-info" >Buy New Holding
                                 </button>
