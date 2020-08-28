@@ -44,19 +44,10 @@ class Dashboard extends Component {
     getPriceForSymbols = async () => {
         try {
             const url = 'http://localhost:3300/api/prices';
-            // Axios.get(url)
-            //     .then(response => {
-            //         const symbols = response.data.data;
-            //         console.log('SYMBOLS', symbols);
-            //         const loadedSymbols = this.handleData(symbols);
-            //         this.setState({
-            //             allSymbols: loadedSymbols
-            //         })
-            //     });
+          
             const response = await Axios.get(url);
             const symbols = response.data;
             const loadedSymbols = this.handleData(symbols);
-            console.log('LOS LOADEDSYMBOLS', loadedSymbols);
             this.setState({
                 allSymbols: loadedSymbols
             });
