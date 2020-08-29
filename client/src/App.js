@@ -45,7 +45,7 @@ export default function App() {
   }, []);
 
   async function login(email, password) {
-    const url = 'http://localhost:3300/api/login';
+    const url = '/api/login';
     const { data } = await Axios.post(url, { email, password });
     setUser(data.user[0]);
     setToken(data.token);
