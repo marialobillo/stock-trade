@@ -2,7 +2,7 @@
 
 _Stock tracker using fantasy money, built using express.js, react.js, and postgresql._
 
-View like on Heroku  <a href="https://fant4sy-stock-trade.herokuapp.com/" target="_blank">Here</a>.
+View like on Heroku  <a href="https://f4nt4sy-stock-trade-v5.herokuapp.com/" target="_blank">Here</a>.
 
 <br>
 
@@ -35,6 +35,16 @@ And for run the React app:
 
 `npm run start`
 
+For the database and other setting you should use an .env file on project root with these variables:
+
+PORT='your_port_here'
+DEV_DATABASE_URL='postgresql_database_here'
+TEST_DATABASE_URL='postgresql_database_here'
+DATABASE_URL='postgresql_database_here'
+SECRET='your_secret_sentence'
+
+But the .env file is there because this project is just part of my portfolio.
+
 
 ## Author
- -  **Maria Lobillo-Santos** - Full-Stack Software Developer <a href="https://lobillosantos.com" target="_blank">Website</a> | <a href="https://www.linkedin.com/in/mar%C3%ADa-lobillo-santos/" target="_blank">LinkedIn</a>
+ -  **Maria Lobillo-Santos** - Full-Stack Software Developer <a href="https://marialobillo.github.io" target="_blank">Website</a> | <a href="https://www.linkedin.com/in/mar%C3%ADa-lobillo-santos/" target="_blank">LinkedIn</a>
