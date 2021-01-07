@@ -31,7 +31,6 @@ const getStockPrice = async (req, res) => {
 
         // return res.status(200).json(symbols);
     } catch (error) {
-        console.log('Tenemos un error');
         return res.status(500).send(error.message);
     }
 }
@@ -82,7 +81,7 @@ const updateHolding = async (req, res) => {
             const updatedHolding = await models.Holding.findOne({ where: { id: holdingId } });
             return res.status(200).json({ holding: updatedHolding });
         }
-        throw new Error('Holding not found');
+        return res.status(404).send('Holding with the specified ID does not exists');
     } catch (error) {
         return res.status(500).send(error.message);
     }
@@ -97,7 +96,7 @@ const deleteHolding = async (req, res) => {
         if (deleted) {
             return res.status(204).send('Holding Deleted');
         }
-        throw new Error('Holding not found');
+        return res.status(404).send('Holding with the specified ID does not exists');
     } catch (error) {
         return res.status(500).send(error.message);
     }
@@ -114,11 +113,9 @@ const getSymbols = async (req, res) => {
         fs.readFile('symbols.json', (err, data) => {
             if(err) throw err;
             let symbols = JSON.parse(data);
-            // console.log(symbols);
             return res.status(200).json(symbols);
         })
 
-        // return res.status(200).json(symbols);
     } catch (error) {
         console.log('Tenemos un error');
         return res.status(500).send(error.message);
