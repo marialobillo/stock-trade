@@ -1,6 +1,6 @@
 {
-  "name": "tradev4",
-  "version": "1.0.0",
+  "name": "stock-trade-api-v5",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -17,17 +17,11 @@
   "devDependencies": {
     "cross-env": "^7.0.0",
     "jest": "^25.1.0",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.7",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
-    "dev": "nodemon index.js",
-    "migrate": "npx sequelize-cli db:migrate",
-    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
-    "start": "node index.js",
-    "build": "cd client/ && npm install && npm run build"
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -47,7 +41,7 @@
     ]
   },
   "engines": {
-    "node": "13.x",
+    "node": "12.x",
     "npm": "6.x"
   },
   "cacheDirectories": [

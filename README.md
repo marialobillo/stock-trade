@@ -2,7 +2,7 @@
 
 _Stock tracker using fantasy money, built using express.js, react.js, and postgresql._
 
-View like on Heroku  <a href="https://f4nt4sy-stock-trade-v5.herokuapp.com/" target="_blank">Here</a>.
+
 
 <br>
 
