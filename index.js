@@ -87,8 +87,18 @@ app.route('/holdings/:id')
       holdings[index] = udpatedHolding
       res.status(200).json(udpatedHolding)
     } else {
-      res.status(400).send(`The holding with id ${id} does not exist.`)
+      res.status(404).send(`The holding with id ${id} does not exist.`)
     }
+  })
+  .delete((req, res) => {
+    let index = _.findIndex(holdings, holding => holding.id == req.params.id)
+    
+    if(index === -1){
+      res.status(404).send(`Holding with id ${req.params.id} does not exist.`)
+      return 
+    }
+
+    let deleted = holdings.splice(index, 1)
   })
 
 
