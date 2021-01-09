@@ -1,5 +1,6 @@
 const express = require('express')
 const { v4: uuidv4 } = require('uuid')
+const _ = require('underscore')
 
 const app = express()
 
@@ -56,17 +57,39 @@ app.route('/holdings')
     res.status(201).json(newHolding)
   })
 
-app.get('/holdings/:id', (req, res) => {
-  for(let holding of holdings){
-    if(holding.id == req.params.id){
-      res.json(holding)
-      return
+app.route('/holdings/:id') 
+  .get((req, res) => {
+    for(let holding of holdings){
+      if(holding.id == req.params.id){
+        res.json(holding)
+        return
+      }
     }
-  }
 
-  // Not found 
-  res.status(404).send(`The holding with id ${res.params.id} does not exist.`)
-})
+    // Not found 
+    res.status(404).send(`The holding with id ${res.params.id} does not exist.`)
+  })
+  .put((req, res) => {
+    let id = req.params.id 
+    let udpatedHolding = req.body 
+
+    if(!udpatedHolding.symbol || !udpatedHolding.shares || !udpatedHolding.priceBuy){
+      
+      // Bad request
+      res.status(400).send('Symbol, shares, and priceBuy are requirements.')
+      return 
+    }
+
+    let index = _.findIndex(holdings, holding => holding.id == id)
+
+    if(index !== -1){
+      udpatedHolding.id = id
+      holdings[index] = udpatedHolding
+      res.status(200).json(udpatedHolding)
+    } else {
+      res.status(400).send(`The holding with id ${id} does not exist.`)
+    }
+  })
 
 
 app.get('/', (req, res) => {
