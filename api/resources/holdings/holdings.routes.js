@@ -1,4 +1,5 @@
 const express = require('express')
+const { v4: uuidv4 } = require('uuid')
 const _ = require('underscore')
 
 const holdings = require('./../../../database').holdings

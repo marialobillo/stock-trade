@@ -1,5 +1,4 @@
 const express = require('express')
-const { v4: uuidv4 } = require('uuid')
 const holdingsRouter = require('./api/resources/holdings/holdings.routes')
 
 
