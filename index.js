@@ -2,40 +2,14 @@ const express = require('express')
 const { v4: uuidv4 } = require('uuid')
 const _ = require('underscore')
 
+const holdings = require('./database').holdings
+
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const holdings = [
-  {
-    id: '123123',
-    company: 'APPLE Inc.',
-    symbol: 'APPL',
-    shares: 20,
-    priceBuy: 203.33,
-    priceSell: 0,
-    isActive: true
-  },
-  {
-    id: '123124',
-    company: 'EBAY Inc.',
-    symbol: 'EBAY',
-    shares: 10,
-    priceBuy: 140.33,
-    priceSell: 0,
-    isActive: true
-  },
-  {
-    id: '123125',
-    company: 'Facebook Inc.',
-    symbol: 'FCBK',
-    shares: 40,
-    priceBuy: 403.33,
-    priceSell: 0,
-    isActive: true
-  }
-]
+
 
 app.route('/holdings')
   .get((req, res) => {
@@ -99,6 +73,7 @@ app.route('/holdings/:id')
     }
 
     let deleted = holdings.splice(index, 1)
+    res.status(200).json(deleted)
   })
 
 
