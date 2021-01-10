@@ -1,46 +1,20 @@
 const express = require('express')
 const { v4: uuidv4 } = require('uuid')
 const _ = require('underscore')
-const Joi = require('joi')
+
+const holdingsValidate = require('./holdings.validate')
 
 const holdings = require('./../../../database').holdings
 const holdingsRouter = express.Router()
 
-const holdingSchema = Joi.object({
-  company: Joi.string().max(100),
-  symbol: Joi.string().max(6).uppercase().required(),
-  shares: Joi.number().positive().required(),
-  priceBuy: Joi.number().positive().precision(2).required(),
-  priceSell: Joi.number().positive().precision(2),
-  dateBuy: Joi.date().timestamp(),
-  dateSell: Joi.date().timestamp(),
-  isActive: Joi.boolean(),
-  createdAt: Joi.date().timestamp(),
-  updatedAt: Joi.date().timestamp()
-})
 
-const holdingValidate = (req, res, next) => {
-  const data = req.body
-  let validation = holdingSchema.validate(data, {
-    abortEarly: false, 
-    convert: false
-  })
-  if (validation.error === undefined){
-    next()
-  } else {
-   
-    let validationErrors = validation.error.details.reduce((acumulator, error) => {
-      return acumulator + `[${error.message}]`;
-    }, '')
-    res.status(400).send('...error on holding validation')
-  }
-}
+
 
 holdingsRouter.get('/', (req, res) => {
   res.json(holdings)
 })
 
-holdingsRouter.post('/', holdingValidate, (req, res) => {
+holdingsRouter.post('/', holdingsValidate, (req, res) => {
   let newHolding = req.body
   
   newHolding.id = uuidv4()
