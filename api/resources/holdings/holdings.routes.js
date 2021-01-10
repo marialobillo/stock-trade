@@ -25,7 +25,6 @@ const holdingValidate = (req, res, next) => {
     abortEarly: false, 
     convert: false
   })
-  console.log('Result validate', validation)
   if (validation.error === undefined){
     next()
   } else {
