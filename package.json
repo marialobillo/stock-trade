@@ -15,7 +15,8 @@
     "sequelize": "^5.21.5",
     "sequelize-cli": "^5.5.1",
     "underscore": "^1.12.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.0",
