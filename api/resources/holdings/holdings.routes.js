@@ -29,6 +29,10 @@ const holdingValidate = (req, res, next) => {
   if (validation.error === undefined){
     next()
   } else {
+   
+    let validationErrors = validation.error.details.reduce((acumulator, error) => {
+      return acumulator + `[${error.message}]`;
+    }, '')
     res.status(400).send('...error on holding validation')
   }
 }
