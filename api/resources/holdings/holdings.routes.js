@@ -7,25 +7,25 @@ const holdingsRouter = express.Router()
 
 
 
-holdingsRouter.route('/')
-  .get((req, res) => {
-    res.json(holdings)
-  })
-  .post((req, res) => {
-    let newHolding = req.body
-    console.log('Holding ---> ', newHolding)
-    if(!newHolding.symbol || !newHolding.shares || !newHolding.priceBuy){
-      
-      // Bad request
-      res.status(400).send('Symbol, shares, and priceBuy are requirements.')
-      return 
-    }
+holdingsRouter.get('/', (req, res) => {
+  res.json(holdings)
+})
 
-    newHolding.id = uuidv4()
-    holdings.push(newHolding)
-    // Created
-    res.status(201).json(newHolding)
-  })
+holdingsRouter.post('/',(req, res) => {
+  let newHolding = req.body
+  console.log('Holding ---> ', newHolding)
+  if(!newHolding.symbol || !newHolding.shares || !newHolding.priceBuy){
+    
+    // Bad request
+    res.status(400).send('Symbol, shares, and priceBuy are requirements.')
+    return 
+  }
+
+  newHolding.id = uuidv4()
+  holdings.push(newHolding)
+  // Created
+  res.status(201).json(newHolding)
+})
 
 holdingsRouter.route('/:id') 
   .get((req, res) => {
