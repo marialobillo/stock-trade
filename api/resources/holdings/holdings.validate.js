@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const logger = require('./../../../utils/logger')
 
 const holdingSchema = Joi.object({
   company: Joi.string().max(100),
@@ -26,6 +27,7 @@ module.exports = (req, res, next) => {
     let validationErrors = validation.error.details.reduce((acumulator, error) => {
       return acumulator + `[${error.message}]`;
     }, '')
+    logger.warn(`The next holding was not validated: `, req.body, validationErrors)
     res.status(400).send('...error on holding validation')
   }
 }
