@@ -22,7 +22,8 @@ module.exports = (req, res, next) => {
   } else {
    
     
-    logger.warn(`The next User was not validated: `, validation.error.details)
+
+    logger.warn(`The next User was not validated: `, validation.error.details.map(error => error.message))
     res.status(400).send(`User data was not valid. 
     Username should be between 3 and 30 char long. 
     The password between 6 and 200 characters. 
