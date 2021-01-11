@@ -2,7 +2,7 @@ const Joi = require('joi')
 const logger = require('./../../../utils/logger')
 
 const userSchema =  Joi.object({
-  name: Joi.string().alphanum().min(3).max(30).required(),
+  username: Joi.string().alphanum().min(3).max(30).required(),
   password: Joi.string().regex(/^[a-zA-Z0-9]{6,16}$/).min(6).max(200).required(),
   email: Joi.string().email().required(),
   balance: Joi.number().positive().precision(2),
