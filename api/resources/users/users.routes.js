@@ -13,7 +13,7 @@ usersRouter.get('/', (req, res) => {
   res.json(users)
 })
 
-usersRouter.post('/', userValidate, (req, res) => {
+usersRouter.post('/', usersValidate, (req, res) => {
   const newUser = req.body
 
   const index = _.findIndex(users, user => {
@@ -46,3 +46,6 @@ usersRouter.post('/', userValidate, (req, res) => {
   })
 
 })
+
+
+module.exports = usersRouter

@@ -1,5 +1,6 @@
 const express = require('express')
 const holdingsRouter = require('./api/resources/holdings/holdings.routes')
+const usersRouter = require('./api/resources/users/users.routes')
 const morgan = require('morgan')
 const logger = require('./utils/logger')
 
@@ -31,6 +32,7 @@ app.use(morgan('short', {
 app.use(passport.initialize())
 
 app.use('/holdings', holdingsRouter)
+app.use('/users', usersRouter)
 
 
 app.get('/', passport.authenticate('basic', { session: false }), (req, res) => {
