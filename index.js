@@ -3,20 +3,12 @@ const holdingsRouter = require('./api/resources/holdings/holdings.routes')
 const usersRouter = require('./api/resources/users/users.routes')
 const morgan = require('morgan')
 const logger = require('./utils/logger')
+const auth = require('./api/libs/auth')
 
 const passport = require('passport')
 // Authentication basic password and usernem
 const BasicStrategy = require('passport-http').BasicStrategy
-
-passport.use(new BasicStrategy(
-  (username, password, done) => {
-    if(username.valueOf() === 'maria' && password.valueOf() === 'pass12345'){
-      return done(null, true)
-    } else {
-      return done(null, false)
-    }
-  }
-))
+passport.use(new BasicStrategy(auth))
 
 const app = express()
 app.use(express.json())
