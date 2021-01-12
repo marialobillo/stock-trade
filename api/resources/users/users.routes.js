@@ -69,6 +69,7 @@ usersRouter.post('/login', (req, res) => {
         'theredcatisblue', 
         { expiresIn: 86400 } 
       )
+      logger.info(`User ${userNoAuth.username} completed authentication successfully.`)
       res.status(200).json({ token })
     } else {
       logger.info(`User ${userNoAuth.username} no authenticated. Wrong password.`)
