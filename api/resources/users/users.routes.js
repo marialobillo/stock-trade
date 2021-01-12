@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid')
 const _ = require('underscore')
 const logger = require('./../../../utils/logger')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const usersValidate = require('./users.validate')
 const users = require('./../../../database').users
@@ -39,10 +40,40 @@ usersRouter.post('/', usersValidate, (req, res) => {
       username: newUser.username,
       email: newUser.email,
       password: hashedPassword,
-      balance: 10000
+      balance: 10000,
+      id: uuidv4()
     })
 
     res.status(201).send('User was created successfully')
+  })
+
+})
+
+
+usersRouter.post('/login', (req, res) => {
+  const userNoAuth = req.body 
+  let index = _.findIndex(users, user => user.username === userNoAuth.username)
+
+  if(index === -1){
+    logger.info(`User ${userNoAuth.username} does not exist. No Authentication.`)
+    res.status(400).send('Wrong credentials. User does not exist.')
+    return
+  }
+
+  let hashedPassword = users[index].password
+  bcrypt.compare(userNoAuth.password, hashedPassword, (error, equals) => {
+    if(equals){
+      // Generate and send token
+      let token = jwt.sign(
+        { id: users[index].id }, 
+        'theredcatisblue', 
+        { expiresIn: 86400 } 
+      )
+      res.status(200).json({ token })
+    } else {
+      logger.info(`User ${userNoAuth.username} no authenticated. Wrong password.`)
+      res.status(400).send('Wrong credentiasls. Be sure username and password are correct.')
+    }
   })
 
 })
