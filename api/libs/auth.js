@@ -10,10 +10,10 @@ let jwtOptions = {
 }
 
 module.exports = new passportJWT.Strategy(jwtOptions, (jwtPayload, next) => {
-  let index = _.findIndex(users, user => user.id === jwrPayload.id)
+  let index = _.findIndex(users, user => user.id === jwtPayload.id)
 
   if(index === -1){
-    logger.info(`JWT not valid user ${username} does not exist. No Authentication.`)
+    logger.info(`JWT not valid user ${users[index].username} does not exist. No Authentication.`)
     next(null, false)
   } else {
     logger.info(`User ${users[index].username} got a valid token. Auth completed.`)

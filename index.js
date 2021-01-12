@@ -3,12 +3,11 @@ const holdingsRouter = require('./api/resources/holdings/holdings.routes')
 const usersRouter = require('./api/resources/users/users.routes')
 const morgan = require('morgan')
 const logger = require('./utils/logger')
-const auth = require('./api/libs/auth')
+const authJWT = require('./api/libs/auth')
 
 const passport = require('passport')
-// Authentication basic password and usernem
-const BasicStrategy = require('passport-http').BasicStrategy
-passport.use(new BasicStrategy(auth))
+// Authentication basic password and username
+passport.use(authJWT)
 
 const app = express()
 app.use(express.json())
@@ -27,7 +26,8 @@ app.use('/holdings', holdingsRouter)
 app.use('/users', usersRouter)
 
 
-app.get('/', passport.authenticate('basic', { session: false }), (req, res) => {
+app.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+  logger.info('User ->',req.user)
   res.send('API de stock trade app')
 })
 
