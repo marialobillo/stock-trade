@@ -2,25 +2,25 @@ const _ = require('underscore')
 const logger = require('./../../utils/logger')
 const users = require('./../../database').users
 const bcrypt = require('bcrypt')
+const passportJWT = require('passport-jwt')
 
-module.exports = (username, password, done) => {
-  
-  let index = _.findIndex(users, user => user.username === username)
+let jwtOptions = {
+  secretOrKey: 'theredcatisblue',
+  jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken()
+}
+
+module.exports = new passportJWT.Strategy(jwtOptions, (jwtPayload, next) => {
+  let index = _.findIndex(users, user => user.id === jwrPayload.id)
 
   if(index === -1){
-    logger.info(`User ${username} does not exist. No Authentication.`)
-    done(null, false)
-    return
+    logger.info(`JWT not valid user ${username} does not exist. No Authentication.`)
+    next(null, false)
+  } else {
+    logger.info(`User ${users[index].username} got a valid token. Auth completed.`)
+    next(null, {
+      username: users[index].username,
+      id: users[index].id
+    })
   }
+})
 
-  let hashedPassword = users[index].password
-  bcrypt.compare(password, hashedPassword, (error, equals) => {
-    if(equals){
-      logger.info(`User ${username} authentication completed.`)
-      done(null, true)
-    } else {
-      logger.info(`User ${username} no authenticated. Wrong password.`)
-      done(null, false)
-    }
-  })
-}
