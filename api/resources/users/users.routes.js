@@ -5,7 +5,8 @@ const logger = require('./../../../utils/logger')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const usersValidate = require('./users.validate')
+const usersValidation = require('./users.validate').usersValidation
+const loginValidation = require('./users.validate').loginValidation
 const users = require('./../../../database').users
 
 const usersRouter = express.Router()
@@ -14,7 +15,7 @@ usersRouter.get('/', (req, res) => {
   res.json(users)
 })
 
-usersRouter.post('/', usersValidate, (req, res) => {
+usersRouter.post('/', usersValidation, (req, res) => {
   const newUser = req.body
 
   const index = _.findIndex(users, user => {
@@ -50,7 +51,7 @@ usersRouter.post('/', usersValidate, (req, res) => {
 })
 
 
-usersRouter.post('/login', (req, res) => {
+usersRouter.post('/login', loginValidation, (req, res) => {
   const userNoAuth = req.body 
   let index = _.findIndex(users, user => user.username === userNoAuth.username)
 

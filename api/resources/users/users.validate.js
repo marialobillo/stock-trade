@@ -11,7 +11,7 @@ const userSchema =  Joi.object({
 })
 
 
-module.exports = (req, res, next) => {
+const usersValidation = (req, res, next) => {
   const data = req.body
   let validation = userSchema.validate(data, {
     abortEarly: false, 
@@ -29,4 +29,31 @@ module.exports = (req, res, next) => {
     The password between 6 and 200 characters. 
     Please be sure about your email.`)
   } 
+}
+
+
+const loginValidationSchema = Joi.object({
+  username: Joi.string().required(),
+  password: Joi.string().required()
+})
+
+let loginValidation = (req, res, next) => {
+  const data = req.body;
+  const validation = loginValidationSchema.validate(data, {
+      abortEarly: false, 
+      convert: false
+  });
+
+  if(validation.error === undefined){
+      next()
+  } else {
+      // Bad request
+      let validationErrors = `User and password are required.`
+      res.status(400).send(validationErrors);
+  }
+}
+
+module.exports = {
+  usersValidation,
+  loginValidation
 }
