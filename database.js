@@ -29,9 +29,7 @@ const holdings = [
   }
 ]
 
-const users = [
-
-]
+const users = []
 
 
 

@@ -11,6 +11,7 @@
     "express": "^4.17.1",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.11",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-http": "^0.3.0",

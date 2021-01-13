@@ -1,14 +1,28 @@
 const express = require('express')
+const morgan = require('morgan')
+const passport = require('passport')
+const mongoose = require('mongoose')
+
 const holdingsRouter = require('./api/resources/holdings/holdings.routes')
 const usersRouter = require('./api/resources/users/users.routes')
-const morgan = require('morgan')
 const logger = require('./utils/logger')
 const authJWT = require('./api/libs/auth')
 const config = require('./config')
 
-const passport = require('passport')
 // Authentication basic password and username
 passport.use(authJWT)
+
+// Database
+mongoose.connect('mongodb://127.0.0.1:27017/holdings', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+})
+mongoose.connection.on('error', () => {
+  logger.error('Fail mongodb connection')
+  process.exit(1)
+})
 
 const app = express()
 app.use(express.json())
