@@ -4,6 +4,7 @@ const usersRouter = require('./api/resources/users/users.routes')
 const morgan = require('morgan')
 const logger = require('./utils/logger')
 const authJWT = require('./api/libs/auth')
+const config = require('./config')
 
 const passport = require('passport')
 // Authentication basic password and username
@@ -31,7 +32,7 @@ app.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.send('API de stock trade app')
 })
 
-app.listen(3000, () => {
+app.listen(config.port, () => {
   logger.info('Listening on port 3000')
 })
 
