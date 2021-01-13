@@ -20,11 +20,6 @@ switch (environment){
         environmentSetup = require('./dev')  
 }
 
-console.log({
-    ...basicSetup, 
-    ...environmentSetup
-})
-
 
 module.exports = {
     ...basicSetup, 
