@@ -6,6 +6,7 @@ const passport = require('passport')
 
 const holdingsValidate = require('./holdings.validate')
 const Holding = require('./holdings.model')
+const HoldingController = require('./holdings.controller')
 
 const jwtAuthenticate = passport.authenticate('jwt', { session: false })
 const holdings = require('./../../../database').holdings
@@ -13,30 +14,25 @@ const holdingsRouter = express.Router()
 
 
 holdingsRouter.get('/', (req, res) => {
-  res.json(holdings)
+  HoldingController.getHoldings()
+    .then(holdings => {
+      res.json(holdings)
+    })
+    .catch(error => {
+      res.status(500).send('Error reading the holdings on database.')
+    })
 })
 
 holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], (req, res) => {
-  let newHolding = {
-    ...req.body, 
-    id: uuidv4(),
-    owner: req.user.username
-  }
-
-  new Holding({
-    ...req.body,
-    owner: req.user.username
-  }).save()
+  HoldingController.createHolding(req.body, req.user.username)
     .then(holding => {
       logger.info("Holding created added to the wallet", newHolding)
-      res.status(201).json(newHolding)
+      res.status(201).json(holding)
     })
     .catch(error => {
-      logger.warn('Holding could not be created.', error)
+      logger.error('Holding could not be created.', error)
+      res.status(500).send('We could not create the holding')
     })
-  
-  holdings.push(newHolding)
- 
 })
 
 holdingsRouter.get('/:id', (req, res) => {
