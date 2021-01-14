@@ -5,6 +5,7 @@ const logger = require('./../../../utils/logger')
 const passport = require('passport')
 
 const holdingsValidate = require('./holdings.validate')
+const Holding = require('./holdings.model')
 
 const jwtAuthenticate = passport.authenticate('jwt', { session: false })
 const holdings = require('./../../../database').holdings
@@ -21,10 +22,21 @@ holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], (req, res) => {
     id: uuidv4(),
     owner: req.user.username
   }
+
+  new Holding({
+    ...req.body,
+    owner: req.user.username
+  }).save()
+    .then(holding => {
+      logger.info("Holding created added to the wallet", newHolding)
+      res.status(201).json(newHolding)
+    })
+    .catch(error => {
+      logger.warn('Holding could not be created.', error)
+    })
   
   holdings.push(newHolding)
-  logger.info("Holding created added to the wallet", newHolding)
-  res.status(201).json(newHolding)
+ 
 })
 
 holdingsRouter.get('/:id', (req, res) => {
