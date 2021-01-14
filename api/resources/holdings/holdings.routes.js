@@ -13,7 +13,12 @@ const holdings = require('./../../../database').holdings
 const holdingsRouter = express.Router()
 
 const idValidation = (req, res, next) => {
-  
+  const id = req.params.id 
+  if(id.match(/^[a-fA-F0-9]{24}$/) === null){
+    res.status(400).send(`The id ${id} given is not correct.`)
+    return
+  } 
+  next()
 } 
 
 
@@ -39,7 +44,7 @@ holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], (req, res) => {
     })
 })
 
-holdingsRouter.get('/:id', (req, res) => {
+holdingsRouter.get('/:id', idValidation, (req, res) => {
   const id = req.params.id 
   HoldingController.getHoldingbyId(id)
     .then(holding => {
