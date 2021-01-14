@@ -26,7 +26,7 @@ holdingsRouter.get('/', (req, res) => {
 holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], (req, res) => {
   HoldingController.createHolding(req.body, req.user.username)
     .then(holding => {
-      logger.info("Holding created added to the wallet", newHolding)
+      logger.info("Holding created added to the wallet", holding)
       res.status(201).json(holding)
     })
     .catch(error => {
