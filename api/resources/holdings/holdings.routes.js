@@ -12,6 +12,10 @@ const jwtAuthenticate = passport.authenticate('jwt', { session: false })
 const holdings = require('./../../../database').holdings
 const holdingsRouter = express.Router()
 
+const idValidation = (req, res, next) => {
+  
+} 
+
 
 holdingsRouter.get('/', (req, res) => {
   HoldingController.getHoldings()
@@ -36,15 +40,21 @@ holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], (req, res) => {
 })
 
 holdingsRouter.get('/:id', (req, res) => {
-  for(let holding of holdings){
-    if(holding.id == req.params.id){
-      res.json(holding)
-      return
-    }
-  }
+  const id = req.params.id 
+  HoldingController.getHoldingbyId(id)
+    .then(holding => {
+      if(!holding){
+        res.status(404).send(`The holding with id ${res.params.id} does not exist.`)
 
-  // Not found 
-  res.status(404).send(`The holding with id ${res.params.id} does not exist.`)
+      } else {
+        res.json(holding)
+      }
+    })
+    .catch(error => {
+      logger.error(`Exception trying to find holding id ${id}`, error)
+      res.status(500).send(`Error trying to find holding id ${id}.`)
+    })
+
 })
 
 

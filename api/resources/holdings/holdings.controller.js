@@ -11,7 +11,12 @@ function getHoldings(){
   return Holding.find({})
 }
 
+function getHoldingbyId(id){
+  return Holding.findById(id)
+}
+
 module.exports = {
   createHolding,
-  getHoldings
+  getHoldings,
+  getHoldingbyId
 }
