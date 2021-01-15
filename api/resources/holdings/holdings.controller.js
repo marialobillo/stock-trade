@@ -1,22 +1,27 @@
 const Holding = require('./holdings.model')
 
-function createHolding(holding, owner){
+const createHolding = (holding, owner) => {
   return new Holding({
     ...holding, 
     owner
   }).save()
 }
 
-function getHoldings(){
+const getHoldings = () => {
   return Holding.find({})
 }
 
-function getHoldingbyId(id){
+const getHoldingById = (id) => {
   return Holding.findById(id)
+}
+
+const deleteHolding = (id) => {
+  return Holding.findByIdAndRemove(id)
 }
 
 module.exports = {
   createHolding,
   getHoldings,
-  getHoldingbyId
+  getHoldingById,
+  deleteHolding
 }

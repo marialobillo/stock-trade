@@ -46,7 +46,7 @@ holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], (req, res) => {
 
 holdingsRouter.get('/:id', idValidation, (req, res) => {
   const id = req.params.id 
-  HoldingController.getHoldingbyId(id)
+  HoldingController.getHoldingById(id)
     .then(holding => {
       if(!holding){
         res.status(404).send(`The holding with id ${res.params.id} does not exist.`)
@@ -88,25 +88,40 @@ holdingsRouter.put('/:id', [jwtAuthenticate, holdingsValidate], (req, res) => {
 })
 
 
-holdingsRouter.get('/:id', jwtAuthenticate, (req, res) => {
-  let index = _.findIndex(holdings, holding => holding.id == req.params.id)
+holdingsRouter.delete('/:id', [jwtAuthenticate, idValidation] , async (req, res) => {
+  let id = req.params.id 
+  let holdingToDelete
+
+  try {
+    holdingToDelete = await HoldingController.getHoldingById(id)
+    
+  } catch (error) {
+    logger.warn(`Exception: Error trying to delete holding id ${id}`, error)
+    res.status(500).send(`Exception: Error trying to delete holding id ${id}`)
+  }
   
-  if(index === -1){
-    logger.warn(`Holding id ${id} does not exist. Nothing to delete.`)
-    res.status(404).send(`Holding with id ${req.params.id} does not exist.`)
+
+  if(!holdingToDelete){
+    logger.info(`Holding id ${id} does not exist. Nothing to delete.`)
+    res.status(404).send(`Holding with id ${id} does not exist.`)
     return 
   }
 
-  if(holdings[index].owner !== req.user.username){
-    logger.info(`User ${req.user.username} is not the owner of ${holdings[index].id} holding.`)
+  let userAuthenticated = req.user.username
+  if(holdingToDelete.owner !== userAuthenticated){
+    logger.info(`User ${userAuthenticated} is not the owner of ${id} holding.`)
     res.status(401).send(`You are not the holding owner. Only can DELETE your own holdings.`)
     return
   }
 
-  logger.info(`Product id ${req.params.id} was deleted.`)
+  try {
+    let deletedHolding = await HoldingController.deleteHolding(id)
+    logger.info(`Product id ${id} was deleted.`)
+    res.staus(200).json(deletedHolding)    
+  } catch (error) {
+    res.status(500).send(`Error trying deleting holding id ${id}`)
+  }
 
-  let deleted = holdings.splice(index, 1)
-  res.status(200).json(deleted)
 })
 
 module.exports = holdingsRouter
