@@ -9,6 +9,7 @@ const holdingSchema = new mongoose.Schema({
   dateBuy: { type: Date, default: Date.now },
   dateSell: { type: Date },
   isActive: { type: Boolean },
+  owner: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
 })

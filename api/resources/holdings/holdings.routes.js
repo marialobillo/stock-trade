@@ -117,7 +117,7 @@ holdingsRouter.delete('/:id', [jwtAuthenticate, idValidation] , async (req, res)
   try {
     let deletedHolding = await HoldingController.deleteHolding(id)
     logger.info(`Product id ${id} was deleted.`)
-    res.staus(200).json(deletedHolding)    
+    res.status(200).json(deletedHolding)    
   } catch (error) {
     res.status(500).send(`Error trying deleting holding id ${id}`)
   }
