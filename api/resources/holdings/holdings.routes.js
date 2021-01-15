@@ -63,28 +63,40 @@ holdingsRouter.get('/:id', idValidation, (req, res) => {
 })
 
 
-holdingsRouter.put('/:id', [jwtAuthenticate, holdingsValidate], (req, res) => {
-  let holdingUpdated = {
-    ...req.body,
-    id: req.params.id, 
-    owner: req.user.username
+holdingsRouter.put('/:id', [jwtAuthenticate, holdingsValidate], async (req, res) => {
+  let id = req.params.id 
+  let requestUser = req.user.username 
+  let holdingUpdated 
+
+  try {
+    holdingUpdated = await HoldingController.getHoldingById(id)
+  } catch (error) {
+    logger.warn(`Exception trying to update holding with id ${id}`, error)
+    res.status(500).send(`Error trying to update holding with id ${id}`)
+    return
   }
 
-
-  let index = _.findIndex(holdings, holding => holdingUpdated.id == id)
-
-  if(index !== -1){
-    if(holdings[index].owner !== holdingsValidate.owner){
-      logger.info(`User ${req.user.username} is not the owner of ${holdingUpdated.id} holding.`)
-      res.status(401).send(`You are not the holding owner. Only can SEE your own holdings.`)
-      return
-    }
-    holdings[index] = holdingUpdated
-    logger.info(`Product id ${holdingUpdated} was updated.`)
-    res.status(200).json(holdingUpdated)
-  } else {
-    res.status(404).send(`The holding with id ${holdingUpdated.id} does not exist.`)
+  if(!holdingUpdated){
+    res.status(404).send(`Holding id ${id} does not exist.`)
+    return
   }
+
+  if(holdingUpdated.owner !== requestUser){
+    log.warn(`User ${requestUser} is not the owner of holding ${id}. No update possible.`)
+    res.status(401).send(`You are not the owner of the holding ${id}. Only can change your holdings.`)
+    return
+  }
+
+  HoldingController.updateHolding(id, req.body, requestUser)
+    .then(holding => {
+      res.status(200).json(holding)
+      logger.info(`Holding id ${id} was successfully updated`, holding)
+    })
+    .catch(error => {
+      logger.error(`Exception trying to update holding id ${id}`, error)
+      res.status(500).send(`Error trying to update holding id ${id}`)
+    })
+
 })
 
 

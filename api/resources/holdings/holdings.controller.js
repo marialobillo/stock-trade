@@ -15,6 +15,15 @@ const getHoldingById = (id) => {
   return Holding.findById(id)
 }
 
+const updateHolding = (id, holding, username) => {
+  return Holding.findOneAndUpdate({ _id: id }, {
+    ...holding, 
+    owner: username
+  }, {
+    new: true //
+  })
+}
+
 const deleteHolding = (id) => {
   return Holding.findByIdAndRemove(id)
 }
@@ -23,5 +32,6 @@ module.exports = {
   createHolding,
   getHoldings,
   getHoldingById,
-  deleteHolding
+  deleteHolding,
+  updateHolding
 }
