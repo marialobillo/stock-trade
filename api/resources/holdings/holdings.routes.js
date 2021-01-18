@@ -90,7 +90,7 @@ holdingsRouter.put('/:id', [jwtAuthenticate, holdingsValidate], async (req, res)
   HoldingController.updateHolding(id, req.body, requestUser)
     .then(holding => {
       res.status(200).json(holding)
-      logger.info(`Holding id ${id} was successfully updated`, holding)
+      logger.info(`Holding id ${id} was successfully updated`, holding.toObject())
     })
     .catch(error => {
       logger.error(`Exception trying to update holding id ${id}`, error)
