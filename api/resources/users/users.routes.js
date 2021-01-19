@@ -59,35 +59,35 @@ usersRouter.post('/', usersValidation, (req, res) => {
       res.status(500).send('Error trying to create a new user.')
     })
 
-  const index = _.findIndex(users, user => {
-    return user.username = newUser.username || user.email === newUser.email
-  })
+  // const index = _.findIndex(users, user => {
+  //   return user.username = newUser.username || user.email === newUser.email
+  // })
 
-  if(index !== -1){
-    // Conflict
-    logger.info('Username or email have already taken.')
-    res.status(409).send('Username or email have already taken.')
-    return
-  }
+  // if(index !== -1){
+  //   // Conflict
+  //   logger.info('Username or email have already taken.')
+  //   res.status(409).send('Username or email have already taken.')
+  //   return
+  // }
 
-  bcrypt.hash(newUser.password, 10, (error, hashedPassword) => {
-    if(error){
-      log.error('Error ocurred hashing password', error)
-      // Internal Server Error
-      res.status(500).send('Error ocurred')
-      return
-    }
+  // bcrypt.hash(newUser.password, 10, (error, hashedPassword) => {
+  //   if(error){
+  //     log.error('Error ocurred hashing password', error)
+  //     // Internal Server Error
+  //     res.status(500).send('Error ocurred')
+  //     return
+  //   }
 
-    users.push({
-      username: newUser.username,
-      email: newUser.email,
-      password: hashedPassword,
-      balance: 10000,
-      id: uuidv4()
-    })
+  //   users.push({
+  //     username: newUser.username,
+  //     email: newUser.email,
+  //     password: hashedPassword,
+  //     balance: 10000,
+  //     id: uuidv4()
+  //   })
 
-    res.status(201).send('User was created successfully')
-  })
+  //   res.status(201).send('User was created successfully')
+  // })
 
 })
 
