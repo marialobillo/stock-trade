@@ -9,11 +9,19 @@ const usersValidation = require('./users.validate').usersValidation
 const loginValidation = require('./users.validate').loginValidation
 const users = require('./../../../database').users
 const config = require('./../../../config')
+const userController = require('./users.controller')
 
 const usersRouter = express.Router()
 
 usersRouter.get('/', (req, res) => {
-  res.json(users)
+  userController.getUsers()
+    .then(users => {
+      res.json(users)
+    })
+    .catch(error => {
+      logger.error('Error trying to get all Users')
+      res.sendStatus(500)
+    })
 })
 
 usersRouter.post('/', usersValidation, (req, res) => {
