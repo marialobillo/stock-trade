@@ -20,9 +20,6 @@ const usersValidation = (req, res, next) => {
   if (validation.error === undefined){
     next()
   } else {
-   
-    
-
     logger.warn(`The next User was not validated: `, validation.error.details.map(error => error.message))
     res.status(400).send(`User data was not valid. 
     Username should be between 3 and 30 char long. 
