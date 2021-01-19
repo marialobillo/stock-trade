@@ -27,6 +27,11 @@ usersRouter.get('/', (req, res) => {
 usersRouter.post('/', usersValidation, (req, res) => {
   const newUser = req.body
 
+  userController.userExists(newUser.username, newUser.email)
+    .then(userExists => {
+      
+    })
+
   const index = _.findIndex(users, user => {
     return user.username = newUser.username || user.email === newUser.email
   })
