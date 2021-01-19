@@ -29,7 +29,34 @@ usersRouter.post('/', usersValidation, (req, res) => {
 
   userController.userExists(newUser.username, newUser.email)
     .then(userExists => {
-      
+      if(userExists){
+        logger.warn(`Email ${newUser.email} or username ${newUser.username} already exist.`)
+        res.status(409).send('Email or username are already taken.')
+        return
+      }
+
+      bcrypt.hash(newUser.password, 10, (error, hashedPassword) => {
+        if(error){
+          logger.error('Error trying to get hashed password', error)
+          res.status(500).send('Error on creating the user')
+          return
+        }
+
+        userController.createUser(newUser, hashedPassword)
+          .then(newUser => {
+            res.status(201).send('User created successfully')
+          })
+          .catch(error => {
+            logger.error('Error trying to create an user', error)
+            res.status(500).send('Error on creating the user')
+          })
+
+      })
+
+    })
+    .catch(error => {
+      logger.error(`Error trying to verify user ${newUser.username} with email ${newUser.email} already exists.`)
+      res.status(500).send('Error trying to create a new user.')
     })
 
   const index = _.findIndex(users, user => {
