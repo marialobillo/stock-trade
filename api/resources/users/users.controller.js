@@ -35,5 +35,6 @@ const getUser = ({  username: username, id: id }) => {
 module.exports = {
     getUsers,
     userExists,
-    getUser
+    getUser,
+    createUser
 }

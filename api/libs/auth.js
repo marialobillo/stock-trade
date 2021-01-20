@@ -16,12 +16,12 @@ module.exports = new passportJWT.Strategy(jwtOptions, (jwtPayload, next) => {
   userController.getUser({ id: jwtPayload.id })
     .then(user => {
       if(!user){
-        logger.info(`JWT not valid token, user ${users.username} does not exist. No Authentication.`)
+        logger.info(`JWT not valid token, user ${user.username} does not exist. No Authentication.`)
         next(null, false)
         return
       }
 
-      logger.info(`User ${users.username} got a valid token. Authentication completed.`)
+      logger.info(`User ${user.username} got a valid token. Authentication completed.`)
       next(null, {
         username: user.username,
         id: user.id
