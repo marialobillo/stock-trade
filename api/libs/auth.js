@@ -3,8 +3,8 @@ const bcrypt = require('bcrypt')
 const passportJWT = require('passport-jwt')
 
 const logger = require('./../../utils/logger')
-const users = require('./../../database').users
 const config = require('./../../config')
+const userController = require('./../resources/users/users.controller')
 
 
 let jwtOptions = {
@@ -13,17 +13,24 @@ let jwtOptions = {
 }
 
 module.exports = new passportJWT.Strategy(jwtOptions, (jwtPayload, next) => {
-  let index = _.findIndex(users, user => user.id === jwtPayload.id)
+  userController.getUser({ id: jwtPayload.id })
+    .then(user => {
+      if(!user){
+        logger.info(`JWT not valid token, user ${users.username} does not exist. No Authentication.`)
+        next(null, false)
+        return
+      }
 
-  if(index === -1){
-    logger.info(`JWT not valid user ${users[index].username} does not exist. No Authentication.`)
-    next(null, false)
-  } else {
-    logger.info(`User ${users[index].username} got a valid token. Auth completed.`)
-    next(null, {
-      username: users[index].username,
-      id: users[index].id
+      logger.info(`User ${users.username} got a valid token. Authentication completed.`)
+      next(null, {
+        username: user.username,
+        id: user.id
+      })
     })
-  }
+    .catch(error => {
+      logger.error('Error on token validation')
+      next(error)
+    })
+  
 })
 
