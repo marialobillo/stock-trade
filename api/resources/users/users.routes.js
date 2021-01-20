@@ -70,8 +70,21 @@ usersRouter.post('/', [usersValidation, convertToLowercase], (req, res) => {
 })
 
 
-usersRouter.post('/login', [loginValidation, convertToLowercase], (req, res) => {
-  const userNoAuth = req.body 
+usersRouter.post('/login', [loginValidation, convertToLowercase], async (req, res) => {
+  const userNoAuthenticated = req.body 
+  const userRegistered 
+
+  try {
+    userRegistered = await userController.getUser({
+      username: userNoAuthenticated.username
+    })
+  } catch (error) {
+    logger.error(`Error on finding the user ${userNoAuthenticated.username} for login`)
+    res.status(500).send('Error on login process')
+  }
+
+
+
   let index = _.findIndex(users, user => user.username === userNoAuth.username)
 
   if(index === -1){
