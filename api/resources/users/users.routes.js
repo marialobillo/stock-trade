@@ -1,23 +1,21 @@
 const express = require('express')
-const { v4: uuidv4 } = require('uuid')
-const _ = require('underscore')
 const logger = require('./../../../utils/logger')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const usersValidation = require('./users.validate').usersValidation
 const loginValidation = require('./users.validate').loginValidation
-const users = require('./../../../database').users
 const config = require('./../../../config')
 const userController = require('./users.controller')
+const { UserDataInUse, IncorrectCredentials} = require('./users.error')
 
 const usersRouter = express.Router()
 
-const convertToLowercase = (req, res, next) => {
+function bodyToLowercase(req, res, next) {
   req.body.username && (req.body.username = req.body.username.toLowerCase())
-  res.body.email && (req.body.email = req.body.email.toLowerCase())
+  req.body.email && (req.body.email = req.body.email.toLowerCase())
   next()
-} 
+}
 
 usersRouter.get('/', (req, res) => {
   userController.getUsers()
@@ -30,7 +28,7 @@ usersRouter.get('/', (req, res) => {
     })
 })
 
-usersRouter.post('/', [usersValidation, convertToLowercase], (req, res) => {
+usersRouter.post('/', [usersValidation, bodyToLowercase], (req, res) => {
   const newUser = req.body
 
   userController.userExists(newUser.username, newUser.email)
@@ -70,9 +68,9 @@ usersRouter.post('/', [usersValidation, convertToLowercase], (req, res) => {
 })
 
 
-usersRouter.post('/login', [loginValidation, convertToLowercase], async (req, res) => {
+usersRouter.post('/login', [loginValidation, bodyToLowercase], async (req, res) => {
   const userNoAuthenticated = req.body 
-  const userRegistered 
+  let userRegistered 
 
   try {
     userRegistered = await userController.getUser({
@@ -81,34 +79,31 @@ usersRouter.post('/login', [loginValidation, convertToLowercase], async (req, re
   } catch (error) {
     logger.error(`Error on finding the user ${userNoAuthenticated.username} for login`)
     res.status(500).send('Error on login process')
-  }
-
-
-
-  let index = _.findIndex(users, user => user.username === userNoAuth.username)
-
-  if(index === -1){
-    logger.info(`User ${userNoAuth.username} does not exist. No Authentication.`)
-    res.status(400).send('Wrong credentials. User does not exist.')
     return
   }
 
-  let hashedPassword = users[index].password
-  bcrypt.compare(userNoAuth.password, hashedPassword, (error, equals) => {
-    if(equals){
+
+  if(!userRegistered){
+    logger.info(`User ${userNoAuthenticated.username} does not exist.`)
+    throw new IncorrectCredentials();
+  }
+
+  let correctPassword 
+  correctPassword = await bcrypt.compare(userNoAuthenticated.password, userRegistered.password)
+
+  if(correctPassword){
       // Generate and send token
       let token = jwt.sign(
-        { id: users[index].id }, 
-         config.jwt.secret, 
-        { expiresIn: config.jwt.expirationTime } 
-      )
-      logger.info(`User ${userNoAuth.username} completed authentication successfully.`)
+          { id: userRegistered.id }, 
+          config.jwt.secret, 
+          { expiresIn: config.jwt.expirationTime })
+      logger.info(`User ${userNoAuthenticated.username} completed authentication.`)
       res.status(200).json({ token })
-    } else {
-      logger.info(`User ${userNoAuth.username} no authenticated. Wrong password.`)
-      res.status(400).send('Wrong credentiasls. Be sure username and password are correct.')
-    }
-  })
+  } else {
+      logger.info(`User ${userNoAuthenticated.username} does not authenticated auth. Password not correct.`);
+      throw new IncorrectCredentials();
+  }
+  
 
 })
 

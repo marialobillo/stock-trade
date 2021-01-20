@@ -28,11 +28,12 @@ const getUser = ({  username: username, id: id }) => {
     
     if(id) return User.findById(id)
     
-    throw new Error('For getting an User we need username or id')
+    throw new Error('For User we need you provide the username or id')
 }
 
 
 module.exports = {
     getUsers,
-    userExists
+    userExists,
+    getUser
 }
