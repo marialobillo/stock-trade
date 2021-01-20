@@ -7,9 +7,9 @@ const passport = require('passport')
 const holdingsValidate = require('./holdings.validate')
 const Holding = require('./holdings.model')
 const HoldingController = require('./holdings.controller')
+const processErrors = require('../../libs/errorHandler').processErrors
 
 const jwtAuthenticate = passport.authenticate('jwt', { session: false })
-const holdings = require('./../../../database').holdings
 const holdingsRouter = express.Router()
 
 const idValidation = (req, res, next) => {
@@ -32,17 +32,13 @@ holdingsRouter.get('/', (req, res) => {
     })
 })
 
-holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], (req, res) => {
-  HoldingController.createHolding(req.body, req.user.username)
+holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], processErrors((req, res) => {
+  return HoldingController.createHolding(req.body, req.user.username)
     .then(holding => {
       logger.info("Holding created added to the wallet", holding)
       res.status(201).json(holding)
     })
-    .catch(error => {
-      logger.error('Holding could not be created.', error)
-      res.status(500).send('We could not create the holding')
-    })
-})
+}))
 
 holdingsRouter.get('/:id', idValidation, (req, res) => {
   const id = req.params.id 
