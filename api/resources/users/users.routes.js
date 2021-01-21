@@ -8,8 +8,7 @@ const loginValidation = require('./users.validate').loginValidation
 const config = require('./../../../config')
 const userController = require('./users.controller')
 const processErrors = require('../../libs/errorHandler').processErrors
-
-const { UserDataInUse, IncorrectCredentials} = require('./users.error')
+const { UserDataInUse, WrongCredentials} = require('./users.error')
 
 const usersRouter = express.Router()
 
@@ -57,7 +56,7 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(asy
 
   if(!userRegistered){
     logger.info(`User ${userNoAuthenticated.username} does not exist.`)
-    throw new IncorrectCredentials();
+    throw new WrongCredentials();
   }
 
   let correctPassword 
@@ -73,7 +72,7 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(asy
       res.status(200).json({ token })
   } else {
       logger.info(`User ${userNoAuthenticated.username} does not authenticated auth. Password not correct.`);
-      throw new IncorrectCredentials();
+      throw new WrongCredentials();
   }
 }))
 

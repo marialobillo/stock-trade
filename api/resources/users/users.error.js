@@ -9,16 +9,16 @@ class UserDataInUse extends Error {
     }
 }
 
-class IncorrectCredentials extends Error {
+class WrongCredentials extends Error {
     constructor(message){
         super(message);
-        this.message = message || 'Incorrect Credentials. Please check them out'
+        this.message = message || 'Wrong Credentials. Please check them out'
         this.status = 400;
-        this.name = 'IncorrectCredentials';
+        this.name = 'WrongCredentials';
     }
 }
 
 module.exports = {
     UserDataInUse,
-    IncorrectCredentials
+    WrongCredentials
 }
