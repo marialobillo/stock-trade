@@ -23,7 +23,7 @@ const idValidation = (req, res, next) => {
 
 
 holdingsRouter.get('/', processErrors((req, res) => {
-  HoldingController.getHoldings()
+  return HoldingController.getHoldings()
     .then(holdings => {
       res.json(holdings)
     })
@@ -37,9 +37,9 @@ holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], processErrors((req
     })
 }))
 
-holdingsRouter.get('/:id', idValidation, (req, res) => {
+holdingsRouter.get('/:id', idValidation, processErrors((req, res) => {
   const id = req.params.id 
-  HoldingController.getHoldingById(id)
+  return HoldingController.getHoldingById(id)
     .then(holding => {
       if(!holding){
         res.status(404).send(`The holding with id ${res.params.id} does not exist.`)
@@ -48,26 +48,15 @@ holdingsRouter.get('/:id', idValidation, (req, res) => {
         res.json(holding)
       }
     })
-    .catch(error => {
-      logger.error(`Exception trying to find holding id ${id}`, error)
-      res.status(500).send(`Error trying to find holding id ${id}.`)
-    })
-
-})
+}))
 
 
-holdingsRouter.put('/:id', [jwtAuthenticate, holdingsValidate], async (req, res) => {
+holdingsRouter.put('/:id', [jwtAuthenticate, holdingsValidate], processErrors(async (req, res) => {
   let id = req.params.id 
   let requestUser = req.user.username 
   let holdingUpdated 
 
-  try {
-    holdingUpdated = await HoldingController.getHoldingById(id)
-  } catch (error) {
-    logger.warn(`Exception trying to update holding with id ${id}`, error)
-    res.status(500).send(`Error trying to update holding with id ${id}`)
-    return
-  }
+  holdingUpdated = await HoldingController.getHoldingById(id)
 
   if(!holdingUpdated){
     res.status(404).send(`Holding id ${id} does not exist.`)
@@ -85,26 +74,15 @@ holdingsRouter.put('/:id', [jwtAuthenticate, holdingsValidate], async (req, res)
       res.status(200).json(holding)
       logger.info(`Holding id ${id} was successfully updated`, holding.toObject())
     })
-    .catch(error => {
-      logger.error(`Exception trying to update holding id ${id}`, error)
-      res.status(500).send(`Error trying to update holding id ${id}`)
-    })
 
-})
+}))
 
 
-holdingsRouter.delete('/:id', [jwtAuthenticate, idValidation] , async (req, res) => {
+holdingsRouter.delete('/:id', [jwtAuthenticate, idValidation] , processErrors(async (req, res) => {
   let id = req.params.id 
   let holdingToDelete
 
-  try {
-    holdingToDelete = await HoldingController.getHoldingById(id)
-    
-  } catch (error) {
-    logger.warn(`Exception: Error trying to delete holding id ${id}`, error)
-    res.status(500).send(`Exception: Error trying to delete holding id ${id}`)
-  }
-  
+  holdingToDelete = await HoldingController.getHoldingById(id)
 
   if(!holdingToDelete){
     logger.info(`Holding id ${id} does not exist. Nothing to delete.`)
@@ -119,14 +97,10 @@ holdingsRouter.delete('/:id', [jwtAuthenticate, idValidation] , async (req, res)
     return
   }
 
-  try {
-    let deletedHolding = await HoldingController.deleteHolding(id)
-    logger.info(`Product id ${id} was deleted.`)
-    res.status(200).json(deletedHolding)    
-  } catch (error) {
-    res.status(500).send(`Error trying deleting holding id ${id}`)
-  }
+  let deletedHolding = await HoldingController.deleteHolding(id)
+  logger.info(`Product id ${id} was deleted.`)
+  res.status(200).json(deletedHolding)    
 
-})
+}))
 
 module.exports = holdingsRouter
