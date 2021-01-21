@@ -22,15 +22,12 @@ const idValidation = (req, res, next) => {
 } 
 
 
-holdingsRouter.get('/', (req, res) => {
+holdingsRouter.get('/', processErrors((req, res) => {
   HoldingController.getHoldings()
     .then(holdings => {
       res.json(holdings)
     })
-    .catch(error => {
-      res.status(500).send('Error reading the holdings on database.')
-    })
-})
+}))
 
 holdingsRouter.post('/', [jwtAuthenticate, holdingsValidate], processErrors((req, res) => {
   return HoldingController.createHolding(req.body, req.user.username)

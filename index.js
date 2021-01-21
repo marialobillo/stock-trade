@@ -8,6 +8,7 @@ const usersRouter = require('./api/resources/users/users.routes')
 const logger = require('./utils/logger')
 const authJWT = require('./api/libs/auth')
 const config = require('./config')
+const errorHandler = require('./api/libs/errorHandler')
 
 // Authentication basic password and username
 passport.use(authJWT)
@@ -40,11 +41,13 @@ app.use(passport.initialize())
 app.use('/holdings', holdingsRouter)
 app.use('/users', usersRouter)
 
+app.use(errorHandler.processErrorsFromDB)
+if(config.environment === 'prod'){
+  app.use(errorHandler.errorsProduction)
+} else {
+  app.use(errorHandler.errorsDevelopment)
+}
 
-app.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
-  logger.info('User ->',req.user)
-  res.send('API de stock trade app')
-})
 
 app.listen(config.port, () => {
   logger.info('Listening on port 3000')

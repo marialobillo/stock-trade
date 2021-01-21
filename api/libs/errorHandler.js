@@ -17,14 +17,14 @@ exports.processErrorsFromDB = (error, req, res, next) => {
     next(error)
 } 
 
-exports.errorsOnProduction = (error, req, res, next) => {
+exports.errorsProduction = (error, req, res, next) => {
     res.status(error.status || 500)
     res.send({
        message: error.message 
     })
 }
 
-exports.errorsOnDevelopment = (error, req, res, next) => {
+exports.errorsDevelopment = (error, req, res, next) => {
     res.status(error.status || 500)
     res.send({
        message: error.message,
