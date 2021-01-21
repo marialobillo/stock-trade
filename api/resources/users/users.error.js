@@ -11,10 +11,10 @@ class UserDataInUse extends Error {
 
 class WrongCredentials extends Error {
     constructor(message){
-        super(message);
+        super(message)
         this.message = message || 'Wrong Credentials. Please check them out'
-        this.status = 400;
-        this.name = 'WrongCredentials';
+        this.status = 400
+        this.name = 'WrongCredentials'
     }
 }
 
