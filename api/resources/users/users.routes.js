@@ -7,6 +7,8 @@ const usersValidation = require('./users.validate').usersValidation
 const loginValidation = require('./users.validate').loginValidation
 const config = require('./../../../config')
 const userController = require('./users.controller')
+const processErrors = require('../../libs/errorHandler').processErrors
+
 const { UserDataInUse, IncorrectCredentials} = require('./users.error')
 
 const usersRouter = express.Router()
@@ -17,71 +19,41 @@ function bodyToLowercase(req, res, next) {
   next()
 }
 
-usersRouter.get('/', (req, res) => {
+usersRouter.get('/', processErrors((req, res) => {
   userController.getUsers()
     .then(users => {
       res.json(users)
     })
-    .catch(error => {
-      logger.error('Error trying to get all Users')
-      res.sendStatus(500)
-    })
-})
+}))
 
-usersRouter.post('/', [usersValidation, bodyToLowercase], (req, res) => {
-  const newUser = req.body
+usersRouter.post('/', [usersValidation, bodyToLowercase], processErrors((req, res) => {
+  let newUser = req.body
 
-  userController.userExists(newUser.username, newUser.email)
+  return userController.userExists(newUser.username, newUser.email)
     .then(userExists => {
       if(userExists){
         logger.warn(`Email ${newUser.email} or username ${newUser.username} already exist.`)
-        res.status(409).send('Email or username are already taken.')
-        return
+        throw new UserDataInUse()
       }
 
-      bcrypt.hash(newUser.password, 10, (error, hashedPassword) => {
-        if(error){
-          logger.error('Error trying to get hashed password', error)
-          res.status(500).send('Error on creating the user')
-          return
-        }
-
-        userController.createUser(newUser, hashedPassword)
+      return bcrypt.hash(newUser.password, 10) 
+    })  
+    .then((hash) => {
+      return userController.createUser(newUser, hash)
           .then(newUser => {
-            res.status(201).send('User created successfully')
+            res.status(201).send('User created successfully', newUser)
           })
-          .catch(error => {
-            logger.error('Error trying to create an user', error)
-            res.status(500).send('Error on creating the user')
-          })
-
-      })
-
     })
-    .catch(error => {
-      logger.error(`Error trying to verify user ${newUser.username} with email ${newUser.email} already exists.`)
-      res.status(500).send('Error trying to create a new user.')
-    })
-
-  
-
-})
+}))
 
 
-usersRouter.post('/login', [loginValidation, bodyToLowercase], async (req, res) => {
+usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(async (req, res) => {
   const userNoAuthenticated = req.body 
   let userRegistered 
 
-  try {
-    userRegistered = await userController.getUser({
-      username: userNoAuthenticated.username
-    })
-  } catch (error) {
-    logger.error(`Error on finding the user ${userNoAuthenticated.username} for login`)
-    res.status(500).send('Error on login process')
-    return
-  }
-
+  userRegistered = await userController.getUser({
+    username: userNoAuthenticated.username
+  })
 
   if(!userRegistered){
     logger.info(`User ${userNoAuthenticated.username} does not exist.`)
@@ -103,9 +75,7 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], async (req, res) 
       logger.info(`User ${userNoAuthenticated.username} does not authenticated auth. Password not correct.`);
       throw new IncorrectCredentials();
   }
-  
-
-})
+}))
 
 
 module.exports = usersRouter
