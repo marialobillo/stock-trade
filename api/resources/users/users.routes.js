@@ -19,7 +19,7 @@ function bodyToLowercase(req, res, next) {
 }
 
 usersRouter.get('/', processErrors((req, res) => {
-  userController.getUsers()
+  return userController.getUsers()
     .then(users => {
       res.json(users)
     })

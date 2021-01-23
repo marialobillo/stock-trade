@@ -13,7 +13,6 @@ class UserNoOwner extends Error {
         this.message = message || 'You are not the holding owner.'
         this.status = 401
         this.name = 'UserNotOwner'
-        
     }
 }
 
