@@ -9,9 +9,9 @@ let config = require('../../../config');
 
 let dummyUsers = [
     {
-        username: 'Paul',
-        email: 'paul@mail.com',
-        password: 'paul123'
+        username: 'Thomas',
+        email: 'tomas@mail.com',
+        password: 'tomas123'
     },
     {
         username: 'Jon',
@@ -50,7 +50,7 @@ describe('** Users **', () => {
         })
     })
 
-    afterAll(() => {
+    afterEach(() => {
         server.close()
     })
 
@@ -81,244 +81,249 @@ describe('** Users **', () => {
                 })
         })
     })
+
+    describe('POST /users', () => {
+
+
+        test('Should create an user if is valid', (done) => {
+            
+            request(app)
+                .post('/users')
+                .send(dummyUsers[0])
+                .end((error, res) => {
+                    expect(res.status).toBe(201)
+                    expect(typeof res.text).toBe('string')
+                    expect(res.text).toEqual('User created successfully')
+                    // userValidExist(dummyUsers[0], done)
+                })
+        })
+    
+        test('Should fail try to register an already username registered', (done) => {
+            Promise.all(dummyUsers.map(user => (new User(user)).save()))
+                .then(users => {
+                    request(app)
+                        .post('/users')
+                        .send({
+                            username: 'Peter',
+                            email: 'newpeter@mail.com',
+                            password: 'hello123'
+                        })
+                        .end((error, res) => {
+                            expect(res.status).toBe(409)
+                            expect(typeof res.text).toBe('string')
+                            done()
+                        })
+                })
+        })
+    
+        test('Should fail try to register an already email registered', (done) => {
+            Promise.all(dummyUsers.map(user => (new User(user)).save()))
+                .then(users => {
+                    request(app)
+                        .post('/users')
+                        .send({
+                            username: 'New Peter',
+                            email: 'jon@mail.com',
+                            password: 'hello123'
+                        })
+                        .end((error, res) => {
+                            expect(res.status).toBe(409)
+                            expect(typeof res.text).toBe('string')
+                            done()
+                        })
+                })
+        })
+    
+        test('Shoul not create a user without username', (done) => {
+            request(app)
+                .post('/users')
+                .send({
+                    email: 'daniel@mail.com',
+                    password: 'hello123'
+                })
+                .end((error, res) => {
+                    expect(res.status).toBe(400)
+                    expect(typeof res.text).toBe('string')
+                    done()
+                })
+        })
+    
+        test('Should not create an user without password', (done) => {
+            request(app)
+            .post('/users')
+            .send({
+                username: 'Daniel',
+                email: 'daniel@mail.com',
+            })
+            .end((error, res) => {
+                expect(res.status).toBe(400)
+                expect(typeof res.text).toBe('string')
+                done()
+            })
+        })
+    
+        test('Should not create an user without email', (done) => {
+            request(app)
+            .post('/users')
+            .send({
+                username: 'Daniel',
+                password: 'hello123'
+            })
+            .end((error, res) => {
+                expect(res.status).toBe(400)
+                expect(typeof res.text).toBe('string')
+                done()
+            })
+        }) 
+    
+    })
+
+
+    describe('POST /login', () => {
+
+        test('Login should fail on request without username', (done) => {
+            let bodyLogin = {
+                password: 'hellohello'
+            }
+    
+            request(app)
+                .post('/users/login')
+                .send(bodyLogin)
+                .end((error, res) => {
+                    expect(res.status).toBe(400)
+                    expect(typeof res.text).toBe('string')
+                    done()
+                })
+        })
+    
+        test('Login should failt on request without password', (done) => {
+            let bodyLogin = {
+                username: 'noone'
+            }
+    
+            request(app)
+                .post('/users/login')
+                .send(bodyLogin)
+                .end((error, res) => {
+                    expect(res.status).toBe(400)
+                    expect(typeof res.text).toBe('string')
+                    done()
+                })
+    
+    
+        })
+    
+        test('Login should fail is the user is not registered', (done) => {
+            let bodyLogin = {
+                username: 'nouser',
+                password: 'hellohello'
+            }
+    
+            request(app)
+                .post('/users/login')
+                .send(bodyLogin)
+                .end((error, res) => {
+                    expect(res.status).toBe(400)
+                    expect(typeof res.text).toBe('string')
+                    done()
+                })
+        })
+    
+        test('Login should fail with registered user and wrong password', (done) => {
+            let user = {
+                username: 'peter',
+                email: 'peter@mail.com',
+                password: 'yellowdogs'
+            }
+    
+            new User({
+                username: user.username, 
+                email: user.email,
+                password: bcrypt.hashSync(user.password, 10)
+            }).save().then(newUser => {
+                request(app)
+                    .post('/users/login')
+                    .send({
+                        username: user.username,
+                        password: 'greenrice'
+                    })
+                    .end((error, res) => {
+                        expect(res.status).toBe(400)
+                        expect(typeof res.text).toBe('string')
+                        done()
+                    })
+            })
+            .catch(error => {
+                done(error)
+            })
+        })
+    
+        test('User registered should have an JWT valid for login', (done) => {
+            let user = {
+                username: 'peter',
+                email: 'peter@mail.com',
+                password: 'yellowdogs'
+            }
+    
+            new User({
+                username: user.username,
+                email: user.email,
+                password: bcrypt.hashSync(user.password, 10)
+            }).save().then(newUser => {
+                request(app)
+                    .post('/users/login')
+                    .send({
+                        username: user.username, 
+                        password: user.password
+                    })
+                    .end((error, res) => {
+                        expect(res.status).toBe(200)
+                        expect(res.body.token).toEqual(jwt.sign(
+                            { id: newUser._id }, 
+                            config.jwt.secret,
+                            { expiresIn: config.jwt.expirantionTime }
+                        ))
+                    })
+            }).catch(error => {
+                done(error)
+            })
+        })
+    
+        test('Should got the same output about capitalization username', (done) => {
+            let user = {
+                username: 'peter',
+                email: 'peter@mail.com',
+                password: 'yellowdogs'
+            }
+    
+            new User({
+                username: user.username,
+                email: user.email,
+                password: bcrypt.hashSync(user.password, 10)
+            }).save().then(newUser => {
+                request(app)
+                    .post('/users/login')
+                    .send({
+                        username: 'PeTER',
+                        password: user.password
+                    })
+                    .end((error, res) => {
+                        expect(res.status).toBe(200)
+                        expect(res.body.token).toEqual(jwt.sign(
+                            { id: newUser._id },
+                            config.jwt.secret,
+                            { expiresIn: config.jwt.expirantionTime}
+                        ))
+                        done()
+                    })
+            })
+            .catch(error => {
+                done(error)
+            })
+        })
+    })
+    
 })
 
-describe('POST /users', () => {
-
-    // xtest('Should create an user if is valid', (done) => {
-    //     request(app)
-    //         .post('/users')
-    //         .send(dummyUsers[0])
-    //         .end((error, res) => {
-    //             console.log('status', res.body)
-
-    //             expect(res.status).toBe(201)
-                
-    //             expect(typeof res.text).toBe('string')
-    //             expect(res.text).toEqual('User create successfully')
-    //             userValidExist(dummyUsers[0], done)
-    //         })
-    // })
-
-    // test('Should fail try to register an already username registered', (done) => {
-    //     Promise.all(dummyUsers.map(user => (new User(user)).save()))
-    //         .then(users => {
-    //             request(app)
-    //                 .post('/users')
-    //                 .send({
-    //                     username: 'Peter',
-    //                     email: 'newpeter@mail.com',
-    //                     password: 'hello123'
-    //                 })
-    //                 .end((error, res) => {
-    //                     expect(res.status).toBe(409)
-    //                     expect(typeof res.text).toBe('string')
-    //                     done()
-    //                 })
-    //         })
-    // })
-
-    // test('Should fail try to register an already email registered', (done) => {
-    //     Promise.all(dummyUsers.map(user => (new User(user)).save()))
-    //         .then(users => {
-    //             request(app)
-    //                 .post('/users')
-    //                 .send({
-    //                     username: 'New Peter',
-    //                     email: 'jon@mail.com',
-    //                     password: 'hello123'
-    //                 })
-    //                 .end((error, res) => {
-    //                     expect(res.status).toBe(409)
-    //                     expect(typeof res.text).toBe('string')
-    //                     done()
-    //                 })
-    //         })
-    // })
-
-    // test('Shoul not create a user without username', (done) => {
-    //     request(app)
-    //         .post('/users')
-    //         .send({
-    //             email: 'daniel@mail.com',
-    //             password: 'hello123'
-    //         })
-    //         .end((error, res) => {
-    //             expect(res.status).toBe(400)
-    //             expect(typeof res.text).toBe('string')
-    //             done()
-    //         })
-    // })
-
-    // test('Should not create an user without password', () => {
-    //     request(app)
-    //     .post('/users')
-    //     .send({
-    //         username: 'Daniel',
-    //         email: 'daniel@mail.com',
-    //     })
-    //     .end((error, res) => {
-    //         expect(res.status).toBe(400)
-    //         expect(typeof res.text).toBe('string')
-    //         done()
-    //     })
-    // })
-
-    // test('Should not create an user without email', () => {
-    //     request(app)
-    //     .post('/users')
-    //     .send({
-    //         username: 'Daniel',
-    //         password: 'hello123'
-    //     })
-    //     .end((error, res) => {
-    //         expect(res.status).toBe(400)
-    //         expect(typeof res.text).toBe('string')
-    //         done()
-    //     })
-    // }) 
-
-})
-
-describe('POST /login', () => {
-    // test('Login should fail on request without username', (done) => {
-    //     let bodyLogin = {
-    //         password: 'hellohello'
-    //     }
-
-    //     request(app)
-    //         .post('/users/login')
-    //         .send(bodyLogin)
-    //         .end((error, res) => {
-    //             expect(res.status).toBe(400)
-    //             expect(typeof res.text).toBe('string')
-    //             done()
-    //         })
-    // })
-
-    // test('Login should failt on request without password', (done) => {
-    //     let bodyLogin = {
-    //         username: 'noone'
-    //     }
-
-    //     request(app)
-    //         .post('/users/login')
-    //         .send(bodyLogin)
-    //         .end((error, res) => {
-    //             expect(res.status).toBe(400)
-    //             expect(typeof res.text).toBe('string')
-    //             done()
-    //         })
 
 
-    // })
-
-    // test('Login should fail is the user is not registered', (done) => {
-    //     let bodyLogin = {
-    //         username: 'nouser',
-    //         password: 'hellohello'
-    //     }
-
-    //     request(app)
-    //         .post('/users/login')
-    //         .send(bodyLogin)
-    //         .end((error, res) => {
-    //             expect(res.status).toBe(400)
-    //             expect(typeof res.text).toBe('string')
-    //             done()
-    //         })
-    // })
-
-    // test('Login should fail with registered user and wrong password', (done) => {
-    //     let user = {
-    //         username: 'peter',
-    //         email: 'peter@mail.com',
-    //         password: 'yellowdogs'
-    //     }
-
-    //     new User({
-    //         username: user.username, 
-    //         email: user.email,
-    //         password: bcrypt.hashSync(user.password, 10)
-    //     }).save().then(newUser => {
-    //         request(app)
-    //             .post('/users/login')
-    //             .send({
-    //                 username: user.username,
-    //                 password: 'greenrice'
-    //             })
-    //             .end((error, res) => {
-    //                 expect(res.status).toBe(400)
-    //                 expect(typeof res.text).toBe('string')
-    //                 done()
-    //             })
-    //     })
-    //     .catch(error => {
-    //         done(error)
-    //     })
-    // })
-
-    // test('User registered should have an JWT valid for login', (done) => {
-    //     let user = {
-    //         username: 'peter',
-    //         email: 'peter@mail.com',
-    //         password: 'yellowdogs'
-    //     }
-
-    //     new User({
-    //         username: user.username,
-    //         email: user.email,
-    //         password: bcrypt.hashSync(user.password, 10)
-    //     }).save().then(newUser => {
-    //         request(app)
-    //             .post('/users/login')
-    //             .send({
-    //                 username: user.username, 
-    //                 password: user.password
-    //             })
-    //             .end((error, res) => {
-    //                 expect(res.status).toBe(200)
-    //                 expect(res.body.token).toEqual(jwt.sign(
-    //                     { id: newUser._id }, 
-    //                     config.jwt.secret,
-    //                     { expiresIn: config.jwt.expirantionTime }
-    //                 ))
-    //             })
-    //     }).catch(error => {
-    //         done(error)
-    //     })
-    // })
-
-    // test('Should got the same output about capitalization username', (done) => {
-    //     let user = {
-    //         username: 'peter',
-    //         email: 'peter@mail.com',
-    //         password: 'yellowdogs'
-    //     }
-
-    //     new User({
-    //         username: user.username,
-    //         email: user.email,
-    //         password: bcrypt.hashSync(user.password, 10)
-    //     }).save().then(newUser => {
-    //         request(app)
-    //             .post('/users/login')
-    //             .send({
-    //                 username: 'PeTER',
-    //                 password: user.password
-    //             })
-    //             .end((error, res) => {
-    //                 expect(res.status).toBe(200)
-    //                 expect(res.body.token).toEqual(jwt.sign(
-    //                     { id: newUser._id },
-    //                     config.jwt.secret,
-    //                     { expiresIn: config.jwt.expirantionTime}
-    //                 ))
-    //                 done()
-    //             })
-    //     })
-    //     .catch(error => {
-    //         done(error)
-    //     })
-    // })
-})
