@@ -32,7 +32,8 @@
   },
   "scripts": {
     "dev": "nodemon index.js",
-    "test": "jest --forceExit --runInBand --detectOpenHandles"
+    "test": "jest --forceExit --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",

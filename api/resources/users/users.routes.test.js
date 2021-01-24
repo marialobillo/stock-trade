@@ -50,7 +50,7 @@ describe('** Users **', () => {
         })
     })
 
-    afterEach(() => {
+    afterAll(() => {
         server.close()
     })
 
@@ -85,18 +85,18 @@ describe('** Users **', () => {
     describe('POST /users', () => {
 
 
+
         test('Should create an user if is valid', (done) => {
-            
             request(app)
-                .post('/users')
-                .send(dummyUsers[0])
-                .end((error, res) => {
-                    expect(res.status).toBe(201)
-                    expect(typeof res.text).toBe('string')
-                    expect(res.text).toEqual('User created successfully')
-                    // userValidExist(dummyUsers[0], done)
-                })
-        })
+              .post('/users')
+              .send(dummyUsers[0])
+              .end((error, res) => {
+                expect(res.status).toBe(201)
+                expect(typeof res.text).toBe('string')
+                expect(res.text).toEqual('User created successfully')
+                userValidExist(dummyUsers[0], done)
+              })
+          })
     
         test('Should fail try to register an already username registered', (done) => {
             Promise.all(dummyUsers.map(user => (new User(user)).save()))
@@ -310,9 +310,9 @@ describe('** Users **', () => {
                     .end((error, res) => {
                         expect(res.status).toBe(200)
                         expect(res.body.token).toEqual(jwt.sign(
-                            { id: newUser._id },
+                            { id: newUser._id }, 
                             config.jwt.secret,
-                            { expiresIn: config.jwt.expirantionTime}
+                            { expiresIn: config.jwt.expirantionTime }
                         ))
                         done()
                     })
