@@ -1,22 +1,21 @@
 import React from 'react'
-import Header from '../layout/Header'
+import Sidebar from '../layout/Sidebar'
 import HoldingList from './HoldingList'
+import Navbar from './../layout/Navbar'
 
 const Dashboard = () => {
     return (
         <div className="">
 
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-            <span className="navbar-brand" href="#">Stock Trade App </span>
-            <div className="collapse navbar-collapse" id="navbarColor01">
-            </div>
-            </nav>
+            <Navbar />
+
+
 
             <div className="container text-center panel panel-default">
 
 
                 <div className="form-holding">
-                    <Header />
+                    <Sidebar />
                 </div>
 
                 <hr/>
