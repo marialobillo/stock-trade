@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from '../layout/Header'
+import HoldingList from './HoldingList'
 
 const Dashboard = () => {
     return (
@@ -18,8 +19,12 @@ const Dashboard = () => {
                     <Header />
                 </div>
 
-                <div className="list-holdings">
+                <hr/>
 
+                <div className="list-holdings">
+                    <h3>Your Holdings</h3>
+
+                    <HoldingList/>
                 </div>
 
             </div>

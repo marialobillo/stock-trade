@@ -40,6 +40,8 @@ const NewHolding = () => {
             </button>
 
             <form className="form" onSubmit={onSubmitHoldng} >
+
+                <label>Company</label>
             <select name="company" className="form-control" >
                 <option
                     key={0}
