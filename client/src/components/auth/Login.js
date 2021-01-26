@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
 
-    const [user, saveUser] = useState({
+    const [user, setUser] = useState({
         username: '',
         password: ''
     })
@@ -11,7 +11,7 @@ const Login = () => {
     const { username, password } = user
 
     const onChange = event => {
-        saveUser({
+        setUser({
             ...user, 
             [event.target.name]: event.target.value
         })
