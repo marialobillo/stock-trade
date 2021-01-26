@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function Register({ register, showError }) {
     const [user, setUser] = useState({
         email: '',
-        name: '',
+        username: '',
         password: '',
         balance: 10000
     });
@@ -39,10 +39,10 @@ export default function Register({ register, showError }) {
 
                         <label>Name</label>
                         <input type="text"
-                            className="form-control" name="name"
-                            placeholder="Name"
+                            className="form-control" name="username"
+                            placeholder="Username"
                             onChange={handleInputChange}
-                            value={user.name}
+                            value={user.username}
                             required />
                         <label>Email</label>
                         <input type="text" className="form-control"

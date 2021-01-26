@@ -50,7 +50,7 @@ if(config.environment === 'prod'){
 
 
 const server = app.listen(config.port, () => {
-  logger.info('Listening on port 3000')
+  logger.info('Listening on port 3300')
 })
 
 module.exports = {

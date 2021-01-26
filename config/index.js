@@ -2,7 +2,7 @@ const environment = process.env.NODE_ENV || 'development'
 
 const basicSetup = {
     jwt: {},
-    port: 3000
+    port: 3300
 }
 
 let environmentSetup = {}

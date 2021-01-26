@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 export default function Login({ login, showError , getSymbols}) {
 
     const [user, setUser] = useState({
-        email: '',
+        username: '',
         password: '',
     });
 
@@ -19,9 +19,8 @@ export default function Login({ login, showError , getSymbols}) {
         event.preventDefault();
 
         try {
-            await login(user.email, user.password)            
+            await login(user.username, user.password)            
         } catch (error) {
-            //showError(error.response.data);
             console.log(error);
         }
     }
@@ -35,11 +34,11 @@ export default function Login({ login, showError , getSymbols}) {
                     <h3 className="h3 mb-3 font-weight-normal card-title">Please Login</h3>
                     <form className="form-signin" onSubmit={handleSubmit}>
 
-                        <label>Email</label>
+                        <label>Usename</label>
                         <input type="text" className="form-control"
-                            name="email" placeholder="Email"
+                            name="username" placeholder="Email"
                             onChange={handleInputChange}
-                            value={user.email}
+                            value={user.username}
                             required />
                         <label>Password</label>
                         <input type="password" className="form-control"
