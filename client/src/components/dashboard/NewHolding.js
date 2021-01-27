@@ -6,7 +6,7 @@ const NewHolding = () => {
 
     // Get form state 
     const holdingsContext = useContext(holdingContext)
-    const { holdingForm } = holdingsContext
+    const { holdingForm, showHoldingForm } = holdingsContext
 
     const [holding, setHolding] = useState({
         company: '',
@@ -32,6 +32,10 @@ const NewHolding = () => {
         // Clean the form
     }
 
+    const onClickShowForm = () => {
+        showHoldingForm()
+    }
+
     return (
 
         <Fragment>
@@ -40,6 +44,7 @@ const NewHolding = () => {
             <button
                 type="button"
                 className="btn btn-primary btn-block"
+                onClick={ onClickShowForm }
             >
                 New Holding
             </button>
