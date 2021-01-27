@@ -1,18 +1,27 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Holding from './Holding'
 import holdingContext from '../../context/holdings/holdingContext'
 
 
 const HoldingList = () => {
 
+    // Extracting holdings
     const holdingsContext = useContext(holdingContext)
-    const { holdings } = holdingsContext
+    const { holdings, getHoldings } = holdingsContext
+
+    useEffect(() => {
+        getHoldings()
+    }, [])
+
+
+    if(holdings.length === 0) return null
+
 
     return (
 
         <ul className="holding-list">
             {holdings.map(holding => (
-                <Holding
+                <Holding key={holding.id}
                     holding={holding}
                 />
             ))}
