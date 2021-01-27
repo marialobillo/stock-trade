@@ -6,6 +6,7 @@ const NewHolding = () => {
 
     // Get form state 
     const holdingsContext = useContext(holdingContext)
+    const { holdingForm } = holdingsContext
 
     const [holding, setHolding] = useState({
         company: '',
@@ -43,38 +44,42 @@ const NewHolding = () => {
                 New Holding
             </button>
 
-            <form className="form" onSubmit={onSubmitHoldng} >
+            { holdingForm ?
+                 (
+                    <form className="form" onSubmit={onSubmitHoldng} >
 
-                <label>Company</label>
-            <select name="company" className="form-control" >
-                <option
-                    key={0}
-                    value="nocompany"
-                    defaultValue>
-                    Please Select a Company
-                </option>
-                <option>Apple ---- $300/Share</option>
-                <option>Google ---- $120</option>
-                <option>Facebook ---- $140</option>
-                <option>Ebay ---- $260 </option>
-            </select>
+                    <label>Company</label>
+                    <select name="company" className="form-control" >
+                        <option
+                            key={0}
+                            value="nocompany"
+                            defaultValue>
+                            Please Select a Company
+                        </option>
+                        <option>Apple ---- $300/Share</option>
+                        <option>Google ---- $120</option>
+                        <option>Facebook ---- $140</option>
+                        <option>Ebay ---- $260 </option>
+                    </select>
 
-                <label>Shares</label>
-                <input 
-                    type="number"
-                    className="form-control"
-                    placeholder="Shares..."
-                    name="shares"
-                    value={shares}
-                    onChange={onChangeHolding}
-                />
+                    <label>Shares</label>
+                    <input 
+                        type="number"
+                        className="form-control"
+                        placeholder="Shares..."
+                        name="shares"
+                        value={shares}
+                        onChange={onChangeHolding}
+                    />
 
-                <input
-                    type="submit"
-                    className="btn btn-info btn-block"
-                    value="Buy Holding"
-                />
-            </form>
+                    <input
+                        type="submit"
+                        className="btn btn-info btn-block"
+                        value="Buy Holding"
+                    />
+                </form>
+                ) : null
+            }
         </div>
 
         </Fragment>

@@ -4,7 +4,7 @@ import holdingReducer from './holdingReducer'
 
 const HoldingState = props => {
     const initialState = {
-        holdingForm: false
+        holdingForm: true
     }
 
     // Dispatch for execute actions
@@ -13,7 +13,7 @@ const HoldingState = props => {
     return(
         <holdingContext.Provider
             value={{
-                holdingForm: state.newHolding
+                holdingForm: state.holdingForm
             }}
         >
             {props.children}
