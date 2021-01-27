@@ -11,7 +11,7 @@ const Navbar = () => {
                 <div className="">
                     <span>Maria</span>
                     --
-                    <span><a className>Logout</a></span>
+                    <span><a className="">Logout</a></span>
                 </div>
 
             </nav>

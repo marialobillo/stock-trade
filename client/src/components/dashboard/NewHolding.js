@@ -1,7 +1,11 @@
-import React, { Fragment, useState} from 'react'
+import React, { Fragment, useState, useContext } from 'react'
+import holdingContext from '../../context/holdings/holdingContext'
 
 
 const NewHolding = () => {
+
+    // Get form state 
+    const holdingsContext = useContext(holdingContext)
 
     const [holding, setHolding] = useState({
         company: '',
