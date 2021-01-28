@@ -6,7 +6,7 @@ const NewHolding = () => {
 
     // Get form state 
     const holdingsContext = useContext(holdingContext)
-    const { holdingForm, showHoldingForm } = holdingsContext
+    const { holdingForm, showHoldingForm, addHolding } = holdingsContext
 
     const [holding, setHolding] = useState({
         company: '',
@@ -22,14 +22,21 @@ const NewHolding = () => {
         })
     }
 
-    const onSubmitHoldng = event => {
+    const onSubmitHolding = event => {
         event.preventDefault()
 
-        // Validate holding 
-
+        // Validate holding
+        if(company === 'nocompany'){
+            return
+        } 
         // Add to the state
+        addHolding(holding)
 
         // Clean the form
+        setHolding({
+            company: 'nocompany',
+            shares: 0
+        })
     }
 
     const onClickShowForm = () => {
@@ -51,20 +58,22 @@ const NewHolding = () => {
 
             { holdingForm ?
                  (
-                    <form className="form" onSubmit={onSubmitHoldng} >
+                    <form className="form" onSubmit={onSubmitHolding} >
 
                     <label>Company</label>
-                    <select name="company" className="form-control" >
+                    <select name="company" className="form-control" onChange={onChangeHolding} >
                         <option
                             key={0}
                             value="nocompany"
                             defaultValue>
                             Please Select a Company
                         </option>
-                        <option>Apple ---- $300/Share</option>
-                        <option>Google ---- $120</option>
-                        <option>Facebook ---- $140</option>
-                        <option>Ebay ---- $260 </option>
+                        <option key={1}
+                                value="APPL">
+                                    Apple ---- $300/Share</option>
+                        <option key={2} value="GOOG">Google ---- $120</option>
+                        <option key={3} value="FCBK">Facebook ---- $140</option>
+                        <option key={4} value="EBAY">Ebay ---- $260 </option>
                     </select>
 
                     <label>Shares</label>

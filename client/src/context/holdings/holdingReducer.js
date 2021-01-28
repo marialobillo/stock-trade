@@ -1,6 +1,7 @@
 import {
     HOLDING_FORM,
-    GET_HOLDINGS
+    GET_HOLDINGS,
+    ADD_HOLDING
 } from '../../types'
 
 
@@ -16,6 +17,13 @@ export default (state, action) => {
                 ...state,
                 holdings: action.payload
             }
+        case ADD_HOLDING:
+            return {
+                ...state,
+                holdings: [...state.holdings, action.payload],
+                holdingForm: false
+            }
+
         default:
             return state;
     }
