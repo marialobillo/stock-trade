@@ -22,7 +22,8 @@ export default (state, action) => {
             return {
                 ...state,
                 holdings: [...state.holdings, action.payload],
-                holdingForm: false
+                holdingForm: false,
+                errorForm: false
             }
         case VALIDATE_FORM:
             return {
