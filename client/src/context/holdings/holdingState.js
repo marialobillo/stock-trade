@@ -8,7 +8,8 @@ import {
     ADD_HOLDING,
     GET_HOLDINGS, 
     HOLDING_FORM, 
-    VALIDATE_FORM
+    VALIDATE_FORM,
+    SELL_HOLDING
 } from '../../types'
 
 
@@ -65,6 +66,18 @@ const HoldingState = props => {
         })
     }
 
+    // sell a holding
+    const sellHolding = holding => {
+        holding.priceSell = 100
+        holding.isActive = false 
+        holding.dateSell = Date.now()
+        console.log('El holding vendido!!!!', holding)
+        dispatch({
+            type: SELL_HOLDING,
+            payload: holding
+        })
+    }
+
     return(
         <holdingContext.Provider
             value={{
@@ -74,7 +87,8 @@ const HoldingState = props => {
                 showHoldingForm,
                 getHoldings,
                 addHolding,
-                showError
+                showError,
+                sellHolding
             }}
         >
             {props.children}

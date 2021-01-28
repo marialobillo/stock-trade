@@ -2,7 +2,8 @@ import {
     HOLDING_FORM,
     GET_HOLDINGS,
     ADD_HOLDING,
-    VALIDATE_FORM
+    VALIDATE_FORM,
+    SELL_HOLDING
 } from '../../types'
 
 
@@ -29,6 +30,11 @@ export default (state, action) => {
             return {
                 ...state,
                 errorForm: true
+            }
+        case SELL_HOLDING:
+            return {
+                ...state, 
+                holding: action.payload 
             }
 
         default:

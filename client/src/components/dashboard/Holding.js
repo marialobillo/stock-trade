@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Holding = ({holding}) => {
+const Holding = ({holding, sellHolding}) => {
     
     return(
         <li>
@@ -9,7 +9,10 @@ const Holding = ({holding}) => {
             <span>${holding.priceBuy}</span>---
             <span>{holding.isActive}</span>
 
-            <button className="btn btn-warning">Sell</button>
+            <button 
+                className="btn btn-warning"
+                onClick={sellHolding}    
+            >Sell</button>
         </li>
     )
 }
