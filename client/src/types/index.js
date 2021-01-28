@@ -1,3 +1,4 @@
 export const HOLDING_FORM = 'HOLDING_FORM'
 export const GET_HOLDINGS = 'GET_HOLDINGS'
 export const ADD_HOLDING = 'ADD_HOLDING'
+export const VALIDATE_FORM = 'VALIDATE_FORM'

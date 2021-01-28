@@ -6,7 +6,8 @@ const NewHolding = () => {
 
     // Get form state 
     const holdingsContext = useContext(holdingContext)
-    const { holdingForm, showHoldingForm, addHolding } = holdingsContext
+    const { holdingForm, errorForm, 
+        showHoldingForm, addHolding, showError } = holdingsContext
 
     const [holding, setHolding] = useState({
         company: '',
@@ -26,7 +27,8 @@ const NewHolding = () => {
         event.preventDefault()
 
         // Validate holding
-        if(company === 'nocompany'){
+        if(company === 'nocompany' || shares == 0){
+            showError()
             return
         } 
         // Add to the state
@@ -92,8 +94,9 @@ const NewHolding = () => {
                         value="Buy Holding"
                     />
                 </form>
-                ) : null
-            }
+                ) : null }
+
+                { errorForm ? <p>Please, Select a company and shares.</p>: null }
         </div>
 
         </Fragment>

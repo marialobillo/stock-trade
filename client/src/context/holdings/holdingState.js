@@ -7,7 +7,8 @@ import holdingReducer from './holdingReducer'
 import { 
     ADD_HOLDING,
     GET_HOLDINGS, 
-    HOLDING_FORM 
+    HOLDING_FORM, 
+    VALIDATE_FORM
 } from '../../types'
 
 
@@ -24,7 +25,8 @@ const HoldingState = props => {
 
     const initialState = {
         holdings : [],
-        holdingForm: false
+        holdingForm: false,
+        errorForm: false
     }
 
     // Dispatch for execute actions
@@ -45,6 +47,7 @@ const HoldingState = props => {
         })
     }
 
+    // Buy a new holding
     const addHolding = holding => {
         holding.id = uuidv4()
 
@@ -55,14 +58,23 @@ const HoldingState = props => {
         })
     }
 
+    // Validation form
+    const showError = () => {
+        dispatch({
+            type: VALIDATE_FORM
+        })
+    }
+
     return(
         <holdingContext.Provider
             value={{
                 holdings: state.holdings,
                 holdingForm: state.holdingForm,
+                errorForm: state.errorForm,
                 showHoldingForm,
                 getHoldings,
-                addHolding
+                addHolding,
+                showError
             }}
         >
             {props.children}
