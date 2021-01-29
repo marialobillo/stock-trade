@@ -9,7 +9,7 @@ import {
     GET_HOLDINGS, 
     HOLDING_FORM, 
     VALIDATE_FORM,
-    SELL_HOLDING
+    SELL_HOLDING,
 } from '../../types'
 
 
@@ -27,7 +27,8 @@ const HoldingState = props => {
     const initialState = {
         holdings : [],
         holdingForm: false,
-        errorForm: false
+        errorForm: false,
+        selectedHolding: null
     }
 
     // Dispatch for execute actions
@@ -66,6 +67,7 @@ const HoldingState = props => {
         })
     }
 
+
     // sell a holding
     const sellHolding = holding => {
         holding.priceSell = 100
@@ -84,6 +86,7 @@ const HoldingState = props => {
                 holdings: state.holdings,
                 holdingForm: state.holdingForm,
                 errorForm: state.errorForm,
+                selectedHolding: state.selectedHolding,
                 showHoldingForm,
                 getHoldings,
                 addHolding,

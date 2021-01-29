@@ -7,7 +7,7 @@ const HoldingList = () => {
 
     // Extracting holdings
     const holdingsContext = useContext(holdingContext)
-    const { holdings, getHoldings, sellHolding } = holdingsContext
+    const { holdings, getHoldings, sellHolding, currentHolding } = holdingsContext
 
     useEffect(() => {
         getHoldings()
@@ -24,6 +24,7 @@ const HoldingList = () => {
                 <Holding key={holding.id}
                     holding={holding}
                     sellHolding={sellHolding}
+                    currentHolding={currentHolding}
                 />
             ))}
         </ul>

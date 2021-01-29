@@ -1,6 +1,10 @@
 import React from 'react'
 
 const Holding = ({holding, sellHolding}) => {
+
+    const currentHolding = holding => {
+        sellHolding(holding)
+    }
     
     return(
         <li>
@@ -11,7 +15,7 @@ const Holding = ({holding, sellHolding}) => {
 
             <button 
                 className="btn btn-warning"
-                onClick={sellHolding}    
+                onClick={() => currentHolding(holding)}    
             >Sell</button>
         </li>
     )

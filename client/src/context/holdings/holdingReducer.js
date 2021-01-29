@@ -34,7 +34,7 @@ export default (state, action) => {
         case SELL_HOLDING:
             return {
                 ...state, 
-                holding: action.payload 
+                selectedHolding: action.payload 
             }
 
         default:
