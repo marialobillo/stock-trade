@@ -4,3 +4,6 @@ export const ADD_HOLDING = 'ADD_HOLDING'
 export const VALIDATE_FORM = 'VALIDATE_FORM'
 export const CURRENT_HOLDING = 'CURRENT_HOLDING'
 export const SELL_HOLDING = 'SELL_HOLDING'
+
+export const SHOW_ALERT = 'SHOW_ALERT'
+export const HIDE_ALERT = 'HIDE_ALERT'
