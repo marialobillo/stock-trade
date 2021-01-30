@@ -1,8 +1,9 @@
 # Fantasy Stock Trade (React-Express-Postgresql)
 
-_Stock tracker using fantasy money, built using express.js, react.js, and postgresql._
+_Stock tracker using fantasy money, built using express.js, react.js, and mongodb._
 
-
+<br>
+<strong>Note:</stron> I'm updating this app, the backend parth, the API is done. I've changed the postgresql database for Mongodb database. And now I'm working on the client part, updating and cleaning everything.
 
 <br>
 
@@ -10,7 +11,7 @@ _Stock tracker using fantasy money, built using express.js, react.js, and postgr
 
 ## Summary
 
-Fantasy Stock Trade is an application the allows you the manage your holdings. The main objective of this project is to server as a learning tool, and familiarize myself with Expressjs for implementing an API using Postgresql as a Databaseand, and consuming an external API as IEX Cloud, using React Hooks and Jsonwebtoken for authentication users, and jest and supertest for testing the API. 
+Fantasy Stock Trade is an application the allows you the manage your holdings. The main objective of this project is to server as a learning tool, and familiarize myself with Expressjs for implementing an API using Postgresql as a Databaseand, and consuming an external API as IEX Cloud, using React Hooks like useContext and useReducer, and JsonWebtoken for authentication users, and jest and supertest for testing the API. 
 
 ## How to Install
 

@@ -1,8 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import AlertContext from './../../context/alerts/alertContext'
 
 
 const Register = (props) => {
+
+    // get from alert Context
+    const alertContext = useContext(AlertContext)
+    const { alert, showAlert } = alertContext
 
     const [user, setUser] = useState({
         username: '',
@@ -23,7 +28,13 @@ const Register = (props) => {
     const onSubmit = event => {
         event.preventDefault();
 
-        // Validate no empty fields 
+        // Validate no empty fields
+        if(username.trim() === '' || 
+            email.trim() === '' || 
+            password.trim() || 
+            confirm.trim() === '' ) {
+                showAlert('All fields are required.', 'alert-error')
+            }
 
         // password min 6 chars
 
@@ -41,11 +52,14 @@ const Register = (props) => {
                 </div>
             </nav>
             <div className="container text-center panel panel-default">
-
+                {alert ? (
+                    <div className={`alert ${alert.category}`}>
+                        {alert.message}
+                    </div>
+                    ) : null}
                 <div className="login-panel panel-body">
                     <h3>Register</h3>
                     <br/>
-
                     <form onSubmit={onSubmit} >
                         <div className="form-group">
                             <input

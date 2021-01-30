@@ -99,3 +99,17 @@ ul{
   margin: 250px  90px;
   width: 100%;
 }
+
+.alert{
+  margin-top: 30px;
+}
+
+.alert-ok {
+  background-color: rgb(124, 218, 124);
+  color: rgb(10, 66, 10);
+}
+
+.alert-error {
+  background-color: rgb(236, 68, 68);
+  color:#fff;
+}
