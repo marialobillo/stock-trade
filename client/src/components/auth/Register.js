@@ -31,14 +31,24 @@ const Register = (props) => {
         // Validate no empty fields
         if(username.trim() === '' || 
             email.trim() === '' || 
-            password.trim() || 
+            password.trim() === '' || 
             confirm.trim() === '' ) {
                 showAlert('All fields are required.', 'alert-error')
+                return
             }
 
         // password min 6 chars
+        if(password.length < 6){
+            showAlert('Password should contain at least 6 characters.', 'alert-error')
+            return
+        }
 
         // password == confirm
+        if(password !== confirm){
+            showAlert('Passwords are not equal.', 'alert-error')
+            return
+
+        }
 
         // to action
 
