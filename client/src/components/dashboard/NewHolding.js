@@ -27,7 +27,7 @@ const NewHolding = () => {
         event.preventDefault()
 
         // Validate holding
-        if(company === 'nocompany' || shares == 0){
+        if(company === 'nocompany' || shares === 0){
             showError()
             return
         } 
