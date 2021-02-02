@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const passport = require('passport')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const holdingsRouter = require('./api/resources/holdings/holdings.routes')
 const usersRouter = require('./api/resources/users/users.routes')
@@ -26,6 +27,7 @@ mongoose.connection.on('error', () => {
 })
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('short', {

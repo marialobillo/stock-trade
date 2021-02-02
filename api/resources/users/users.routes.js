@@ -25,6 +25,7 @@ usersRouter.get('/', processErrors((req, res) => {
     })
 }))
 
+// Registration Route
 usersRouter.post('/', [usersValidation, bodyToLowercase], processErrors((req, res) => {
   let newUser = req.body
 
@@ -40,12 +41,13 @@ usersRouter.post('/', [usersValidation, bodyToLowercase], processErrors((req, re
     .then((hash) => {
       return userController.createUser(newUser, hash)
           .then(newUser => {
-            res.status(201).send('User created successfully', newUser)
+            console.log('new user', newUser)
+            res.status(201).send({user: newUser})
           })
     })
 }))
 
-
+// Login Route
 usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(async (req, res) => {
   const userNoAuthenticated = req.body 
   let userRegistered 

@@ -3,7 +3,7 @@
 _Stock tracker using fantasy money, built using express.js, react.js, and mongodb._
 
 <br>
-<strong>Note:</stron> I'm updating this app, the backend parth, the API is done. I've changed the postgresql database for Mongodb database. And now I'm working on the client part, updating and cleaning everything.
+<strong>Note:</strong> I'm updating this app, the backend parth, the API is done. I've changed the postgresql database for Mongodb database. And now I'm working on the client part, updating and cleaning everything.
 
 <br>
 

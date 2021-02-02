@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AlertContext from './../../context/alerts/alertContext'
+import AuthContext from './../../context/authentication/authContext'
 
 
 const Register = (props) => {
@@ -8,6 +9,9 @@ const Register = (props) => {
     // get from alert Context
     const alertContext = useContext(AlertContext)
     const { alert, showAlert } = alertContext
+
+    const authContext = useContext(AuthContext)
+    const { registrationUser } = authContext
 
     const [user, setUser] = useState({
         username: '',
@@ -51,6 +55,11 @@ const Register = (props) => {
         }
 
         // to action
+        registrationUser({
+            username, 
+            email, 
+            password
+        })
 
     
     }
