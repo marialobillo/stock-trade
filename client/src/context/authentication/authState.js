@@ -36,14 +36,14 @@ import {
             })
 
         } catch (error) {
-            console.log(error.response.data.message)
             const alert = {
                 message: error.response.data.message,
-                category:'alert-error'
+                category: 'alert-error'
             }
             
             dispatch({
-                type: ERROR_REGISTER
+                type: ERROR_REGISTER,
+                payload: alert
             })
         }
     } 

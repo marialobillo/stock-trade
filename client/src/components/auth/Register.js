@@ -11,7 +11,17 @@ const Register = (props) => {
     const { alert, showAlert } = alertContext
 
     const authContext = useContext(AuthContext)
-    const { registrationUser } = authContext
+    const { message, authenticated, registrationUser } = authContext
+
+    // If the user is authenticated or register or 
+    useEffect(() => {
+        if(authenticated){
+            props.history.push('/dashboard')
+        }
+        if(message){
+           showAlert(message.message, message.category) 
+        }
+    }, [message, authenticated, props.history])
 
     const [user, setUser] = useState({
         username: '',
