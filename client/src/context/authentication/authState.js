@@ -29,14 +29,18 @@ import {
     const registrationUser = async data => {
         try {
             const response = await axiosClient.post('/users', data)
-            console.log(response)
 
             dispatch({
-                type: SUCCESS_REGISTER
+                type: SUCCESS_REGISTER,
+                payload: response.data
             })
 
         } catch (error) {
-            console.log(error)
+            console.log(error.response.data.message)
+            const alert = {
+                message: error.response.data.message,
+                category:'alert-error'
+            }
             
             dispatch({
                 type: ERROR_REGISTER

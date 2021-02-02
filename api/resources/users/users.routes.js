@@ -41,8 +41,11 @@ usersRouter.post('/', [usersValidation, bodyToLowercase], processErrors((req, re
     .then((hash) => {
       return userController.createUser(newUser, hash)
           .then(newUser => {
-            console.log('new user', newUser)
-            res.status(201).send({user: newUser})
+            let token = jwt.sign(
+              { id: newUser._id }, 
+              config.jwt.secret, 
+              { expiresIn: config.jwt.expirationTime })
+            res.status(201).send({user: newUser, token })
           })
     })
 }))
