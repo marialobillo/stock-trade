@@ -74,7 +74,7 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(asy
           config.jwt.secret, 
           { expiresIn: config.jwt.expirationTime })
       logger.info(`User ${userNoAuthenticated.username} completed authentication.`)
-      res.status(200).json({ token })
+      res.status(200).json({ token, username: userRegistered.username, userBalance: userRegistered.balance })
   } else {
       logger.info(`User ${userNoAuthenticated.username} does not authenticated auth. Password not correct.`);
       throw new WrongCredentials();
