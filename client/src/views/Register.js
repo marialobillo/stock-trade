@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Main from './../components/Main'
+import Axios from 'axios'
 // import { Link } from 'react-router-dom'
 
 const Register = () => {
@@ -8,7 +9,7 @@ const Register = () => {
         email: '',
         username: '',
         password: '',
-        confirm: ''
+        // confirm: ''
     })
 
 
@@ -19,6 +20,17 @@ const Register = () => {
         })
     }
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const { data } = await Axios.post('http://localhost:3300/users', user)
+            console.log('Data from register', data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <Main center={true}>
             <div className="container text-center panel panel-default">
@@ -27,7 +39,7 @@ const Register = () => {
                     <h2>Register</h2>
 
                     <form
-                        // onSubmit={onSubmit}
+                        onSubmit={handleSubmit}
                     >
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
@@ -38,8 +50,8 @@ const Register = () => {
                                 min="3"
                                 max="100"
                                 placeholder="Your Username..."
-                                onChange={onChange}
                                 className="form-control"
+                                onChange={onChange}
                                 value={user.username}
                             />
                         </div>
@@ -52,8 +64,8 @@ const Register = () => {
                                 name="email"
                                 maxLength="150"
                                 placeholder="Your Email..."
-                                onChange={onChange}
                                 className="form-control"
+                                onChange={onChange}
                                 value={user.email}
                             />
                         </div>
@@ -65,8 +77,8 @@ const Register = () => {
                                 id="password"
                                 name="password"
                                 placeholder="Your Password..."
-                                onChange={onChange}
                                 className="form-control"
+                                onChange={onChange}
                                 value={user.password}
                             />
                         </div>
@@ -78,9 +90,9 @@ const Register = () => {
                                 id="confirm"
                                 name="confirm"
                                 placeholder="Please, repeat your Password..."
-                                onChange={onChange}
                                 className="form-control"
-                                value={user.confirm}
+                                // onChange={onChange}
+                                // value={user.confirm}
                             />
                         </div>
 
