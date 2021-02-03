@@ -4,6 +4,7 @@ import AuthContext from './authContext'
 import AuthReducer from './authReducer'
 
 import axiosClient from './../../config/axios'
+import authToken from './../../config/authToken'
 
 import { 
     SUCCESS_REGISTER,
@@ -34,7 +35,7 @@ import {
                 type: SUCCESS_REGISTER,
                 payload: response.data
             })
-
+            userAuthenticated()
         } catch (error) {
             const alert = {
                 message: error.response.data.message,
@@ -47,6 +48,25 @@ import {
             })
         }
     } 
+
+    // Return user authenticated
+    const userAuthenticated = async () => {
+        const token = localStorage.getItem('token')
+        if(token){
+            // TODO: Function for send token by headers
+            authToken(token)
+        }
+
+        try {
+            const response = await axiosClient.get('/users/auth')
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+            dispatch({
+                type: ERROR_LOGIN
+            })
+        }
+    }
 
 
     return (

@@ -81,5 +81,10 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(asy
   }
 }))
 
+// Auth Route, get the User Authenticated by the Token
+usersRouter.post('/auth', processErrors(async (req, res) => {
+  console.log('From user/auth')
+}))
+
 
 module.exports = usersRouter

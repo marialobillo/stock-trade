@@ -4,24 +4,22 @@ import AlertContext from './../../context/alerts/alertContext'
 import AuthContext from './../../context/authentication/authContext'
 
 
-const Register = (props) => {
+const Register = () => {
 
     // get from alert Context
     const alertContext = useContext(AlertContext)
     const { alert, showAlert } = alertContext
 
     const authContext = useContext(AuthContext)
-    const { message, authenticated, registrationUser } = authContext
+    const { message, registrationUser } = authContext
 
     // If the user is authenticated or register or 
     useEffect(() => {
-        if(authenticated){
-            props.history.push('/dashboard')
-        }
+        
         if(message){
            showAlert(message.message, message.category) 
         }
-    }, [message, authenticated, props.history])
+    }, [message])
 
     const [user, setUser] = useState({
         username: '',

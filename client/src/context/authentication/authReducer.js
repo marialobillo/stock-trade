@@ -10,7 +10,9 @@ import {
 
 export default (state, action) => {
     switch(action.type){
+        case ERROR_LOGIN:
         case ERROR_REGISTER:
+            localStorage.removeItem('token')
            return {
                ...state, 
                token: null,
@@ -24,6 +26,7 @@ export default (state, action) => {
                 authenticated: true, 
                 message: null
             }
+        
         
         default:
             return state;
