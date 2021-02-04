@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom' 
 import Axios from 'axios'
 
 import { deleteToken, getToken, setToken, initAxiosInterceptors } from './helpers/authHelpers'
@@ -66,14 +67,42 @@ const App = () => {
   }
 
   return (
-    <div className="container">
+    <Router>
       <Navbar />
-
-      {/* <Register register={register} /> */}
-      <Login login={login}/>
-      <div>{JSON.stringify(user)}</div>
-    </div>
+       { user ? (
+        <LoginRoutes />) 
+       : ( 
+        <LogoutRoutes login={login} register={register} />
+        )}
+    </Router>
   );
+}
+
+const LoginRoutes = () => {
+  return (
+    <Switch>
+      <Route 
+        path="/" 
+        component={() => <Main><h1>I am the feed</h1> </Main>}
+        default
+      />
+    </Switch>
+  )
+}
+
+const LogoutRoutes = ({login, register}) => {
+  return (
+    <Switch>
+      <Route 
+        path="/login" 
+        render={(props) => <Login {...props} login={login} />} 
+      />
+      <Route 
+        render={(props) => <Register {...props} register={register} />} 
+        default
+      />
+    </Switch>
+  )
 }
 
 export default App;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Main from './../components/Main'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Login = ({ login }) => {
 
@@ -78,9 +78,9 @@ const Login = ({ login }) => {
 
                     <div>
                         Create a new account...
-                    <a href="/register" className="">
+                    <Link to="/register" className="">
                         Register
-                    </a>
+                    </Link>
 
                     </div>
 

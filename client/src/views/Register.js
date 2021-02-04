@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Main from './../components/Main'
-import Axios from 'axios'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Register = ({ register }) => {
 
@@ -25,8 +24,6 @@ const Register = ({ register }) => {
 
         try {
             register(user)
-            const { data } = await Axios.post('http://localhost:3300/users', user)
-            console.log('Data from register', data)
         } catch (error) {
             console.log(error)
         }
@@ -108,9 +105,9 @@ const Register = ({ register }) => {
 
                     <div>
                         Already has an account? 
-                    <a href="/login" className="">
+                    <Link to="/login" className="">
                         Login
-                    </a>
+                    </Link>
 
                     </div>
 
