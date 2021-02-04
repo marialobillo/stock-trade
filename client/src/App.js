@@ -15,6 +15,12 @@ const App = () => {
     const { data } = await Axios.post('http://localhost:3300/users/login', {
       username, password
     });
+    setUser(data.user);
+    setToken(data.token);
+  }
+
+  const register = async (user) => {
+    const { data } = await Axios.post('http://localhost:3300/users', user);
     console.log(data)
     setUser(data.user);
     setToken(data.token);
@@ -24,7 +30,7 @@ const App = () => {
     <div className="container">
       <Navbar />
 
-      {/* <Register /> */}
+      {/* <Register register={register} /> */}
       <Login login={login}/>
       <div>{JSON.stringify(user)}</div>
     </div>

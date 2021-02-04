@@ -3,7 +3,7 @@ import Main from './../components/Main'
 import Axios from 'axios'
 // import { Link } from 'react-router-dom'
 
-const Register = () => {
+const Register = ({ register }) => {
 
     const [user, setUser] = useState({
         email: '',
@@ -24,6 +24,7 @@ const Register = () => {
         event.preventDefault();
 
         try {
+            register(user)
             const { data } = await Axios.post('http://localhost:3300/users', user)
             console.log('Data from register', data)
         } catch (error) {
