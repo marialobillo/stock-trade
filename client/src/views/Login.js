@@ -23,7 +23,7 @@ const Login = () => {
 
         try {
             const { data } = await Axios.post('http://localhost:3300/users/login', user)
-            console.log('Data from register', data)
+            console.log('Data from Login', data)
         } catch (error) {
             console.log(error)
         }
