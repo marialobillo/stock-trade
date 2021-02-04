@@ -1,29 +1,52 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 
-import { deleteToken, setToken } from './helpers/authHelpers'
+import { deleteToken, getToken, setToken, initAxiosInterceptors } from './helpers/authHelpers'
 import Navbar from './components/Nav'
 
 import Register from './views/Register'
 import Login from './views/Login'
 
+initAxiosInterceptors()
+
 const App = () => {
 
   const [user, setUser] = useState(null)
+  const [loadingUser, setLoadingUser] = useState(true)
+
+  useEffect(() => {
+    const loadUser = async () => {
+      if(!getToken()){
+        setLoadingUser(false)
+        return
+      }
+
+      try {
+        const { data: user } = await Axios.get('http://localhost:3300/users/whoami')
+        setUser(user)
+        setLoadingUser(false)
+      } catch (error) {
+        console.log(error)
+      }
+  
+    }
+
+    loadUser()
+  }, [])
 
   const login = async (username, password) => {
     const { data } = await Axios.post('http://localhost:3300/users/login', {
       username, password
     });
-    setUser(data.user);
-    setToken(data.token);
+    setUser(data.user)
+    setToken(data.token)
   }
 
   const register = async (user) => {
     const { data } = await Axios.post('http://localhost:3300/users', user);
     console.log(data)
-    setUser(data.user);
-    setToken(data.token);
+    setUser(data.user)
+    setToken(data.token)
   }
 
   const logout = () => {
