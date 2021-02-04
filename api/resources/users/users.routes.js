@@ -2,6 +2,8 @@ const express = require('express')
 const logger = require('./../../../utils/logger')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const passport = require('passport')
+const jwtAuthenticate = passport.authenticate('jwt', { session: false })
 
 const usersValidation = require('./users.validate').usersValidation
 const loginValidation = require('./users.validate').loginValidation
@@ -45,7 +47,8 @@ usersRouter.post('/', [usersValidation, bodyToLowercase], processErrors((req, re
               { id: newUser._id }, 
               config.jwt.secret, 
               { expiresIn: config.jwt.expirationTime })
-            res.status(201).send({user: newUser, token })
+            const returneredUser = hideSensitiveFields(newUser)
+            res.status(201).send({user: returneredUser, token })
           })
     })
 }))
@@ -74,10 +77,9 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(asy
           config.jwt.secret, 
           { expiresIn: config.jwt.expirationTime })
       logger.info(`User ${userNoAuthenticated.username} completed authentication.`)
-      res.status(200).json({ token, user : { 
-        _id: userRegistered._id, 
-        username: userRegistered.username, 
-        balance: userRegistered.balance }})
+
+      const returneredUser = hideSensitiveFields(userRegistered)
+      res.status(200).json({ token, user : returneredUser})
   } else {
       logger.info(`User ${userNoAuthenticated.username} does not authenticated auth. Password not correct.`);
       throw new WrongCredentials();
@@ -85,9 +87,20 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(asy
 }))
 
 // Auth Route, get the User Authenticated by the Token
-usersRouter.post('/auth', processErrors(async (req, res) => {
-  console.log('From user/auth')
+usersRouter.get('/whoami', [jwtAuthenticate], processErrors(async (req, res) => {
+  console.log('del who am i ----------->', hideSensitiveFields(req.user))
+  // res.json(hideSensitiveFields(req.user))
+  res.json(req.user)
 }))
+
+const hideSensitiveFields = (user) => {
+  return {
+    _id: user._id || user.id,
+    email: user.email, 
+    username: user.username, 
+    balance: user.balance
+  }
+}
 
 
 module.exports = usersRouter

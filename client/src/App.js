@@ -23,6 +23,7 @@ const App = () => {
 
       try {
         const { data: user } = await Axios.get('http://localhost:3300/users/whoami')
+        console.log('del useEffect -------', user)
         setUser(user)
         setLoadingUser(false)
       } catch (error) {
@@ -38,13 +39,13 @@ const App = () => {
     const { data } = await Axios.post('http://localhost:3300/users/login', {
       username, password
     });
+    console.log('De Login --> ', data.user)
     setUser(data.user)
     setToken(data.token)
   }
 
   const register = async (user) => {
     const { data } = await Axios.post('http://localhost:3300/users', user);
-    console.log(data)
     setUser(data.user)
     setToken(data.token)
   }
