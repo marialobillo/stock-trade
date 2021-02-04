@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import Main from './../components/Main'
-import Axios from 'axios'
 // import { Link } from 'react-router-dom'
 
-const Login = () => {
+const Login = ({ login }) => {
 
     const [user, setUser] = useState({
         username: '',
@@ -22,8 +21,7 @@ const Login = () => {
         event.preventDefault();
 
         try {
-            const { data } = await Axios.post('http://localhost:3300/users/login', user)
-            console.log('Data from Login', data)
+            login(user.username, user.password)
         } catch (error) {
             console.log(error)
         }
