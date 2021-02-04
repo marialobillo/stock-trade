@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Axios from 'axios'
 
-import { setToken } from './helpers/authHelpers'
+import { deleteToken, setToken } from './helpers/authHelpers'
 import Navbar from './components/Nav'
 
 import Register from './views/Register'
@@ -24,6 +24,11 @@ const App = () => {
     console.log(data)
     setUser(data.user);
     setToken(data.token);
+  }
+
+  const logout = () => {
+    setUser(null);
+    deleteToken();
   }
 
   return (
