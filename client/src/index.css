@@ -90,3 +90,54 @@ ul{
 .main-center{
   margin-left: 20%;
 }
+
+/* Loading */
+.loading {
+  margin: 10% 20%;
+  width: 70px;
+  text-align: center;
+}
+.loading > div {
+  width: 18px;
+  height: 18px;
+  background-color: #333;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s ease-in-out infinite both;
+  animation: sk-bouncedelay 1.4s ease-in-out infinite both;
+}
+.loading .dot-1 {
+  -webkit-animation-delay: -0.40s;
+  animation-delay: -0.40s;
+}
+.loading .dot-2 {
+  -webkit-animation-delay: -0.20s;
+  animation-delay: -0.20s;
+}
+.loading .dot-3 {
+  -webkit-animation-delay: -0.10s;
+  animation-delay: -0.10s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%,
+  80%,
+  to {
+    -webkit-transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes sk-bouncedelay {
+  0%,
+  80%,
+  to {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}

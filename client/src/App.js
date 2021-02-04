@@ -3,6 +3,8 @@ import Axios from 'axios'
 
 import { deleteToken, getToken, setToken, initAxiosInterceptors } from './helpers/authHelpers'
 import Navbar from './components/Nav'
+import Main from './components/Main'
+import Loading from './components/Loading'
 
 import Register from './views/Register'
 import Login from './views/Login'
@@ -53,6 +55,14 @@ const App = () => {
   const logout = () => {
     setUser(null);
     deleteToken();
+  }
+  
+  if(loadingUser){
+    return (
+      <Main center>
+        <Loading />
+      </Main>
+    )
   }
 
   return (
