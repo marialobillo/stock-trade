@@ -44,9 +44,8 @@ const Login = ({ login, showError }) => {
                                 type="text"
                                 id="username"
                                 name="username"
-                                min="3"
-                                max="100"
                                 placeholder="Your Username..."
+                                required
                                 className="form-control"
                                 onChange={onChange}
                                 value={user.username}
@@ -59,6 +58,7 @@ const Login = ({ login, showError }) => {
                                 type="password"
                                 id="password"
                                 name="password"
+                                required
                                 placeholder="Your Password..."
                                 className="form-control"
                                 onChange={onChange}

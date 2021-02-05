@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Main from './../components/Main'
 import { Link } from 'react-router-dom'
 
-const Register = ({ register }) => {
+const Register = ({ register, showError }) => {
 
     const [user, setUser] = useState({
         email: '',
@@ -23,8 +23,9 @@ const Register = ({ register }) => {
         event.preventDefault();
 
         try {
-            register(user)
+            await register(user)
         } catch (error) {
+            showError(error.response.data)
             console.log(error)
         }
     }
@@ -47,6 +48,7 @@ const Register = ({ register }) => {
                                 name="username"
                                 min="3"
                                 max="100"
+                                required
                                 placeholder="Your Username..."
                                 className="form-control"
                                 onChange={onChange}
@@ -61,6 +63,7 @@ const Register = ({ register }) => {
                                 id="email"
                                 name="email"
                                 maxLength="150"
+                                required
                                 placeholder="Your Email..."
                                 className="form-control"
                                 onChange={onChange}
@@ -74,23 +77,11 @@ const Register = ({ register }) => {
                                 type="password"
                                 id="password"
                                 name="password"
+                                required
                                 placeholder="Your Password..."
                                 className="form-control"
                                 onChange={onChange}
                                 value={user.password}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="confirm">Confirm Password</label>
-                            <input
-                                type="password"
-                                id="confirm"
-                                name="confirm"
-                                placeholder="Please, repeat your Password..."
-                                className="form-control"
-                                // onChange={onChange}
-                                // value={user.confirm}
                             />
                         </div>
 
