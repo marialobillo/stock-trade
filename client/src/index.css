@@ -141,3 +141,26 @@ ul{
     transform: scale(1);
   }
 }
+
+/* Errors */
+
+.error-container{
+  margin-top: 15px;
+  background-color: rgb(243, 215, 215);
+  padding: 4px;
+  text-align: center;
+  border-top: 1px solid red;
+  border-bottom: 1px solid red;
+  color: red;
+}
+
+.error-inner{
+  color:red;
+}
+
+.error-icon{
+  color: red;
+  border: none;
+  background-color:  rgb(243, 215, 215);
+  margin-left: 30%;
+}

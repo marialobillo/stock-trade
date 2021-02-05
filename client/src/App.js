@@ -6,6 +6,7 @@ import { deleteToken, getToken, setToken, initAxiosInterceptors } from './helper
 import Navbar from './components/Nav'
 import Main from './components/Main'
 import Loading from './components/Loading'
+import Error from './components/Error'
 
 import Register from './views/Register'
 import Login from './views/Login'
@@ -16,6 +17,7 @@ const App = () => {
 
   const [user, setUser] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const loadUser = async () => {
@@ -42,7 +44,7 @@ const App = () => {
     const { data } = await Axios.post('http://localhost:3300/users/login', {
       username, password
     });
-    console.log('De Login --> ', data.user)
+    console.log('Data...', data)
     setUser(data.user)
     setToken(data.token)
   }
@@ -54,8 +56,16 @@ const App = () => {
   }
 
   const logout = () => {
-    setUser(null);
-    deleteToken();
+    setUser(null)
+    deleteToken()
+  }
+
+  const showError = (message) => {
+    setError(message)
+  }
+
+  const hideError = () => {
+    setError(null)
   }
   
   if(loadingUser){
@@ -69,10 +79,11 @@ const App = () => {
   return (
     <Router>
       <Navbar />
+      <Error message={error} hideError={hideError}/>
        { user ? (
         <LoginRoutes />) 
        : ( 
-        <LogoutRoutes login={login} register={register} />
+        <LogoutRoutes login={login} register={register} showError={showError}/>
         )}
     </Router>
   );
@@ -90,15 +101,15 @@ const LoginRoutes = () => {
   )
 }
 
-const LogoutRoutes = ({login, register}) => {
+const LogoutRoutes = ({login, register, showError}) => {
   return (
     <Switch>
       <Route 
         path="/login" 
-        render={(props) => <Login {...props} login={login} />} 
+        render={(props) => <Login {...props} login={login} showError={showError} />} 
       />
       <Route 
-        render={(props) => <Register {...props} register={register} />} 
+        render={(props) => <Register {...props} register={register} showError={showError} />} 
         default
       />
     </Switch>

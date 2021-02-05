@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Main from './../components/Main'
 import { Link } from 'react-router-dom'
 
-const Login = ({ login }) => {
+const Login = ({ login, showError }) => {
 
     const [user, setUser] = useState({
         username: '',
@@ -21,8 +21,9 @@ const Login = ({ login }) => {
         event.preventDefault();
 
         try {
-            login(user.username, user.password)
+            await login(user.username, user.password)
         } catch (error) {
+            showError(error.response.data)
             console.log(error)
         }
     }
