@@ -1,13 +1,13 @@
 import React from 'react'
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
+    console.log('User on Navbar', user)
     return (
-        <nav className="nav">
-           <ul className="nav-links">
-                <li>
-                    <a href="/" className="nav-link">Stock Trade App</a>
-                </li>   
-            </ul> 
+        <nav className="navbar navbar-dark bg-primary">
+            <a className="navbar-brand" href="#">Stock-Trade App</a>
+            <span className="navbar-text">
+                Hello, {user.username} your balance is ${user.balance}
+            </span>
         </nav>
     )
 }
