@@ -25,7 +25,7 @@ const HoldingTable = ({ holdings }) => {
                     <HoldingRow
                         key={holding.id}
                         holding={holding}
-                        OnClick={handleOnClick}
+                        onClick={handleOnClick}
                         user={user}
                         symbols={symbols}
                     />
