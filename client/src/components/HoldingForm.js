@@ -4,46 +4,33 @@ import Axios from 'axios'
 import Main from './../components/Main'
 import Loading from './../components/Loading'
 
-const HoldingForm = ({ }) => {
+const HoldingForm = ({ symbolPrices }) => {
 
-    const [symbolPrices, setSymbolPrices] = useState(null)
+    // const [symbolPrices, setSymbolPrices] = useState(null)
     const [newHolding, setNewHolding] = useState({
         symbol: '',
         shares: 0
     })
 
-    useEffect(() => {
-        const getSymbolPrices = async () => {
-            if(true){
-              const url = 'http://localhost:3300/symbols';
-              try {
-                const { data }  = await Axios.get(url);
-                const symbolPrices = handleDataFromSymbols(data)
-                setSymbolPrices(symbolPrices)
-              } catch (error) {
-                console.log(error.message);
-              }        
-            }
+    // useEffect(() => {
+    //     const getSymbolPrices = async () => {
+    //         if(true){
+    //           const url = 'http://localhost:3300/symbols';
+    //           try {
+    //             const { data }  = await Axios.get(url);
+    //             const symbolPrices = handleDataFromSymbols(data)
+    //             setSymbolPrices(symbolPrices)
+    //           } catch (error) {
+    //             console.log(error.message);
+    //           }        
+    //         }
         
-        }
+    //     }
     
-        getSymbolPrices()
-    }, [])
+    //     getSymbolPrices()
+    // }, [])
 
-    const handleDataFromSymbols = (symbols) => {
-
-        let result = [];
-        const reference = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
-        for (let i = 0; i < 5; i++) {
-            let symbol = {};
-            symbol['id'] = i + 1;
-            symbol['name'] = reference[i];
-            symbol['price'] = symbols[reference[i]].quote.latestPrice;
-            result.push(symbol);
-        }
-        return result;
-    }
-
+    
 
     const handleChange = (event) => {
         setNewHolding({
@@ -70,9 +57,8 @@ const HoldingForm = ({ }) => {
             <Loading />
           </Main>
         )
-      }
+    }
 
-    console.log('Symbols on holding form', symbolPrices)
 
     return (
         <div>

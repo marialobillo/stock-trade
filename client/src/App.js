@@ -81,6 +81,7 @@ const App = () => {
 
   return (
     <Router>
+      <Navbar />
       <Error message={error} hideError={hideError}/>
        { user ? (
         <LoginRoutes showError={showError} user={user} />) 

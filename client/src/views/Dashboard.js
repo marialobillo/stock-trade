@@ -9,30 +9,47 @@ import HoldingForm from '../components/HoldingForm'
 
 const Dashboard = ({user, showError}) => {
 
-    
+    const [symbolPrices, setSymbolPrices] = useState(null)
 
-    // useEffect(() => {
-    //     const getSymbolPrices = async () => {
-    //         if(true){
-    //           const url = 'http://localhost:3300/symbols';
-    //           try {
-    //             const { data }  = await Axios.get(url);
-    //             setSymbolPrices(data)
-    //           } catch (error) {
-    //             console.log(error.message);
-    //           }        
-    //         }
+
+    useEffect(() => {
+        const getSymbolPrices = async () => {
+            if(true){
+              const url = 'http://localhost:3300/symbols';
+              try {
+                const { data }  = await Axios.get(url);
+                const symbolPrices = handleDataFromSymbols(data)
+                setSymbolPrices(symbolPrices)
+              } catch (error) {
+                console.log(error.message);
+              }        
+            }
         
-    //     }
+        }
     
-    //     getSymbolPrices()
-    // }, [])
+        getSymbolPrices()
+    }, [])
+
+    const handleDataFromSymbols = (symbols) => {
+
+        let result = [];
+        const reference = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
+        for (let i = 0; i < 5; i++) {
+            let symbol = {};
+            symbol['id'] = i + 1;
+            symbol['name'] = reference[i];
+            symbol['price'] = symbols[reference[i]].quote.latestPrice;
+            result.push(symbol);
+        }
+        return result;
+    }
+
 
     return(
         <Main center>
-            <Navbar />
+            
 
-            <HoldingForm />
+            <HoldingForm symbolPrices={symbolPrices}/>
 
 
             <h2>Hello From Dashboard {user.username}</h2>
