@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HoldingRow from './holdingRow';
+import HoldingRow from './HoldingRow';
 
 const HoldingTable = ({ holdings }) => {
 

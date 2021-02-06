@@ -19,7 +19,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true)
   const [error, setError] = useState(null)
-  const [symbolPrices, setSymbolPrices] = useState(null)
+ 
 
   useEffect(() => {
     async function loadUser() {
@@ -31,7 +31,6 @@ const App = () => {
         const { data: user } = await Axios.get('http://localhost:3300/users/whoami')
         setUser(user)
         setLoadingUser(false)
-        getSymbolPrices()
       } catch (error) {
         console.log(error)
       }
@@ -44,6 +43,7 @@ const App = () => {
     const { data } = await Axios.post('http://localhost:3300/users/login', {
       username, password
     });
+    console.log('The use joder', data)
     setUser(data.user)
     setToken(data.token)
   }
@@ -67,18 +67,7 @@ const App = () => {
     setError(null)
   }
 
-  const getSymbolPrices = async () => {
-    if(true){
-      const url = 'http://localhost:3300/symbols';
-      try {
-        const data = await Axios.get(url);
-        setSymbolPrices(data)
-      } catch (error) {
-        console.log(error.message);
-      }        
-    }
-
-  }
+  
   
   if(loadingUser){
     return (
@@ -88,11 +77,13 @@ const App = () => {
     )
   }
 
+
+
   return (
     <Router>
       <Error message={error} hideError={hideError}/>
        { user ? (
-        <LoginRoutes showError={showError} user={user} symbolPrices={symbolPrices} />) 
+        <LoginRoutes showError={showError} user={user} />) 
        : ( 
         <LogoutRoutes login={login} register={register} showError={showError}/>
         )}
