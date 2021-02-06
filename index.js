@@ -6,6 +6,7 @@ const cors = require('cors')
 
 const holdingsRouter = require('./api/resources/holdings/holdings.routes')
 const usersRouter = require('./api/resources/users/users.routes')
+const symbolsRouter = require('./api/resources/symbols/symbols.routes')
 const logger = require('./utils/logger')
 const authJWT = require('./api/libs/auth')
 const config = require('./config')
@@ -42,6 +43,7 @@ app.use(passport.initialize())
 
 app.use('/holdings', holdingsRouter)
 app.use('/users', usersRouter)
+app.use('/symbols', symbolsRouter)
 
 app.use(errorHandler.processErrorsFromDB)
 if(config.environment === 'prod'){

@@ -88,8 +88,6 @@ usersRouter.post('/login', [loginValidation, bodyToLowercase], processErrors(asy
 
 // Auth Route, get the User Authenticated by the Token
 usersRouter.get('/whoami', [jwtAuthenticate], processErrors(async (req, res) => {
-  console.log('del who am i ----------->', hideSensitiveFields(req.user))
-  // res.json(hideSensitiveFields(req.user))
   res.json(req.user)
 }))
 

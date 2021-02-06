@@ -10,6 +10,7 @@ import Error from './components/Error'
 
 import Register from './views/Register'
 import Login from './views/Login'
+import Dashboard from './views/Dashboard'
 
 initAxiosInterceptors()
 
@@ -20,22 +21,22 @@ const App = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const loadUser = async () => {
+    async function loadUser() {
       if(!getToken()){
         setLoadingUser(false)
         return
       }
-
       try {
         const { data: user } = await Axios.get('http://localhost:3300/users/whoami')
         setUser(user)
         setLoadingUser(false)
+        getSymbols()
       } catch (error) {
         console.log(error)
       }
     }
 
-    loadUser()
+    loadUser();
   }, [])
 
   const login = async (username, password) => {
@@ -64,6 +65,18 @@ const App = () => {
   const hideError = () => {
     setError(null)
   }
+
+  async function getSymbols(){
+    if(true){
+      const url = 'http://localhost:3300/api/symbols';
+      try {
+        const data = await Axios.get(url);
+      } catch (error) {
+        console.log(error.message);
+      }        
+    }
+
+  }
   
   if(loadingUser){
     return (
@@ -78,7 +91,7 @@ const App = () => {
       <Navbar />
       <Error message={error} hideError={hideError}/>
        { user ? (
-        <LoginRoutes />) 
+        <LoginRoutes showError={showError} user={user}/>) 
        : ( 
         <LogoutRoutes login={login} register={register} showError={showError}/>
         )}
@@ -86,13 +99,12 @@ const App = () => {
   );
 }
 
-const LoginRoutes = () => {
+const LoginRoutes = ({ user, showError }) => {
   return (
     <Switch>
-      <Route 
-        path="/" 
-        component={() => <Main><h1>I am the feed</h1> </Main>}
-        default
+       <Route 
+        render={(props) => <Dashboard {...props} user={user} showError={showError} />}
+        default 
       />
     </Switch>
   )
