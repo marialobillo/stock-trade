@@ -4,7 +4,7 @@ import Axios from 'axios'
 import Main from './../components/Main'
 import Loading from './../components/Loading'
 
-const HoldingForm = ({ symbolPrices }) => {
+const HoldingForm = ({ symbolPrices, buyNewHolding }) => {
 
     // const [symbolPrices, setSymbolPrices] = useState(null)
     const [newHolding, setNewHolding] = useState({
@@ -12,24 +12,29 @@ const HoldingForm = ({ symbolPrices }) => {
         shares: 0
     })
 
-    // useEffect(() => {
-    //     const getSymbolPrices = async () => {
-    //         if(true){
-    //           const url = 'http://localhost:3300/symbols';
-    //           try {
-    //             const { data }  = await Axios.get(url);
-    //             const symbolPrices = handleDataFromSymbols(data)
-    //             setSymbolPrices(symbolPrices)
-    //           } catch (error) {
-    //             console.log(error.message);
-    //           }        
-    //         }
-        
-    //     }
-    
-    //     getSymbolPrices()
-    // }, [])
+    const getPriceBySymbol = symbol => {
+        let selectedPrice
+        symbolPrices.map(item => {
+            if(item.name === symbol){
+                selectedPrice = item.price
+            }
+        })
 
+        return selectedPrice;
+    }
+
+    const getCompanyNameBySymbol = symbol => {
+        const CompanyNames = [{id: 0, name: "Facebook Inc.", }]
+        const companies = ['Apple Inc.', 'Facebook Inc.', 'Netflix Inc.', 'Tesla Inc.', 'Alphabet Inc.']
+        const reference = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
+        for(let i = 0; i < reference.length; i++){
+            if(reference[i] == symbol){
+                return companies[i]
+            }
+        }
+        return "nocompany"
+
+    }
     
 
     const handleChange = (event) => {
@@ -41,11 +46,15 @@ const HoldingForm = ({ symbolPrices }) => {
 
     const handleSubmit = event => {
         event.preventDefault()
-        if((newHolding.symbol !== "" || newHolding.symbo !== "nosymbol") 
+        if((newHolding.symbol !== "" || newHolding.symbol !== "nosymbol") 
             && newHolding.shares > 0){
-            console.log("here we go!!", newHolding)
+            newHolding.shares = parseInt(newHolding.shares)
+            newHolding.isActive = true
+            newHolding.priceBuy = getPriceBySymbol(newHolding.symbol)
+            newHolding.company = getCompanyNameBySymbol(newHolding.symbol)
+            buyNewHolding(newHolding)
         } else{
-            console.log("Please fill up the form!!")
+            console.log("Please fill up the form!")
         }
         
     }

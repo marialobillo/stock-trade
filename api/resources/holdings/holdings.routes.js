@@ -24,8 +24,10 @@ const idValidation = (req, res, next) => {
 } 
 
 
-holdingsRouter.get('/', processErrors((req, res) => {
-  return HoldingController.getHoldings()
+holdingsRouter.get('/', [jwtAuthenticate], processErrors(async (req, res) => {
+  let requestUser = req.user.username 
+  console.log('The user is requesting the holdings', requestUser)
+  return HoldingController.getHoldings(requestUser)
     .then(holdings => {
       res.json(holdings)
     })

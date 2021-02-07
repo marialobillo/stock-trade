@@ -7,8 +7,8 @@ const createHolding = (holding, owner) => {
   }).save()
 }
 
-const getHoldings = () => {
-  return Holding.find({})
+const getHoldings = (requestedUser) => {
+  return Holding.find({ owner: requestedUser})
 }
 
 const getHoldingById = (id) => {

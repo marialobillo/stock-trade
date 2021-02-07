@@ -43,7 +43,6 @@ const App = () => {
     const { data } = await Axios.post('http://localhost:3300/users/login', {
       username, password
     });
-    console.log('The use joder', data)
     setUser(data.user)
     setToken(data.token)
   }
@@ -81,7 +80,7 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
+      <Navbar user={user}/>
       <Error message={error} hideError={hideError}/>
        { user ? (
         <LoginRoutes showError={showError} user={user} />) 

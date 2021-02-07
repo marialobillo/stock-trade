@@ -1,13 +1,27 @@
 import React from 'react';
 
+import Main from './../components/Main'
+import Loading from './../components/Loading'
+
 import HoldingRow from './HoldingRow';
 
-const HoldingTable = ({ holdings }) => {
+const HoldingTable = ({ holdings, user }) => {
 
     const handleOnClick = () => {
 
     }
 
+   
+
+    if(!holdings){
+        return (
+          <Main center>
+            <Loading />
+          </Main>
+        )
+    }
+
+    console.log("Holdings", holdings)
     return (
         <table className="table table-dark">
             <thead className="thead-dark">
@@ -25,9 +39,9 @@ const HoldingTable = ({ holdings }) => {
                     <HoldingRow
                         key={holding.id}
                         holding={holding}
-                        onClick={handleOnClick}
                         user={user}
-                        symbols={symbols}
+                        handleonClick={handleOnClick}
+                        // symbols={symbols}
                     />
                 ))}
             </tbody>
