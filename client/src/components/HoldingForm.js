@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Main from './../components/Main'
 import Loading from './../components/Loading'
 
-const HoldingForm = ({ symbolPrices, buyNewHolding }) => {
+const HoldingForm = ({ symbolPrices, getPriceBySymbol, buyNewHolding }) => {
 
     // const [symbolPrices, setSymbolPrices] = useState(null)
     const [newHolding, setNewHolding] = useState({
@@ -11,15 +11,15 @@ const HoldingForm = ({ symbolPrices, buyNewHolding }) => {
         shares: 0
     })
 
-    const getPriceBySymbol = symbol => {
-        let price
-        symbolPrices.map(item => {
-            if(item.name === symbol){
-                price = item.price
-            }
-        })
-        return price
-    }
+    // const getPriceBySymbol = symbol => {
+    //     let price
+    //     symbolPrices.map(item => {
+    //         if(item.name === symbol){
+    //             price = item.price
+    //         }
+    //     })
+    //     return price
+    // }
 
     const getCompanyNameBySymbol = symbol => {
         const companies = ['Apple Inc.', 'Facebook Inc.', 'Netflix Inc.', 'Tesla Inc.', 'Alphabet Inc.']

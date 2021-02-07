@@ -57,6 +57,16 @@ const Dashboard = ({user, showError}) => {
         return result;
     }
 
+    const getPriceBySymbol = symbol => {
+        let price
+        symbolPrices.map(item => {
+            if(item.name === symbol){
+                price = item.price
+            }
+        })
+        return price
+    }
+
     const buyNewHolding = async holding => {
         const url = "http://localhost:3300/holdings"
         try {
@@ -72,6 +82,8 @@ const Dashboard = ({user, showError}) => {
         const url = "http://localhost:3300/holdings"
         try {
             const { data } = await Axios.put(url, holding)
+            console.log(data)
+            setCurrentHolding(data)
         } catch (error) {
             showError(error.response.data)
             console.log(error)
@@ -85,7 +97,8 @@ const Dashboard = ({user, showError}) => {
 
             <HoldingForm 
                 symbolPrices={symbolPrices} 
-                buyNewHolding={buyNewHolding} 
+                buyNewHolding={buyNewHolding}
+                getPriceBySymbol={getPriceBySymbol} 
                 user={user}    
             />
 
