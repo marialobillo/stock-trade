@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 
 import Main from './../components/Main'
-import Navbar from './../components/Nav'
 import HoldingForm from './../components/HoldingForm'
 import HoldingTable from './../components/holdingTable'
 
@@ -12,6 +11,7 @@ const Dashboard = ({user, showError}) => {
 
     const [symbolPrices, setSymbolPrices] = useState(null)
     const [holdings, setHoldings] = useState(null)
+    const [currentHolding, setCurrentHolding] = useState(null)
 
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const Dashboard = ({user, showError}) => {
     
         getHoldings()
         getSymbolPrices()
-    }, [])
+    }, [currentHolding])
 
     const handleDataFromSymbols = (symbols) => {
 
@@ -59,9 +59,19 @@ const Dashboard = ({user, showError}) => {
 
     const buyNewHolding = async holding => {
         const url = "http://localhost:3300/holdings"
-        console.log('Buy a Holding', holding)
         try {
             const { data } = await Axios.post(url, holding)
+            setCurrentHolding(data)
+        } catch (error) {
+            showError(error.response.data)
+            console.log(error)
+        }
+    }
+
+    const sellHolding = async holding => {
+        const url = "http://localhost:3300/holdings"
+        try {
+            const { data } = await Axios.put(url, holding)
         } catch (error) {
             showError(error.response.data)
             console.log(error)
@@ -81,7 +91,7 @@ const Dashboard = ({user, showError}) => {
 
 
             <h2>Hello From Dashboard {user.username}</h2>
-            <HoldingTable holdings={holdings} user={user} />
+            <HoldingTable holdings={holdings} user={user} sellHolding={sellHolding}/>
 
            
         </Main>

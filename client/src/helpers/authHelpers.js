@@ -30,7 +30,7 @@ export function initAxiosInterceptors(){
             return response;
         },
         function(error){
-            if(error.response.status = 401){
+            if(error.response.status === 401){
                 deleteToken();
                 window.location = '/login'
             } else {

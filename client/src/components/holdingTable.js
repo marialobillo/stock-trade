@@ -5,10 +5,13 @@ import Loading from './../components/Loading'
 
 import HoldingRow from './HoldingRow';
 
-const HoldingTable = ({ holdings, user }) => {
+const HoldingTable = ({ holdings }) => {
 
-    const handleOnClick = () => {
-
+    const handleOnClick = holding => {
+        holding.isActive = false 
+        holding.priceSell = 200
+        console.log(holding)
+        // sellHolding(holding)
     }
 
    
@@ -39,9 +42,7 @@ const HoldingTable = ({ holdings, user }) => {
                     <HoldingRow
                         key={holding.id}
                         holding={holding}
-                        user={user}
-                        handleonClick={handleOnClick}
-                        // symbols={symbols}
+                        handleOnClick={handleOnClick}
                     />
                 ))}
             </tbody>

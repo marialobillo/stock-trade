@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
+import React, { useState } from 'react'
 
 import Main from './../components/Main'
 import Loading from './../components/Loading'
@@ -13,27 +12,24 @@ const HoldingForm = ({ symbolPrices, buyNewHolding }) => {
     })
 
     const getPriceBySymbol = symbol => {
-        let selectedPrice
+        let price
         symbolPrices.map(item => {
             if(item.name === symbol){
-                selectedPrice = item.price
+                price = item.price
             }
         })
-
-        return selectedPrice;
+        return price
     }
 
     const getCompanyNameBySymbol = symbol => {
-        const CompanyNames = [{id: 0, name: "Facebook Inc.", }]
         const companies = ['Apple Inc.', 'Facebook Inc.', 'Netflix Inc.', 'Tesla Inc.', 'Alphabet Inc.']
         const reference = ['AAPL', 'FB', 'NFLX', 'TSLA', 'GOOG'];
         for(let i = 0; i < reference.length; i++){
-            if(reference[i] == symbol){
+            if(reference[i] === symbol){
                 return companies[i]
             }
         }
         return "nocompany"
-
     }
     
 
