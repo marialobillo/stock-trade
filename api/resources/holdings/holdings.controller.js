@@ -8,7 +8,7 @@ const createHolding = (holding, owner) => {
 }
 
 const getHoldings = (requestedUser) => {
-  return Holding.find({ owner: requestedUser})
+  return Holding.find({ owner: requestedUser, isActive: true})
 }
 
 const getHoldingById = (id) => {

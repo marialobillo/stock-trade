@@ -7,11 +7,12 @@ const holdingSchema = Joi.object({
   shares: Joi.number().positive().required(),
   priceBuy: Joi.number().positive().precision(2).required(),
   priceSell: Joi.number().positive().precision(2),
-  dateBuy: Joi.date().timestamp(),
-  dateSell: Joi.date().timestamp(),
+  dateBuy: Joi.string().max(50),
+  dateSell: Joi.string().max(50),
   isActive: Joi.boolean(),
-  createdAt: Joi.date().timestamp(),
-  updatedAt: Joi.date().timestamp()
+  createdAt: Joi.date().iso(),
+  updatedAt: Joi.date().iso(),
+  owner: Joi.string().max(100)
 })
 
 module.exports = (req, res, next) => {
@@ -27,6 +28,7 @@ module.exports = (req, res, next) => {
     let validationErrors = validation.error.details.reduce((acumulator, error) => {
       return acumulator + `[${error.message}]`;
     }, '')
+    console.log(validationErrors)
     logger.warn(`The next holding was not validated: `, req.body, validationErrors)
     res.status(400).send('...error on holding validation')
   }

@@ -79,14 +79,27 @@ const Dashboard = ({user, showError}) => {
     }
 
     const sellHolding = async holding => {
-        const url = "http://localhost:3300/holdings"
+        const url = `http://localhost:3300/holdings/${holding._id}`
         try {
-            const { data } = await Axios.put(url, holding)
-            console.log(data)
+            const updatedHolding = hideSensitiveFields(holding)
+            const { data } = await Axios.put(url, updatedHolding)
             setCurrentHolding(data)
         } catch (error) {
             showError(error.response.data)
             console.log(error)
+        }
+    }
+    const hideSensitiveFields = (holding) => {
+        return {
+          shares: holding.shares, 
+          symbol: holding.symbol,
+          company: holding.company, 
+          owner: holding.owner,
+          priceBuy: holding.priceBuy,
+          dateBuy: holding.createdAt,
+          priceSell: holding.priceSell,
+          dateSell: holding.dateSell,
+          isActive: holding.isActive
         }
     }
 
@@ -103,8 +116,12 @@ const Dashboard = ({user, showError}) => {
             />
 
 
-            <h2>Hello From Dashboard {user.username}</h2>
-            <HoldingTable holdings={holdings} user={user} sellHolding={sellHolding}/>
+            <HoldingTable 
+                holdings={holdings} 
+                user={user} 
+                sellHolding={sellHolding}
+                getPriceBySymbol={getPriceBySymbol} 
+            />
 
            
         </Main>
