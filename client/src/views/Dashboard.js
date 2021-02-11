@@ -105,7 +105,7 @@ const Dashboard = ({user, showError}) => {
 
 
     return(
-        <Main center>
+        <Main >
             
 
             <HoldingForm 

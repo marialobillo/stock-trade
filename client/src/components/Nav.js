@@ -20,16 +20,16 @@ const LoginRoutes = ({user, logout}) => {
     }
     return (
         <>
-            <span>
+            <span className="hello-name">
                 Hello, {user.username}
             </span>
             <span>
-                <button 
-                    className="btn btn-secondary"
+                <a 
+                    className="text-warning"
                     onClick={handleOnClick}
                 >
                         Logout
-                </button>
+                </a>
             </span>
         </>
     )

@@ -41,28 +41,33 @@ const HoldingTable = ({ holdings,  getPriceBySymbol, sellHolding }) => {
 
     console.log("Holdings", holdings)
     return (
-        <table className="table table-dark">
-            <thead className="thead-dark">
-                <tr>
-                    <th>Symbol</th>
-                    <th>Company</th>
-                    <th>Shares</th>
-                    <th>Price Buy</th>
-                    <th>Date Buy</th>
-                    <th>Is Active</th>
-                    <th>Options</th>
-                </tr>
-            </thead>
-            <tbody>
-                {holdings.map(holding => (
-                    <HoldingRow
-                        key={holding.id}
-                        holding={holding}
-                        handleOnClick={handleOnClick}
-                    />
-                ))}
-            </tbody>
-        </table>
+        <div className="container">
+            <div className="text-center">
+                <h3>Your Holdings</h3>
+            </div>
+            <table className="table table-dark">
+                <thead className="thead-dark">
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Company</th>
+                        <th>Shares</th>
+                        <th>Price Buy</th>
+                        <th>Date Buy</th>
+                        <th>Is Active</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {holdings.map(holding => (
+                        <HoldingRow
+                            key={holding.id}
+                            holding={holding}
+                            handleOnClick={handleOnClick}
+                        />
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 
 }

@@ -169,3 +169,17 @@ ul{
   background-color:  rgb(243, 215, 215);
   margin-left: 30%;
 }
+
+
+/*  */
+.hello-name{
+  margin-right: 15px;
+}
+
+.form-holding{
+  margin: 40px 20px;
+}
+
+.new-holding{
+  margin-left: 15px;
+}

@@ -57,8 +57,11 @@ const HoldingForm = ({ symbolPrices, getPriceBySymbol, buyNewHolding }) => {
 
 
     return (
-        <div>
-            <form className="form-inline" onSubmit={handleSubmit}>
+        <div className="container">
+            <div className="text-center">
+                <h3>Buy Holding</h3>
+            </div>
+            <form className="form-inline form-holding" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Company</label>
                     <select name="symbol" className="form-control" onChange={handleChange}>
@@ -90,13 +93,14 @@ const HoldingForm = ({ symbolPrices, getPriceBySymbol, buyNewHolding }) => {
                 </div>
 
                 <div className="form-group">
-                    <div className="footer">
-                        <button className="btn btn-info" >New Holding
+                    <div className="new-holding">
+                        <button className="btn btn-warning" >New Holding
                         </button>
                     </div>
                 </div>
 
             </form>
+            <hr/>
         </div>
     )
 
