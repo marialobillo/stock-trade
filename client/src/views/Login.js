@@ -71,15 +71,16 @@ const Login = ({ login, showError }) => {
                         <div className="from-group">
                             <input
                                 type="submit"
-                                className="btn btn-block btn-success"
+                                className="btn btn-block btn-warning"
                                 value="Login"
                             />
                         </div>
                     </form>
 
                     <div>
+                        <br/>
                         Create a new account...
-                    <Link to="/register" className="">
+                    <Link to="/register" className="text-warning">
                         Register
                     </Link>
 

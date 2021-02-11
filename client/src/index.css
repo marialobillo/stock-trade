@@ -1,12 +1,24 @@
+#root, body{
+  background:#679797;
+}
+
+.main{
+  padding-top:20px;
+  background-color: #679797;
+}
+
+.main-center{
+  margin-left: 20%;
+}
+
 .form-panel{
-  margin: 0 auto;
   width:100%;
-  max-width: 570px;
-  padding: 60px;
-  margin-top:140px;
+  max-width: 600px;
+  padding: 90px;
+  margin-top:120px;
   border-radius: 12px;
-  border: solid 1px rgb(217, 235, 213);
-  background-color: #eaf3f1;
+  color: #F2F2F2;
+  background-color:#1C575F;
 }
 
 .header{
@@ -16,8 +28,8 @@
 }
 
 .navbar-dark{
-  background-color:#2C3E50;
-  color:#96BDF7;
+  background-color: #1C575F;
+  color:#fff;
 }
 
 .channels{
@@ -83,13 +95,6 @@ ul{
   client v3
 */
 
-.main{
-  padding-top:20px;
-}
-
-.main-center{
-  margin-left: 20%;
-}
 
 /* Loading */
 .loading {

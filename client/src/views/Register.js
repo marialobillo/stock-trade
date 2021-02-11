@@ -88,15 +88,16 @@ const Register = ({ register, showError }) => {
                         <div className="from-group">
                             <input
                                 type="submit"
-                                className="btn btn-block btn-success"
+                                className="btn btn-block btn-warning"
                                 value="Register"
                             />
                         </div>
                     </form>
 
                     <div>
+                        <br/>
                         Already has an account? 
-                    <Link to="/login" className="">
+                    <Link to="/login" className="text-warning">
                         Login
                     </Link>
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Navbar = ({ user, logout }) => {
     return (
-        <nav className="navbar navbar-dark bg-primary">
+        <nav className="navbar navbar-dark">
             <a className="navbar-brand" href="#">Stock-Trade App</a>
             <span className="navbar-text">
                 { user && <LoginRoutes user={user} logout={logout} />}
