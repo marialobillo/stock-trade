@@ -45,8 +45,8 @@ const HoldingTable = ({ holdings,  getPriceBySymbol, sellHolding }) => {
             <div className="text-center">
                 <h3>Your Holdings</h3>
             </div>
-            <table className="table table-dark">
-                <thead className="thead-dark">
+            <table className="table table-light">
+                <thead className="table-dark">
                     <tr>
                         <th>Symbol</th>
                         <th>Company</th>

@@ -12,10 +12,10 @@ const HoldingRow = ({ holding, handleOnClick }) => {
             <td>{holding.isActive ? 'YES' : 'NO'}</td>
             <td>
                 <button
-                    className="btn btn-info"
+                    className="btn btn-warning"
                     onClick={() => handleOnClick(holding)}
                 >
-                    Sell Holding
+                    Sell
                 </button>
             </td>
         </tr>
