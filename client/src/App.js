@@ -14,13 +14,13 @@ import Dashboard from './views/Dashboard'
 
 initAxiosInterceptors()
 
+
 const App = () => {
 
   const [user, setUser] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true)
   const [error, setError] = useState(null)
  
-
   useEffect(() => {
     async function loadUser() {
       if(!getToken()){

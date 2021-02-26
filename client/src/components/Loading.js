@@ -6,7 +6,6 @@ const Loading = () => {
             <div className="dot-1"/>
             <div className="dot-2"/>
             <div className="dot-3"/>
-
         </div>
     )
 }

@@ -13,8 +13,6 @@ const HoldingTable = ({ holdings,  getPriceBySymbol, sellHolding }) => {
         
         holding.dateSell = getCurrentDate('-')
         console.log('The before holding', holding.dateSell)
-        // holding = hideSensitiveFields(holding)
-        console.log('the updating, the selling the holding', holding)
         sellHolding(holding)
     }
 
