@@ -29,3 +29,11 @@ balanceRouter.get('/', [jwtAuthenticate], processErrors(async (req, res) => {
             res.json(balance)
         })
 }))
+
+balanceRouter.post('/', [jwtAuthenticate, balanceValidate], processErrors((req, res) => {
+    return BalanceController.createBalance(req.body, req.user.id)
+        .then(balance => {
+            logger.info('Balance created added to the wallet', balance);
+            res.status(201).json(balance)
+        })
+}));
