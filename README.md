@@ -2,8 +2,6 @@
 
 _Stock tracker using fantasy money, built using express.js, react.js, and mongodb._
 
-** Currently I'm updating this application. I'm building the backend parth, API, using Nestjs and of course Typescript.
-<a href="https://github.com/marialobillo/stocktrade-nestjs-api">Please, click here</a>
 <br>
 
 <img src="./images-demo/login.png" width="250">
