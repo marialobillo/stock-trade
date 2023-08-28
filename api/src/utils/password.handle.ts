@@ -7,4 +7,12 @@ const encyptPassword = async (password: string) => {
     return hashedPassword
 }
 
-export { encyptPassword }
+const verifyPassword = async (password: string, hashedPassword: string) => {
+    const isPasswordCorrect = await compare(password, hashedPassword)
+    return isPasswordCorrect
+}
+
+export { 
+    encyptPassword,
+    verifyPassword,
+}
