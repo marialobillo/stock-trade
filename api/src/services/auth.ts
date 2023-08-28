@@ -1,6 +1,6 @@
 import { IUser } from '../interfaces/user.interface';
-import { IAuth } from '../interfaces/auth.interface';
 import UserModel from '../models/User';
+import { encyptPassword } from '../utils/password.handle';
 
 
 
@@ -10,7 +10,7 @@ const registerNewUser = async (authDataUser: IUser) => {
         return 'USER_ALREADY_EXISTS';
     }
 
-    const hashedPassword = ''
+    const hashedPassword = await encyptPassword(authDataUser.password);
     const registerNewUser = await UserModel.create({
         username: authDataUser.username,
         email: authDataUser.email,
