@@ -38,5 +38,6 @@ const loginUser = async ({ email, password }: IAuth) => {
 
 
 export { 
-    registerNewUser 
+    registerNewUser,
+    loginUser,
 };
