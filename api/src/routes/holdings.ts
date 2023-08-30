@@ -2,7 +2,7 @@ import { Router } from 'express';
 const router = Router();
 
 import {
-    getAllHoldings,
+    getAllHoldingsByOwner,
     getHoldingById,
     createHolding,
     updateHoldingById,
@@ -10,7 +10,7 @@ import {
 } from '../controllers/holdings';
 
 // Routes
-router.get('/', getAllHoldings);
+router.get('/:owner_id', getAllHoldingsByOwner);
 router.get('/:id', getHoldingById);
 router.post('/', createHolding);
 router.put('/:id', updateHoldingById);

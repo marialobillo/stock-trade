@@ -7,11 +7,11 @@ import {
     deleteHolding,
 } from '../services/holding';
 
-const getAllHoldings = async (req: Request, res: Response) => {
+const getAllHoldingsByOwner = async (req: Request, res: Response) => {
     try {
-        const owner_id = req.params.id
+        const owner_id = req.params.owner_id
         const holdings = await getHoldings(owner_id);
-        const data = holdings ? holdings : 'NOT_FOUND';
+        const data = holdings ? holdings : 'NO_HOLDINGS_FOUND';
         res.send(data);
     } catch (error) {
         console.log('Errors in getAllHoldings: ', error)
@@ -22,7 +22,7 @@ const getHoldingById = async (req: Request, res: Response) => {
     try {
         const holdingId = req.params.id;
         const holding = await getHolding(holdingId);
-        const data = holding ? holding : 'NOT_FOUND';
+        const data = holding ? holding : 'NOT_HOLDING_FOUND';
         res.send(data);
     } catch (error) {
         console.log('Errors in getHoldingById: ', error)
@@ -61,7 +61,7 @@ const deleteHoldingById = async (req: Request, res: Response) => {
 
 
 export {
-    getAllHoldings,
+    getAllHoldingsByOwner,
     getHoldingById,
     createHolding,
     updateHoldingById,
