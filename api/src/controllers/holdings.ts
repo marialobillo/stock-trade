@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { handleHttp } from '../utils/error.handle';
 import {
     insertHolding,
     getHoldings,
@@ -14,7 +15,7 @@ const getAllHoldingsByOwner = async (req: Request, res: Response) => {
         const data = holdings ? holdings : 'NO_HOLDINGS_FOUND';
         res.send(data);
     } catch (error) {
-        console.log('Errors in getAllHoldings: ', error)
+        handleHttp(res, 'ERROR_GETTING_HOLDINGS_BY_OWNER_ID')
     }
 }
 
@@ -25,7 +26,7 @@ const getHoldingById = async (req: Request, res: Response) => {
         const data = holding ? holding : 'NOT_HOLDING_FOUND';
         res.send(data);
     } catch (error) {
-        console.log('Errors in getHoldingById: ', error)
+        handleHttp(res, 'ERROR_GETTING_HOLDING_BY_ID')
     }
 }
 
@@ -34,7 +35,7 @@ const createHolding = async (req: Request, res: Response) => {
         const responseHolding = await insertHolding(req.body);
         res.send({ responseHolding });
     } catch (error) {
-        console.log('Errors in createHolding: ', error)
+        handleHttp(res, 'ERROR_CREATING_HOLDING')
     }
 }
 
@@ -45,7 +46,7 @@ const updateHoldingById = async (req: Request, res: Response) => {
         const responseUpdate = await updateHolding(holdingId, holdingData);
         res.send({ responseUpdate });
     } catch (error) {
-        console.log('Errors in updateHoldingById: ', error)
+        handleHttp(res, 'ERROR_UPDATING_HOLDING_BY_ID')
     }
 }
 
@@ -55,7 +56,7 @@ const deleteHoldingById = async (req: Request, res: Response) => {
         const responseDelete = await deleteHolding(holdingId);
         res.send({ responseDelete });
     } catch (error) {
-        console.log('Errors in deleteHoldingById: ', error)
+        handleHttp(res, 'ERROR_DELETING_HOLDING_BY_ID')
     }
 }
 
