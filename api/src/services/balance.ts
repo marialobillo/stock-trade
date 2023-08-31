@@ -26,7 +26,7 @@ const updateBalance = async (owner: string, balanceData: IBalance) => {
 }
 
 const deleteBalance = async (owner: string) => {
-    const responseDeleteBalance = await BalanceModel.findOneAndDelete({ owner })
+    const responseDeleteBalance = await BalanceModel.deleteMany({ owner})
     return responseDeleteBalance;
 }
 
