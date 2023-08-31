@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { symbolsController } from '../controllers/symbols';
 
 const router = Router();
