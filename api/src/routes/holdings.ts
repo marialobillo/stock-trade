@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { checkJwtSession } from '../middlewares/session';
 const router = Router();
 
 import {
@@ -10,10 +11,10 @@ import {
 } from '../controllers/holdings';
 
 // Routes
-router.get('/:owner_id', getAllHoldingsByOwner);
-router.get('/:id', getHoldingById);
-router.post('/', createHolding);
-router.put('/:id', updateHoldingById);
-router.delete('/:id', deleteHoldingById);
+router.get('/:owner_id', checkJwtSession, getAllHoldingsByOwner);
+router.get('/:id', checkJwtSession, getHoldingById);
+router.post('/', checkJwtSession, createHolding);
+router.put('/:id', checkJwtSession, updateHoldingById);
+router.delete('/:id', checkJwtSession, deleteHoldingById);
 
 export { router };
