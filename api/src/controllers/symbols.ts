@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { readFile } from 'fs/promises';
+import { handleHttp } from '../utils/error.handle';
 
 const symbolsController = async (req: Request, res: Response) => {
     try {
@@ -8,7 +9,7 @@ const symbolsController = async (req: Request, res: Response) => {
         res.status(200).json(symbols);
         console.log('Hello Symbols', symbols)
     } catch (error) {
-        console.log('Errors in symbolsController: ', error)
+        handleHttp(res, 'ERROR_GETTING_SYMBOLS')
     }
 }
 
