@@ -2,9 +2,7 @@ import { Request, Response } from 'express';
 
 import {
     insertBalance,
-    getBalanceByOwner,
     getLastBalanceByOwner,
-    updateBalance,
     deleteBalance,
 } from '../services/balance';
 
@@ -17,15 +15,6 @@ const createBalance = async (req: Request, res: Response) => {
     }
 }
 
-const getBalanceByOwnerId = async (req: Request, res: Response) => {
-    try {
-        const owner_id = req.params.owner_id
-        const responseBalances = await getBalanceByOwner(owner_id);
-        res.send({ responseBalances})
-    } catch (error) {
-        console.log('Errors in get the Balances: ', error)
-    }
-}
 
 const getLastBalanceByOwnerId = async (req: Request, res: Response) => {
     try {
@@ -39,8 +28,9 @@ const getLastBalanceByOwnerId = async (req: Request, res: Response) => {
 
 const updateBalanceById = async (req: Request, res: Response) => {
     try {
-        const owner_id = req.params.owner_id
-        const responseUpdate = await updateBalance(owner_id, req.body);
+        const owner = req.params.owner_id
+        const { amount } = req.body;
+        const responseUpdate = await insertBalance({ owner, amount });
         res.send({ responseUpdate });
     } catch (error) {
         console.log('Errors in updateBalanceById: ', error)
@@ -59,7 +49,6 @@ const deleteBalanceById = async (req: Request, res: Response) => {
 
 export {
     createBalance,
-    getBalanceByOwnerId,
     getLastBalanceByOwnerId,
     updateBalanceById,
     deleteBalanceById,
