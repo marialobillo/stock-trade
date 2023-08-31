@@ -4,8 +4,8 @@ import { handleHttp } from '../utils/error.handle';
 
 const symbolsController = async (req: Request, res: Response) => {
     try {
-        let rawDataSymbols = await readFile('./symbols.json', 'utf-8');
-        let symbols = JSON.parse(rawDataSymbols);
+        const rawDataSymbols = await readFile('./symbols.json', 'utf-8');
+        const symbols = JSON.parse(rawDataSymbols);
         res.status(200).json(symbols);
         console.log('Hello Symbols', symbols)
     } catch (error) {
