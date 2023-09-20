@@ -1,4 +1,4 @@
-# Fantasy Stock Trade (React-Express-MongoDB)
+# Fantasy Stock Trade (React-Express-Typescript-MongoDB)
 
 DONE: Refactoring API from JS to Typescript
 
