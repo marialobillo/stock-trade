@@ -2,7 +2,7 @@ import Main from "../components/Main";
 
 const Register = () => {
   return (
-    <Main>
+    <Main center={true}>
         <h1>Register</h1>
     </Main>
   )

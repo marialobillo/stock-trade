@@ -47,3 +47,13 @@ h1 {
     background-color: #f9f9f9;
   }
 }
+
+.main{
+  padding-top:20px;
+  background-color: #679797;
+}
+
+.main-center{
+  margin-left: 40%;
+}
+
