@@ -1,11 +1,6 @@
 import Axios from 'axios';
 
-
-const TOKEN_KEY = 'eyyy, ahi vamos!'//process.env.TOKEN_KEY || 'token';
-
-export const isSetup = () => {
-    console.log('la perla de la cala => ', import.meta.env.VITE_TOKEN_KEY);
-}
+const TOKEN_KEY = import.meta.env.VITE_TOKEN_KEY || 'token';
 
 export const setToken = (token: string) => {
     localStorage.setItem(TOKEN_KEY, token);
