@@ -1,6 +1,8 @@
 # Fantasy Stock Trade (React-Express-Typescript-MongoDB)
 
-DONE: Refactoring API from JS to Typescript
+- DONE: Refactoring API from JS to Typescript
+
+- CURRENT: Refactoring Frontend from JS to Typescript
 
 _Stock tracker using fantasy money, built using express.js, react.js, and mongodb._
 
