@@ -3,7 +3,6 @@ import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ChangeEvent, FormEvent } from "react";
 
-
 type RegisterProps = {
     user: {
         username: string;
@@ -12,24 +11,21 @@ type RegisterProps = {
     };
 };
 
-const Register = ({ user }: RegisterProps ) => {
-
+const Register = ({ user }: RegisterProps) => {
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-    }
+    };
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-    }
-  return (
-    <Main center={true}>
-        <Container>
-        <div className="form-panel panel-body">
+    };
+    return (
+        <Main center={true}>
+            <Container>
+                <div className="form-panel panel-body">
                     <h2>Register</h2>
 
-                    <form
-                        onSubmit={handleSubmit}
-                    >
+                    <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
                             <input
@@ -84,18 +80,16 @@ const Register = ({ user }: RegisterProps ) => {
                     </form>
 
                     <div>
-                        <br/>
-                        Already has an account? 
-                    <Link to="/login" className="text-warning">
-                        Login
-                    </Link>
-
+                        <br />
+                        Already has an account?
+                        <Link to="/login" className="text-warning">
+                            Login
+                        </Link>
                     </div>
-
                 </div>
-        </Container>
-    </Main>
-  )
-}
+            </Container>
+        </Main>
+    );
+};
 
-export default Register
+export default Register;
