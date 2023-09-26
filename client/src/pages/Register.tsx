@@ -2,13 +2,10 @@ import Main from "../components/Main";
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ChangeEvent, FormEvent } from "react";
+import { User } from "../types/User";
 
 type RegisterProps = {
-    user: {
-        username: string;
-        email: string;
-        password: string;
-    };
+    user: User;
 };
 
 const Register = ({ user }: RegisterProps) => {
