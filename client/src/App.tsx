@@ -28,11 +28,7 @@ function App() {
   return (
     <>
       <Nav user={user} logout={logout} />
-      <Routes>
-        <Route path="/" element={<Register user={user} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+      <Register user={user} />
     </>
   )
 }
