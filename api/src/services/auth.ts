@@ -2,7 +2,7 @@ import { IUser } from '../interfaces/user.interface';
 import { IAuth } from '../interfaces/auth.interface';
 import UserModel from '../models/User';
 import { encyptPassword } from '../utils/password.handle';
-import { hash, compare } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 import { generateToken } from '../utils/jwt.handle';
 
 

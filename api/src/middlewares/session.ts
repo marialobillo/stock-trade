@@ -17,7 +17,6 @@ const checkJwtSession = async (req: RequestWithJwt, res: Response, next: NextFun
             return res.status(401).send('NON_VALID_JWT_TOKEN')
         }
         else {
-            console.log('joder req', req.user)
             req.user = isValidToken as {email: string};
         }
         next()

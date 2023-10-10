@@ -21,6 +21,7 @@ app.use(router);
 const start = async () => {
     try {
         const mongoDBConnection = await connectDB()
+        console.log("*** MongoDB connection: ", mongoDBConnection)
         app.listen(PORT, () => {
             console.log(`*** Server is running on port ${PORT} ***`)
         })
