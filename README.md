@@ -65,5 +65,5 @@ And for run the React app:
 
 
 ## Author
- -  **Maria Lobillo-Santos** - Full-Stack Software Developer <a href="https://marialobillo.github.io" target="_blank">Website</a> | <a href="https://www.linkedin.com/in/lobillosantos/" 
+ -  **Maria Lobillo-Santos** - Full Stack Software Developer <a href="https://marialobillo.github.io" target="_blank">Website</a> | <a href="https://www.linkedin.com/in/lobillosantos/" 
  target="_blank">LinkedIn</a>
