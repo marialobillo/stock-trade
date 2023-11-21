@@ -1,22 +1,28 @@
-version: '3.8'
-services:
-  node:
-    container_name: api
-    restart: always
-    build: .
-    ports: 
-      - "3030:3030"
-    volumes:
-      - ./:/code
-  mongo:
-    container_name: mongo
-    image: mongo
-    restart: always
-    ports:
-      - "27018:27017"
-    volumes:
-      - mongodb:/data/db
-volumes:
-  mongodb:
+version: '3.7'
 
+services:
+  ts-node-docker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base 
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json 
+    container_name: ts-node-docker-stock-trade
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: npm run dev
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo-node-ts-stock-trade
+    image: mongo 
+    ports:
+      - '27018:27017'
+    logging:
+      driver: none
   

@@ -1,11 +1,17 @@
-FROM node:16-alpine3.11
+FROM node:18 as base 
 
-WORKDIR /app
+WORKDIR /home/node/app
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY package*.json ./
 
-RUN npm install 
+RUN npm install
 
 COPY . .
 
-CMD ["npm", "start"]
+
+# Production
+FROM base as production
+
+ENV NODE_PATH=./build
+
+RUN npm run build
